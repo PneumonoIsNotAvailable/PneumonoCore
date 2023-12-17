@@ -8,20 +8,20 @@
 		"Pneumono_"
 	],
 	"contact": {
-		"sources": "https://github.com/PneumonoIsNotAvailable/pneumono-core"
+		"sources": "https://github.com/PneumonoIsNotAvailable/pneumonocore"
 	},
 	"license": "MIT",
 	"icon": "assets/pneumonocore/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.pneumono.core.PneumonoCore"
+			"net.pneumono.pneumonocore.PneumonoCore"
 		],
 		"client": [
-			"net.pneumono.core.PneumonoCoreClient"
+			"net.pneumono.pneumonocore.PneumonoCoreClient"
 		],
 		"modmenu": [
-			"net.pneumono.core.PneumonoCoreModMenu"
+			"net.pneumono.pneumonocore.PneumonoCoreModMenu"
 		]
 	},
 	"mixins": [

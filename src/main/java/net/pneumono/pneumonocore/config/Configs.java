@@ -98,4 +98,11 @@ public class Configs {
     private static boolean isValid(AbstractConfiguration<?> configuration) {
         return configuration.getName() != null && !Objects.equals(configuration.getName(), "") && configuration.getModID() != null && !Objects.equals(configuration.getModID(), "");
     }
+
+    /**
+     * Returns {@code true} if at least one configuration has been registered, and {@code false} if not.
+     */
+    public static boolean hasConfigs() {
+        return CONFIGS.size() > 0;
+    }
 }
