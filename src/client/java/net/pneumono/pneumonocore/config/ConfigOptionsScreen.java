@@ -23,7 +23,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     private final List<StoredConfigValue<?>> storedValues = new ArrayList<>();
 
     public ConfigOptionsScreen(Screen previous, String modID) {
-        super(previous, MinecraftClient.getInstance().options, Text.translatable(modID + ".configs_screen.reset"));
+        super(previous, MinecraftClient.getInstance().options, Text.translatable(modID + ".configs_screen.title"));
         this.previous = previous;
         this.modID = modID;
     }
@@ -88,7 +88,10 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
         for (ModConfigurations modConfigs : Configs.CONFIGS) {
             if (Objects.equals(modConfigs.modID, modID)) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                    options.add(asOption(config));
+                    SimpleOption<?> option = asOption(config);
+                    if (option != null) {
+                        options.add(option);
+                    }
                 }
                 break;
             }
@@ -102,7 +105,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
             return new SimpleOption<>(
                     getConfigKey(config.modID, config.name),
                     config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
-                    (text, value) -> Text.of(getBooleanKey(config.modID, config.name, value)),
+                    (text, value) -> Text.of(value ? "pneumonocore.configs_screen.boolean_enabled" : "pneumonocore.configs_screen.boolean_disabled"),
                     SimpleOption.BOOLEAN,
                     booleanConfig.getLoadedValue(),
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
@@ -149,10 +152,6 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
 
     private String getConfigKey(String modID, String name) {
         return modID + ".configs." + name;
-    }
-
-    private String getBooleanKey(String modID, String name, boolean value) {
-        return getConfigKey(modID, name) + "." + (value ? "enabled" : "disabled");
     }
 
     private record StoredConfigValue<T>(String modID, String name, T newValue) {}

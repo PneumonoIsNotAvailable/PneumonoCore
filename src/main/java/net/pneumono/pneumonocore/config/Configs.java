@@ -102,9 +102,14 @@ public class Configs {
     }
 
     /**
-     * Returns {@code true} if at least one configuration has been registered, and {@code false} if not.
+     * Returns {@code true} if at least one configuration has been registered for that mod ID, and {@code false} if not.
      */
-    public static boolean hasConfigs() {
-        return CONFIGS.size() > 0;
+    public static boolean hasConfigs(String modID) {
+        for (ModConfigurations modConfigs : CONFIGS) {
+            if (modConfigs.modID.equals(modID) && modConfigs.configurations.size() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

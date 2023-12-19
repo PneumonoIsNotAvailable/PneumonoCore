@@ -1,4 +1,6 @@
 {
-    "pneumonocore.configs_screen.name": "PneumonoCore Configs",
-    "pneumonocore.configs_screen.reset": "Reset Configs"
+    "pneumonocore.configs_screen.title": "PneumonoCore Configs",
+    "pneumonocore.configs_screen.reset": "Reset Configs",
+    "pneumonocore.configs_screen.boolean_enabled": "ON",
+    "pneumonocore.configs_screen.boolean_disabled": "OFF"
 }

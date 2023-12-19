@@ -6,7 +6,6 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     /**
      * Creates a new boolean configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
      * Configuration names use the translation key {@code "<modID>.configs.<name>"} in config menus.<p>
-     * Boolean configuration values use the translation keys {@code "<modID>.configs.<name>.enabled"} and {@code "<modID>.configs.<name>.disabled"}.
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
