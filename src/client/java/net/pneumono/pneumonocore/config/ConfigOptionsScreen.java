@@ -105,7 +105,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
             return new SimpleOption<>(
                     getConfigKey(config.modID, config.name),
                     config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
-                    (text, value) -> Text.of(value ? "pneumonocore.configs_screen.boolean_enabled" : "pneumonocore.configs_screen.boolean_disabled"),
+                    (text, value) -> Text.translatable(value ? "pneumonocore.configs_screen.boolean_enabled" : "pneumonocore.configs_screen.boolean_disabled"),
                     SimpleOption.BOOLEAN,
                     booleanConfig.getLoadedValue(),
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
