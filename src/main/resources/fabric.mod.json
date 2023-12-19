@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "pneumonocore",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"name": "PneumonoCore",
 	"description": "Goofy lil core mod with all my lil thingies :> (Mod that most of my other mods depend on)",
 	"authors": [

@@ -1,5 +1,6 @@
 package net.pneumono.pneumonocore.config;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -11,6 +12,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -97,27 +99,60 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     private SimpleOption<?> asOption(AbstractConfiguration<?> config) {
         if (config instanceof BooleanConfiguration booleanConfig) {
 
-            return new SimpleOption<>(getConfigKey(config.modID, config.name), SimpleOption.emptyTooltip(),
-                    (text, value) -> Text.of(value.toString()),
+            return new SimpleOption<>(
+                    getConfigKey(config.modID, config.name),
+                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
+                    (text, value) -> Text.of(getBooleanKey(config.modID, config.name, value)),
                     SimpleOption.BOOLEAN,
                     booleanConfig.getLoadedValue(),
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
 
+        } else if (config instanceof EnumConfiguration<?> enumConfig) {
+
+            return new SimpleOption<>(
+                    getConfigKey(config.modID, config.name),
+                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
+                    (text, value) -> Text.translatable(getConfigKey(config.modID, config.name) + "." + value.name().toLowerCase()),
+                    new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(enumConfig.getEnumClass().getEnumConstants()),
+                            Codec.STRING.xmap(
+                                    string -> Arrays.stream(enumConfig.getEnumClass().getEnumConstants()).filter(e -> e.name().toLowerCase().equals(string)).findAny().orElse(null),
+                                    newValue -> newValue.name().toLowerCase()
+                            )
+                    ),
+                    enumConfig.getLoadedValue(),
+                    newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
+
         } else if (config instanceof IntegerConfiguration intConfig) {
 
-            return new SimpleOption<>(getConfigKey(config.modID, config.name), SimpleOption.emptyTooltip(),
+            return new SimpleOption<>(
+                    getConfigKey(config.modID, config.name),
+                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
                     (text, value) -> Text.translatable(getConfigKey(config.modID, config.name)).append(Text.of(": " + value.toString())),
                     new SimpleOption.ValidatingIntSliderCallbacks(intConfig.getMinValue(), intConfig.getMaxValue()),
                     intConfig.getLoadedValue(),
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
 
-        } else {
-            return null;
+        } else if (config instanceof DoubleConfiguration doubleConfig) {
+
+            return new SimpleOption<>(
+                    getConfigKey(config.modID, config.name),
+                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
+                    (text, value) -> Text.translatable(getConfigKey(config.modID, config.name)).append(Text.of(": " + value.toString())),
+                    SimpleOption.DoubleSliderCallbacks.INSTANCE,
+                    doubleConfig.getLoadedValue(),
+                    newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
+
         }
+
+        return null;
     }
 
     private String getConfigKey(String modID, String name) {
         return modID + ".configs." + name;
+    }
+
+    private String getBooleanKey(String modID, String name, boolean value) {
+        return getConfigKey(modID, name) + "." + (value ? "enabled" : "disabled");
     }
 
     private record StoredConfigValue<T>(String modID, String name, T newValue) {}

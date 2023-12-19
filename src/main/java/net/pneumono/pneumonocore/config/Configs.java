@@ -50,7 +50,9 @@ public class Configs {
         }
 
         if (!modConfigExists) {
-            CONFIGS.add(new ModConfigurations(configuration.getModID(), configuration));
+            ModConfigurations modConfigs = new ModConfigurations(configuration.getModID(), configuration);
+            modConfigs.reload();
+            CONFIGS.add(modConfigs);
         }
 
         configuration.registered = true;
