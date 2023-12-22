@@ -16,7 +16,8 @@ public class Configs {
     protected static List<ModConfigurations> CONFIGS = new ArrayList<>();
 
     /**
-     * Registers a new configuration. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.
+     * Registers a new configuration. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
+     * {@link #reload(String)} must be called in your ModInitializer because this system for configs is just terrible and I can't think of a better solution right now.
      *
      * @param configuration The configuration to be registered.
      * @return The registered configuration.
@@ -40,7 +41,6 @@ public class Configs {
 
                 if (!isDuplicate) {
                     modConfigs.configurations.add(configuration);
-                    modConfigs.reload();
                     modConfigExists = true;
                 } else {
                     LOGGER.error("Configuration " + configuration.modID + ":" + configuration.name + " is a duplicate, and so was not registered!");
@@ -50,9 +50,7 @@ public class Configs {
         }
 
         if (!modConfigExists) {
-            ModConfigurations modConfigs = new ModConfigurations(configuration.getModID(), configuration);
-            modConfigs.reload();
-            CONFIGS.add(modConfigs);
+            CONFIGS.add(new ModConfigurations(configuration.getModID(), configuration));
         }
 
         configuration.registered = true;

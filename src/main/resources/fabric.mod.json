@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
 	"id": "pneumonocore",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"name": "PneumonoCore",
-	"description": "Goofy lil core mod with all my lil thingies :> (Mod that most of my other mods depend on)",
+	"description": "Goofy lil core mod with all my lil thingies :> (Mod that most of my other mods depend on).",
 	"authors": [
 		"Pneumono_"
 	],
