@@ -1,8 +1,13 @@
 {
 	"required": true,
-	"package": "net.pneumono.core.mixin",
+	"package": "net.pneumono.pneumonocore.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"EnchantmentAnvilMixin",
+		"EnchantmentHelperMixin",
+		"MigrationBlockEntityMixin",
+		"MigrationBlockMixin",
+		"MigrationItemMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

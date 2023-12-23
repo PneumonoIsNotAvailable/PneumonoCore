@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "net.pneumono.core.mixin.client",
+	"package": "net.pneumono.pneumonocore.mixin.client",
 	"compatibilityLevel": "JAVA_17",
 	"injectors": {
 		"defaultRequire": 1

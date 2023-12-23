@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "pneumonocore",
-	"version": "1.0.4",
+	"version": "${version}",
 	"name": "PneumonoCore",
 	"description": "Goofy lil core mod with all my lil thingies :> (Mod that most of my other mods depend on).",
 	"authors": [
@@ -10,7 +10,7 @@
 	"contact": {
 		"sources": "https://github.com/PneumonoIsNotAvailable/pneumonocore"
 	},
-	"license": "MIT",
+	"license": "MIT License",
 	"icon": "assets/pneumonocore/icon.png",
 	"environment": "*",
 	"entrypoints": {
