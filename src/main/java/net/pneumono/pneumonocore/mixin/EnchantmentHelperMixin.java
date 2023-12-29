@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EnchantmentHelper.class)
 public abstract class EnchantmentHelperMixin {
-
     @WrapOperation(method = "getPossibleEntries", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentTarget;isAcceptableItem(Lnet/minecraft/item/Item;)Z"))
+    @SuppressWarnings("unused")
     private static boolean isModdedAcceptable(EnchantmentTarget instance, Item item, Operation<Boolean> original, @Local(ordinal = 0) Enchantment enchantment) {
         if (enchantment instanceof ModEnchantment || item instanceof EnchantableItem) {
             return PneumonoEnchantmentHelper.isAcceptable(enchantment, item);

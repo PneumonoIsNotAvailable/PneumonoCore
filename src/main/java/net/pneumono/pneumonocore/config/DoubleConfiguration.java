@@ -15,6 +15,7 @@ public class DoubleConfiguration extends AbstractConfiguration<Double> {
      * @param defaultValue The default value of the configuration.
      * @param tooltip The translation key of the tooltip to show on the config screen. Can be null, in which case no tooltip will be displayed.
      */
+    @SuppressWarnings("unused")
     public DoubleConfiguration(String modID, String name, ConfigEnv environment, double defaultValue, String tooltip) {
         super(modID, name, environment, MathHelper.clamp(defaultValue, 0, 1), tooltip);
     }

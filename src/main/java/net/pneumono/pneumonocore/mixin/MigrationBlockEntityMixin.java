@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockEntity.class)
 public abstract class MigrationBlockEntityMixin {
-
     @Inject(method = "createFromNbt", at = @At("HEAD"))
+    @SuppressWarnings("unused")
     private static void createMigratedFromNbt(BlockPos pos, BlockState state, NbtCompound nbt, CallbackInfoReturnable<BlockEntity> cir) {
         if (nbt.contains("id", NbtElement.STRING_TYPE)) {
             String oldId = nbt.getString("id");

@@ -27,6 +27,7 @@ public class PneumonoEnchantmentHelper {
         }
     }
 
+    @SuppressWarnings("unused")
     public static boolean hasEnchantment(Enchantment enchantment, ItemStack stack) {
         return EnchantmentHelper.getLevel(enchantment, stack) > 0;
     }

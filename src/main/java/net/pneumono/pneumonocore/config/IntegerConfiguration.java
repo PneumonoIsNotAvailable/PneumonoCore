@@ -20,6 +20,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      * @param defaultValue The default value of the configuration.
      * @param tooltip The translation key of the tooltip to show on the config screen. Can be null, in which case no tooltip will be displayed.
      */
+    @SuppressWarnings("unused")
     public IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue, String tooltip) {
         super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue), tooltip);
         this.minValue = minValue;

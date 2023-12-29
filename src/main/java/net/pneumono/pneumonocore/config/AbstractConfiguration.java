@@ -75,6 +75,7 @@ public abstract class AbstractConfiguration<T> {
         return getValue(false);
     }
 
+    @SuppressWarnings("unchecked")
     private T getValue(boolean looped) {
         // GENEVA VIOLATION
         AbstractConfiguration<?> thisConfig = null;
@@ -103,12 +104,14 @@ public abstract class AbstractConfiguration<T> {
         return getValue(true);
     }
 
+    @SuppressWarnings("unchecked")
     protected void setLoadedValue(Object value) {
         if (value != null) {
             loadedValue = (T) value;
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected void setImportedValue(AbstractConfiguration<?> config) {
         importedValue = (T) config.loadedValue;
     }

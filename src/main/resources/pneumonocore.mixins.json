@@ -7,7 +7,8 @@
 		"EnchantmentHelperMixin",
 		"MigrationBlockEntityMixin",
 		"MigrationBlockMixin",
-		"MigrationItemMixin"
+		"MigrationItemMixin",
+		"EntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

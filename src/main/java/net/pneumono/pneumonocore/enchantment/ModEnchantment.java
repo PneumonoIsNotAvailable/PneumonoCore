@@ -30,5 +30,5 @@ public abstract class ModEnchantment extends Enchantment {
 
     public Enchantment[] getMutuallyExclusiveEnchantments() {
         return new Enchantment[0];
-    };
+    }
 }

@@ -16,6 +16,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
      * @param defaultValue The default value of the configuration.
      * @param tooltip The translation key of the tooltip to show on the config screen. Can be null, in which case no tooltip will be displayed.
      */
+    @SuppressWarnings("unused")
     public EnumConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, String tooltip) {
         super(modID, name, environment, defaultValue, tooltip);
         this.enumClass = defaultValue.getDeclaringClass();

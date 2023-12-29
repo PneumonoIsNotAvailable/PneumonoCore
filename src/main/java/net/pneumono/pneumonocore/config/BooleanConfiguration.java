@@ -13,6 +13,7 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
      * @param defaultValue The default value of the configuration.
      * @param tooltip The translation key of the tooltip to show on the config screen. Can be null, in which case no tooltip will be displayed.
      */
+    @SuppressWarnings("unused")
     public BooleanConfiguration(String modID, String name, ConfigEnv environment, boolean defaultValue, String tooltip) {
         super(modID, name, environment, defaultValue, tooltip);
     }

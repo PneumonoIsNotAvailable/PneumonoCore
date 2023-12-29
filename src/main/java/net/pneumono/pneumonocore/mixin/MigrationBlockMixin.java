@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(SimpleDefaultedRegistry.class)
 public abstract class MigrationBlockMixin {
-
     @ModifyVariable(method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;", at = @At("HEAD"))
+    @SuppressWarnings("unused")
     private Identifier getMigrated(Identifier identifier) {
         if (this == Registries.BLOCK) {
             String oldId = identifier.toString();
             if (Migration.getBlocks().containsKey(oldId)) {
                 String newId = Migration.getBlocks().get(oldId).get();
-                PneumonoCore.LOGGER.info("Block Entity \"'{}'\" successfully migrated to \"'{}'\"", oldId, newId);
+                PneumonoCore.LOGGER.info("Block \"'{}'\" successfully migrated to \"'{}'\"", oldId, newId);
 
                 return new Identifier(newId);
             }

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class Migration {
     private static final Map<String, Supplier<String>> BLOCK_ENTITIES = new HashMap<>();
     private static final Map<String, Supplier<String>> BLOCKS = new HashMap<>();

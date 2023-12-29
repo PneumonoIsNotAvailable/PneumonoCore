@@ -7,6 +7,7 @@ import net.minecraft.util.Formatting;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class TextUtil {
     public static Text parseMarkdown(String content) {
         /*

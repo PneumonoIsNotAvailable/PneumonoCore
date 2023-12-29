@@ -2,6 +2,7 @@ package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
 
+@SuppressWarnings("unused")
 public class StringConfiguration extends AbstractConfiguration<String> {
     /**
      * Creates a new string configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
@@ -13,6 +14,7 @@ public class StringConfiguration extends AbstractConfiguration<String> {
      * @param defaultValue The default value of the configuration.
      * @param tooltip The translation key of the tooltip to show on the config screen. In the case of string configurations, this is never used.
      */
+    @SuppressWarnings("unused")
     public StringConfiguration(String modID, String name, ConfigEnv environment, String defaultValue, String tooltip) {
         super(modID, name, environment, defaultValue, tooltip);
     }
