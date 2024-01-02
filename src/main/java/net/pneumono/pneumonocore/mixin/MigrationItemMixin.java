@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemStack.class)
+@SuppressWarnings("unused")
 public abstract class MigrationItemMixin {
     @Inject(method = "fromNbt", at = @At("HEAD"))
-    @SuppressWarnings("unused")
     private static void fromMigratedNbt(NbtCompound nbt, CallbackInfoReturnable<ItemStack> cir) {
         if (nbt.contains("id", NbtElement.STRING_TYPE)) {
             String oldId = nbt.getString("id");

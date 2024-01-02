@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(AnvilScreenHandler.class)
+@SuppressWarnings("unused")
 public abstract class EnchantmentAnvilMixin {
     @WrapOperation(method = "updateResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/Enchantment;isAcceptableItem(Lnet/minecraft/item/ItemStack;)Z"))
-    @SuppressWarnings("unused")
     private boolean isModdedAcceptable(Enchantment instance, ItemStack itemStack, Operation<Boolean> original) {
         if (instance instanceof ModEnchantment || itemStack.getItem() instanceof EnchantableItem) {
             return PneumonoEnchantmentHelper.isAcceptable(instance, itemStack);

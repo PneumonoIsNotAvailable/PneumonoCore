@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(SimpleDefaultedRegistry.class)
+@SuppressWarnings("unused")
 public abstract class MigrationBlockMixin {
     @ModifyVariable(method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;", at = @At("HEAD"))
-    @SuppressWarnings("unused")
     private Identifier getMigrated(Identifier identifier) {
         if (this == Registries.BLOCK) {
             String oldId = identifier.toString();

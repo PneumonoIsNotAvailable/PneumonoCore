@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
+@SuppressWarnings("unused")
 public abstract class EntityMixin implements EntityDataSaver {
     private NbtCompound persistentData;
 
@@ -23,7 +24,6 @@ public abstract class EntityMixin implements EntityDataSaver {
     }
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
-    @SuppressWarnings("unused")
     protected void injectWriteMethod(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> info) {
         if (persistentData != null) {
             nbt.put("pneumonocore.mod_data", persistentData);
@@ -31,7 +31,6 @@ public abstract class EntityMixin implements EntityDataSaver {
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
-    @SuppressWarnings("unused")
     protected void injectReadMethod(NbtCompound nbt, CallbackInfo info) {
         if (nbt.contains("pneumonocore.mod_data", 10)) {
             persistentData = nbt.getCompound("pneumonocore.mod_data");

@@ -12,7 +12,7 @@ public class PneumonoMathHelper {
         return radians * 180 / Math.PI;
     }
 
-    private static double horizontalDistanceBetween(BlockPos pos1, BlockPos pos2) {
+    public static double horizontalDistanceBetween(BlockPos pos1, BlockPos pos2) {
         double xDifference = Math.abs(pos1.getX() - pos2.getX());
         double zDifference = Math.abs(pos1.getZ() - pos2.getZ());
         return Math.sqrt((xDifference * xDifference) + (zDifference * zDifference));
