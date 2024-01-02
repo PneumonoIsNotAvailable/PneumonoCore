@@ -19,9 +19,6 @@
 		],
 		"client": [
 			"net.pneumono.pneumonocore.PneumonoCoreClient"
-		],
-		"modmenu": [
-			"net.pneumono.pneumonocore.PneumonoCoreModMenu"
 		]
 	},
 	"mixins": [
@@ -37,5 +34,12 @@
 		"java": ">=17",
 		"fabric-api": "*"
 	},
-	"suggests": {}
+	"suggests": {},
+	"custom": {
+		"modmenu": {
+			"badges": [
+				"library"
+			]
+		}
+	}
 }
