@@ -46,7 +46,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
 
         this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
             save();
-            this.client.setScreen(this.previous);
+            Objects.requireNonNull(this.client).setScreen(this.previous);
         }).dimensions(this.width / 2 + 5, this.height - 29, 150, 20).build());
     }
 
@@ -100,11 +100,12 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     private SimpleOption<?> asOption(AbstractConfiguration<?> config) {
+        String translationKey = getConfigKey(config.modID, config.name);
         if (config instanceof BooleanConfiguration booleanConfig) {
 
             return new SimpleOption<>(
-                    getConfigKey(config.modID, config.name),
-                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
+                    translationKey,
+                    SimpleOption.constantTooltip(Text.translatable(translationKey + ".tooltip")),
                     (text, value) -> Text.translatable(value ? "pneumonocore.configs_screen.boolean_enabled" : "pneumonocore.configs_screen.boolean_disabled"),
                     SimpleOption.BOOLEAN,
                     booleanConfig.getLoadedValue(),
@@ -113,9 +114,9 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
         } else if (config instanceof EnumConfiguration<?> enumConfig) {
 
             return new SimpleOption<>(
-                    getConfigKey(config.modID, config.name),
-                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
-                    (text, value) -> Text.translatable(getConfigKey(config.modID, config.name) + "." + value.name().toLowerCase()),
+                    translationKey,
+                    SimpleOption.constantTooltip(Text.translatable(translationKey + ".tooltip")),
+                    (text, value) -> Text.translatable(translationKey + "." + value.name().toLowerCase()),
                     new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(enumConfig.getEnumClass().getEnumConstants()),
                             Codec.STRING.xmap(
                                     string -> Arrays.stream(enumConfig.getEnumClass().getEnumConstants()).filter(e -> e.name().toLowerCase().equals(string)).findAny().orElse(null),
@@ -126,11 +127,10 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
 
         } else if (config instanceof IntegerConfiguration intConfig) {
-
             return new SimpleOption<>(
-                    getConfigKey(config.modID, config.name),
-                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
-                    (text, value) -> Text.translatable(getConfigKey(config.modID, config.name)).append(Text.of(": " + value.toString())),
+                    translationKey,
+                    SimpleOption.constantTooltip(Text.translatable(translationKey + ".tooltip")),
+                    (text, value) -> Text.translatable(translationKey).append(Text.of(": " + value.toString())),
                     new SimpleOption.ValidatingIntSliderCallbacks(intConfig.getMinValue(), intConfig.getMaxValue()),
                     intConfig.getLoadedValue(),
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));
@@ -138,9 +138,9 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
         } else if (config instanceof DoubleConfiguration doubleConfig) {
 
             return new SimpleOption<>(
-                    getConfigKey(config.modID, config.name),
-                    config.tooltip != null ? SimpleOption.constantTooltip(Text.translatable(config.tooltip)) : SimpleOption.emptyTooltip(),
-                    (text, value) -> Text.translatable(getConfigKey(config.modID, config.name)).append(Text.of(": " + value.toString())),
+                    translationKey,
+                    SimpleOption.constantTooltip(Text.translatable(translationKey + ".tooltip")),
+                    (text, value) -> Text.translatable(translationKey).append(Text.of(": " + value.toString())),
                     SimpleOption.DoubleSliderCallbacks.INSTANCE,
                     doubleConfig.getLoadedValue(),
                     newValue -> storedValues.add(new StoredConfigValue<>(config.modID, config.name, newValue)));

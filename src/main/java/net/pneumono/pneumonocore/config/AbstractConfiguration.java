@@ -9,7 +9,6 @@ public abstract class AbstractConfiguration<T> {
     protected String modID;
     protected final String name;
     protected final ConfigEnv environment;
-    protected final String tooltip;
     protected boolean registered = false;
     private final T defaultValue;
     private T loadedValue;
@@ -23,22 +22,19 @@ public abstract class AbstractConfiguration<T> {
      * @param name The name of the configuration.
      * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
      * @param defaultValue The default value of the configuration.
-     * @param tooltip The translation key of the tooltip to show on the config screen. Can be null, in which case no tooltip will be displayed.
      */
-    public AbstractConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, String tooltip) {
+    public AbstractConfiguration(String modID, String name, ConfigEnv environment, T defaultValue) {
         this.modID = modID;
         this.name = name;
         this.environment = environment;
-        this.tooltip = tooltip;
         this.defaultValue = defaultValue;
         this.loadedValue = defaultValue;
     }
 
-    protected AbstractConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, T loadedValue, String tooltip) {
+    protected AbstractConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, T loadedValue) {
         this.modID = modID;
         this.name = name;
         this.environment = environment;
-        this.tooltip = tooltip;
         this.defaultValue = defaultValue;
         this.loadedValue = loadedValue;
     }

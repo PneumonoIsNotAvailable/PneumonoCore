@@ -18,24 +18,23 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      * @param minValue The minimum value the configuration can be set to.
      * @param maxValue The maximum value the configuration can be set to.
      * @param defaultValue The default value of the configuration.
-     * @param tooltip The translation key of the tooltip to show on the config screen. Can be null, in which case no tooltip will be displayed.
      */
     @SuppressWarnings("unused")
-    public IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue, String tooltip) {
-        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue), tooltip);
+    public IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {
+        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue));
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
 
-    private IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue, Integer loadedValue, String tooltip) {
-        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue), MathHelper.clamp(loadedValue, minValue, maxValue), tooltip);
+    private IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue, Integer loadedValue) {
+        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue), MathHelper.clamp(loadedValue, minValue, maxValue));
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
 
     @Override
     public IntegerConfiguration fromElement(JsonElement element) {
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), valueFromElement(element), tooltip);
+        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), valueFromElement(element));
     }
 
     @Override
@@ -49,5 +48,22 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
 
     public int getMaxValue() {
         return maxValue;
+    }
+
+    /**
+     * Creates a new integer configuration. Replaced by version that doesn't specify a tooltip translation key, since the same format is always used and there isn't any point.
+     *
+     * @param modID The mod ID of the mod registering the configuration.
+     * @param name The name of the configuration.
+     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param defaultValue The default value of the configuration.
+     * @param tooltip Does nothing. Exists for backwards compatibility.
+     */
+    @SuppressWarnings("unused")
+    @Deprecated
+    public IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue, String tooltip) {
+        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue));
+        this.minValue = minValue;
+        this.maxValue = maxValue;
     }
 }
