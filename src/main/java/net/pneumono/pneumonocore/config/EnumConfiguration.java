@@ -28,8 +28,13 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     }
 
     @Override
-    protected EnumConfiguration<T> fromElement(JsonElement element) {
-        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), getEnumFromString(element.getAsString()), tooltip);
+    public EnumConfiguration<T> fromElement(JsonElement element) {
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), valueFromElement(element), tooltip);
+    }
+
+    @Override
+    public T valueFromElement(JsonElement element) {
+        return getEnumFromString(element.getAsString());
     }
 
     private T getEnumFromString(String string) {

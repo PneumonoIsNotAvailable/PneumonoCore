@@ -25,7 +25,12 @@ public class DoubleConfiguration extends AbstractConfiguration<Double> {
     }
 
     @Override
-    protected DoubleConfiguration fromElement(JsonElement element) {
-        return new DoubleConfiguration(modID, name, environment, getDefaultValue(), element.getAsDouble(), tooltip);
+    public DoubleConfiguration fromElement(JsonElement element) {
+        return new DoubleConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element), tooltip);
+    }
+
+    @Override
+    public Double valueFromElement(JsonElement element) {
+        return element.getAsDouble();
     }
 }

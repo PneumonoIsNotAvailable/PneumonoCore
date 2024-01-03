@@ -24,7 +24,12 @@ public class StringConfiguration extends AbstractConfiguration<String> {
     }
 
     @Override
-    protected StringConfiguration fromElement(JsonElement element) {
-        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.getAsString(), tooltip);
+    public StringConfiguration fromElement(JsonElement element) {
+        return new StringConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element), tooltip);
+    }
+
+    @Override
+    public String valueFromElement(JsonElement element) {
+        return element.getAsString();
     }
 }

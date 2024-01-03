@@ -34,8 +34,13 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     }
 
     @Override
-    protected IntegerConfiguration fromElement(JsonElement element) {
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), element.getAsInt(), tooltip);
+    public IntegerConfiguration fromElement(JsonElement element) {
+        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), valueFromElement(element), tooltip);
+    }
+
+    @Override
+    public Integer valueFromElement(JsonElement element) {
+        return element.getAsInt();
     }
 
     public int getMinValue() {

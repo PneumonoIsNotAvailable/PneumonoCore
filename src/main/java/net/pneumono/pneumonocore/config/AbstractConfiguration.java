@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.util.Identifier;
 
 import java.util.Objects;
 
@@ -48,17 +49,26 @@ public abstract class AbstractConfiguration<T> {
 
     protected abstract AbstractConfiguration<T> fromElement(JsonElement element);
 
-    protected boolean isClientSide() {
+    public abstract T valueFromElement(JsonElement element);
+
+    public boolean isClientSide() {
         return environment == ConfigEnv.CLIENT;
     }
 
-    protected String getModID() {return modID;}
-    protected String getName() {
+    public String getModID() {return modID;}
+
+    public String getName() {
         return name;
     }
-    protected T getDefaultValue() {
+
+    public Identifier getID() {
+        return new Identifier(modID, name);
+    }
+
+    public T getDefaultValue() {
         return defaultValue;
     }
+
     protected T getLoadedValue() {
         return loadedValue;
     }
@@ -67,7 +77,7 @@ public abstract class AbstractConfiguration<T> {
      * Returns the configuration value (from the client or server, depending on whether the configuration is client or server-side).<p>
      *
      * Will return the client-side value if it does not have the server-side value.<p>
-     * Will return its default value if the configuration has not been properly registered with {@link Configs#register(AbstractConfiguration)}.<p>
+     * Will return its default value if the configuration has not been properly registered with {@link Configs#register(AbstractConfiguration)}.
      *
      * @return The configuration value.
      */

@@ -102,6 +102,7 @@ public class Configs {
     /**
      * Returns {@code true} if at least one configuration has been registered for that mod ID, and {@code false} if not.
      */
+    @SuppressWarnings("unused")
     public static boolean hasConfigs(String modID) {
         for (ModConfigurations modConfigs : CONFIGS) {
             if (modConfigs.modID.equals(modID) && modConfigs.configurations.size() > 0) {
@@ -109,5 +110,23 @@ public class Configs {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns the condition with that name under that mod ID, or null if such a condition does not exist.
+     */
+    @SuppressWarnings("unused")
+    public static AbstractConfiguration<?> getConfig(String modID, String name) {
+        for (ModConfigurations modConfigs : CONFIGS) {
+            if (modConfigs.modID.equals(modID)) {
+                for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                    if (Objects.equals(config.name, name)) {
+                        return config;
+                    }
+                }
+            }
+        }
+        LOGGER.warn("Requested config " + modID + ":" + name + ", which does not exist!");
+        return null;
     }
 }

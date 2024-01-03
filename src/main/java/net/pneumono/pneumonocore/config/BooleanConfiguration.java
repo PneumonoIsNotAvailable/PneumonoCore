@@ -23,7 +23,12 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     }
 
     @Override
-    protected BooleanConfiguration fromElement(JsonElement element) {
-        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), element.getAsBoolean(), tooltip);
+    public BooleanConfiguration fromElement(JsonElement element) {
+        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element), tooltip);
+    }
+
+    @Override
+    public Boolean valueFromElement(JsonElement element) {
+        return element.getAsBoolean();
     }
 }

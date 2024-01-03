@@ -8,7 +8,8 @@
 		"Pneumono_"
 	],
 	"contact": {
-		"sources": "https://github.com/PneumonoIsNotAvailable/pneumonocore"
+		"sources": "https://github.com/PneumonoIsNotAvailable/PneumonoCore",
+		"issues": "https://github.com/PneumonoIsNotAvailable/PneumonoCore/issues"
 	},
 	"license": "MIT License",
 	"icon": "assets/pneumonocore/icon.png",
