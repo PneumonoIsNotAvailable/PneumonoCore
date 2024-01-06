@@ -11,7 +11,7 @@
 		"sources": "https://github.com/PneumonoIsNotAvailable/PneumonoCore",
 		"issues": "https://github.com/PneumonoIsNotAvailable/PneumonoCore/issues"
 	},
-	"license": "MIT License",
+	"license": "MIT",
 	"icon": "assets/pneumonocore/icon.png",
 	"environment": "*",
 	"entrypoints": {
