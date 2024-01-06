@@ -58,7 +58,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderBackground(DrawContext context) {
         this.renderBackgroundTexture(context);
     }
 
