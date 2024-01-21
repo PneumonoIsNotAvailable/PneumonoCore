@@ -57,23 +57,21 @@ public class ClientConfigCommandRegistry {
 
     public static List<String> getAllConfigValueStrings(String modID) {
         List<String> returnConfigs = new ArrayList<>();
-        for (ModConfigurations modConfigs : Configs.CONFIGS) {
-            if (Objects.equals(modConfigs.modID, modID)) {
-                for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                    returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString());
-                }
+        ModConfigurations modConfigs = Configs.CONFIGS.get(modID);
+        if (modConfigs != null) {
+            for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString());
             }
         }
         return returnConfigs;
     }
 
     public static String getConfigValueString(String modID, String name) {
-        for (ModConfigurations modConfigs : Configs.CONFIGS) {
-            if (Objects.equals(modConfigs.modID, modID)) {
-                for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                    if (Objects.equals(config.getName(), name)) {
-                        return config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString();
-                    }
+        ModConfigurations modConfigs = Configs.CONFIGS.get(modID);
+        if (modConfigs != null) {
+            for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                if (Objects.equals(config.getName(), name)) {
+                    return config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString();
                 }
             }
         }
@@ -83,7 +81,7 @@ public class ClientConfigCommandRegistry {
     public static class ModIDSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
-            for (ModConfigurations modConfigs : Configs.CONFIGS) {
+            for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
                 if (modConfigs.modID.toLowerCase().startsWith(builder.getRemainingLowerCase())) {
                     builder.suggest(modConfigs.modID);
                 }
@@ -96,12 +94,11 @@ public class ClientConfigCommandRegistry {
     public static class ConfigSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
-            for (ModConfigurations modConfigs : Configs.CONFIGS) {
-                if (Objects.equals(modConfigs.modID, StringArgumentType.getString(context, "modid"))) {
-                    for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                        if (config.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                            builder.suggest(config.getName());
-                        }
+            ModConfigurations modConfigs = Configs.CONFIGS.get(StringArgumentType.getString(context, "modid"));
+            if (modConfigs != null) {
+                for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                    if (config.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                        builder.suggest(config.getName());
                     }
                 }
             }

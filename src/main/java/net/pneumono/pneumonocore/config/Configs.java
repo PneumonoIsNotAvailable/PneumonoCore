@@ -13,7 +13,7 @@ import java.util.*;
 public class Configs {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
 
-    protected static List<ModConfigurations> CONFIGS = new ArrayList<>();
+    protected static Map<String, ModConfigurations> CONFIGS = new HashMap<>();
 
     /**
      * Registers a new configuration. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
@@ -29,28 +29,26 @@ public class Configs {
         }
 
         boolean modConfigExists = false;
-        for (ModConfigurations modConfigs : CONFIGS) {
-            if (Objects.equals(modConfigs.modID, configuration.getModID())) {
-                boolean isDuplicate = false;
-                for (AbstractConfiguration<?> checkedConfiguration : modConfigs.configurations) {
-                    if (Objects.equals(checkedConfiguration.name, configuration.name)) {
-                        isDuplicate = true;
-                        break;
-                    }
+        ModConfigurations modConfigs = CONFIGS.get(configuration.modID);
+        if (modConfigs != null) {
+            boolean isDuplicate = false;
+            for (AbstractConfiguration<?> checkedConfiguration : modConfigs.configurations) {
+                if (Objects.equals(checkedConfiguration.name, configuration.name)) {
+                    isDuplicate = true;
+                    break;
                 }
+            }
 
-                if (!isDuplicate) {
-                    modConfigs.configurations.add(configuration);
-                    modConfigExists = true;
-                } else {
-                    LOGGER.error("Configuration " + configuration.modID + ":" + configuration.name + " is a duplicate, and so was not registered!");
-                }
-                break;
+            if (!isDuplicate) {
+                modConfigs.configurations.add(configuration);
+                modConfigExists = true;
+            } else {
+                LOGGER.error("Configuration " + configuration.modID + ":" + configuration.name + " is a duplicate, and so was not registered!");
             }
         }
 
         if (!modConfigExists) {
-            CONFIGS.add(new ModConfigurations(configuration.getModID(), configuration));
+            CONFIGS.put(configuration.getModID(), new ModConfigurations(configuration.getModID(), configuration));
         }
 
         configuration.registered = true;
@@ -64,11 +62,9 @@ public class Configs {
      * @param modID The mod ID of the config file to reload.
      */
     public static void reload(String modID) {
-        for (ModConfigurations modConfigs : CONFIGS) {
-            if (Objects.equals(modConfigs.modID, modID)) {
-                modConfigs.reload();
-                break;
-            }
+        ModConfigurations modConfigs = CONFIGS.get(modID);
+        if (modConfigs != null) {
+            modConfigs.reload();
         }
     }
 
@@ -104,10 +100,9 @@ public class Configs {
      */
     @SuppressWarnings("unused")
     public static boolean hasConfigs(String modID) {
-        for (ModConfigurations modConfigs : CONFIGS) {
-            if (modConfigs.modID.equals(modID) && modConfigs.configurations.size() > 0) {
-                return true;
-            }
+        ModConfigurations modConfigs = CONFIGS.get(modID);
+        if (modConfigs != null) {
+            return modConfigs.configurations.size() > 0;
         }
         return false;
     }
@@ -117,12 +112,11 @@ public class Configs {
      */
     @SuppressWarnings("unused")
     public static AbstractConfiguration<?> getConfig(String modID, String name) {
-        for (ModConfigurations modConfigs : CONFIGS) {
-            if (modConfigs.modID.equals(modID)) {
-                for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                    if (Objects.equals(config.name, name)) {
-                        return config;
-                    }
+        ModConfigurations modConfigs = CONFIGS.get(modID);
+        if (modConfigs != null) {
+            for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                if (Objects.equals(config.name, name)) {
+                    return config;
                 }
             }
         }

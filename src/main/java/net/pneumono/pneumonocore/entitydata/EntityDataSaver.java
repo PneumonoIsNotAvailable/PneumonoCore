@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @SuppressWarnings("unused")
 public interface EntityDataSaver {
-
     NbtCompound getModdedData();
 
     default void putModdedElement(String key, NbtElement value) {

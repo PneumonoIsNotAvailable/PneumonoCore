@@ -1,0 +1,55 @@
+package net.pneumono.pneumonocore.config.entries;
+
+import com.google.common.collect.ImmutableList;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config.*;
+
+import java.util.List;
+import java.util.Objects;
+
+public class StringConfigurationEntry extends AbstractConfigurationEntry {
+    private final TextFieldWidget textWidget;
+    private String value;
+
+    public StringConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super(configuration, parent, widget);
+        this.value = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : "";
+        this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 110, 20, null, Text.translatable(configuration.getTranslationKey()));
+        this.textWidget.setText(value);
+        this.textWidget.setChangedListener((text) -> {
+            this.parent.selectedConfiguration = configuration;
+            ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), text);
+        });
+    }
+
+    @Override
+    public void update() {
+        String newValue = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : "";
+        this.value = newValue;
+        this.textWidget.setText(newValue);
+    }
+
+    @Override
+    public List<? extends Selectable> selectableChildren() {
+        return ImmutableList.of(textWidget);
+    }
+
+    @Override
+    public List<? extends Element> children() {
+        return ImmutableList.of(textWidget);
+
+    }
+
+    @Override
+    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
+        this.textWidget.setX(x + 90);
+        this.textWidget.setY(y);
+
+        this.textWidget.render(context, mouseX, mouseY, tickDelta);
+    }
+}

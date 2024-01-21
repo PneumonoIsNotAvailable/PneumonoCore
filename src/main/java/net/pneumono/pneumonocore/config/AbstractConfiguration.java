@@ -61,6 +61,10 @@ public abstract class AbstractConfiguration<T> {
         return new Identifier(modID, name);
     }
 
+    public String getTranslationKey() {
+        return modID + ".configs." + name;
+    }
+
     public T getDefaultValue() {
         return defaultValue;
     }
@@ -86,14 +90,12 @@ public abstract class AbstractConfiguration<T> {
         // GENEVA VIOLATION
         AbstractConfiguration<?> thisConfig = null;
 
-        search:
-        for (ModConfigurations modConfigs : Configs.CONFIGS) {
-            if (Objects.equals(modConfigs.modID, modID)) {
-                for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                    if (Objects.equals(config.name, name)) {
-                        thisConfig = config;
-                        break search;
-                    }
+        ModConfigurations modConfigs = Configs.CONFIGS.get(modID);
+        if (modConfigs != null) {
+            for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                if (Objects.equals(config.name, name)) {
+                    thisConfig = config;
+                    break;
                 }
             }
         }
@@ -121,4 +123,6 @@ public abstract class AbstractConfiguration<T> {
     protected void setImportedValue(AbstractConfiguration<?> config) {
         importedValue = (T) config.loadedValue;
     }
+
+    public abstract String getClassID();
 }

@@ -17,4 +17,12 @@ public class PneumonoMathHelper {
         double zDifference = Math.abs(pos1.getZ() - pos2.getZ());
         return Math.sqrt((xDifference * xDifference) + (zDifference * zDifference));
     }
+
+    public static int round(double d) {
+        return (int)d + 0.5 > d ? (int)d : (int)d + 1;
+    }
+
+    public static int round(float f) {
+        return (int)f + 0.5 > f ? (int)f : (int)f + 1;
+    }
 }

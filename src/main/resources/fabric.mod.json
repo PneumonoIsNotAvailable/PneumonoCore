@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"net.pneumono.pneumonocore.PneumonoCoreClient"
+		],
+		"modmenu": [
+			"net.pneumono.pneumonocore.PneumonoCoreModMenu"
 		]
 	},
 	"mixins": [

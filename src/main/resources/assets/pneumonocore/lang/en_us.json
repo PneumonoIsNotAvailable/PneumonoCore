@@ -1,6 +1,24 @@
 {
     "pneumonocore.configs_screen.title": "PneumonoCore Configs",
-    "pneumonocore.configs_screen.reset": "Reset Configs",
+    "pneumonocore.configs_screen.reset_all": "Reset All Configs",
     "pneumonocore.configs_screen.boolean_enabled": "ON",
-    "pneumonocore.configs_screen.boolean_disabled": "OFF"
+    "pneumonocore.configs_screen.boolean_disabled": "OFF",
+    "pneumonocore.configs_screen.entry_type_error": "Unsupported!",
+    "pneumonocore.configs_screen.information": "Information",
+
+    "pneumonocore.configs.do_gay_sex": "Do Gay Sex",
+    "pneumonocore.configs.do_gay_sex.tooltip": "Whether or not Gay Sex is enabled",
+    "pneumonocore.configs.big_guy_count": "Big Guy Count",
+    "pneumonocore.configs.big_guy_count.tooltip": "The number of Big Guys that Grab On Your Thighs",
+    "pneumonocore.configs.name": "Name",
+    "pneumonocore.configs.name.tooltip": "Your name, girlie!",
+    "pneumonocore.configs.gay_percentage": "Gay Percentage",
+    "pneumonocore.configs.gay_percentage.tooltip": "The level of Gay in the environment. Values over 90 may be fatal.",
+    "pneumonocore.configs.sexuality": "Sexuality",
+    "pneumonocore.configs.sexuality.gay": "Gay",
+    "pneumonocore.configs.sexuality.straight": "straggot",
+    "pneumonocore.configs.sexuality.bisexual": "both at once",
+    "pneumonocore.configs.sexuality.ace": "nuh uh",
+    "pneumonocore.configs.sexuality.slaying": ":>",
+    "pneumonocore.configs.sexuality.tooltip": "I'm, um, lazy <3"
 }

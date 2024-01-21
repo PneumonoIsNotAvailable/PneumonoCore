@@ -13,7 +13,7 @@ public class PackagedConfigs {
         Configs.LOGGER.info("Creating new config sync packet");
 
         List<AbstractConfiguration<?>> packagedConfigs = new ArrayList<>();
-        for (ModConfigurations modConfigs : Configs.CONFIGS) {
+        for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (!config.isClientSide()) {
                     packagedConfigs.add(config);
@@ -30,7 +30,7 @@ public class PackagedConfigs {
 
         JsonObject jsonObject = (JsonObject) JsonParser.parseString(json);
         if (jsonObject != null) {
-            for (ModConfigurations modConfigs : Configs.CONFIGS) {
+            for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
                     if (jsonObject.get(config.getName()) != null) {
 
@@ -53,7 +53,7 @@ public class PackagedConfigs {
 
     public void updateServerConfigs() {
         // Makes sure all client configs are ready to go
-        for (ModConfigurations modConfigs : Configs.CONFIGS) {
+        for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 config.getReloadableLoadedValue(false);
             }
@@ -62,14 +62,13 @@ public class PackagedConfigs {
         // Update Server Configs
         packagedConfigLoop:
         for (AbstractConfiguration<?> packedConfig : configs) {
-            for (ModConfigurations modConfigs : Configs.CONFIGS) {
-                if (Objects.equals(modConfigs.modID, packedConfig.modID)) {
-                    for (AbstractConfiguration<?> config : modConfigs.configurations) {
+            ModConfigurations modConfigs = Configs.CONFIGS.get(packedConfig.modID);
+            if (modConfigs != null) {
+                for (AbstractConfiguration<?> config : modConfigs.configurations) {
 
-                        if (Objects.equals(config.name, packedConfig.name) && !config.isClientSide()) {
-                            config.setImportedValue(packedConfig);
-                            continue packagedConfigLoop;
-                        }
+                    if (Objects.equals(config.name, packedConfig.name) && !config.isClientSide()) {
+                        config.setImportedValue(packedConfig);
+                        continue packagedConfigLoop;
                     }
                 }
             }
