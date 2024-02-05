@@ -10,14 +10,14 @@ import net.minecraft.text.Text;
 import java.util.Objects;
 
 public class ConfigOptionsScreen extends Screen {
-    private final Screen previous;
+    private final Screen parent;
     public final String modID;
     private ConfigsListWidget configsList;
     public AbstractConfiguration<?> selectedConfiguration;
 
-    public ConfigOptionsScreen(Screen previous, String modID) {
+    public ConfigOptionsScreen(Screen parent, String modID) {
         super(Text.translatable(modID + ".configs_screen.title"));
-        this.previous = previous;
+        this.parent = parent;
         this.modID = modID;
     }
 
@@ -34,19 +34,14 @@ public class ConfigOptionsScreen extends Screen {
             this.configsList.update();
         }).dimensions(this.width / 2 - 154, this.height - 28, 150, 20).build());
 
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> Objects.requireNonNull(this.client).setScreen(this.previous))
-                .dimensions(this.width / 2 + 4, this.height - 28, 150, 20).build());
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> Objects.requireNonNull(this.client).setScreen(this.parent)).dimensions(this.width / 2 + 4, this.height - 28, 150, 20).build());
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
         this.configsList.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 16777215);
-    }
-
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackgroundTexture(context);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 8, 0xffffff);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     public static <T> void save(String modID, String name, T newValue) {
