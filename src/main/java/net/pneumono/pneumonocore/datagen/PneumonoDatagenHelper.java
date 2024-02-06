@@ -5,6 +5,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementFrame;
+import net.minecraft.advancement.criterion.ImpossibleCriterion;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.predicate.NbtPredicate;
+import net.minecraft.predicate.NumberRange;
+import net.minecraft.predicate.item.EnchantmentPredicate;
+import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.pneumono.pneumonocore.PneumonoCore;
@@ -103,5 +114,38 @@ public class PneumonoDatagenHelper {
         }
         PneumonoCore.LOGGER.warn("Invalid resource condition JSON!");
         return null;
+    }
+
+    @SuppressWarnings("unused")
+    public static ItemPredicate getTagItemPredicate(TagKey<Item> tagKey) {
+        return new ItemPredicate(tagKey, null, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY);
+    }
+
+    @SuppressWarnings("unused")
+    public static ItemPredicate getEnchantmentItemPredicate(EnchantmentPredicate enchantment) {
+        return new ItemPredicate(null, null, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, new EnchantmentPredicate[]{enchantment}, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY);
+    }
+
+    /**
+     * Returns a dummy advancement for use as a parent in other advancements.
+     *
+     * @param advancementID The ID of the advancement a dummy is needed for.
+     * @return A dummy advancement.
+     */
+    @SuppressWarnings("unused")
+    public static Advancement getDummyAdvancement(Identifier advancementID) {
+        return Advancement.Builder.create()
+                .display(
+                        Items.BARRIER,
+                        Text.literal("Uh oh!"),
+                        Text.literal("If you're reading this, something has gone very, very wrong"),
+                        null,
+                        AdvancementFrame.CHALLENGE,
+                        false,
+                        false,
+                        false
+                )
+                .criterion("impossible", new ImpossibleCriterion.Conditions())
+                .build(advancementID);
     }
 }
