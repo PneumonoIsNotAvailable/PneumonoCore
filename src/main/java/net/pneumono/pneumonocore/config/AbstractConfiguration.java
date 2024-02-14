@@ -69,6 +69,7 @@ public abstract class AbstractConfiguration<T> {
         return defaultValue;
     }
 
+    @SuppressWarnings("unused")
     protected T getLoadedValue() {
         return loadedValue;
     }
