@@ -62,7 +62,7 @@ public abstract class AbstractConfiguration<T> {
     }
 
     public String getTranslationKey() {
-        return modID + ".configs." + name;
+        return "configs." + modID + "." + name;
     }
 
     public T getDefaultValue() {
