@@ -17,6 +17,11 @@ public class PneumonoCore implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initializing PneumonoCore");
+
+		Configs.register(new BooleanConfiguration(MOD_ID, "gay", ConfigEnv.SERVER, false));
+		Configs.register(new TimeConfiguration(MOD_ID, "gayer", ConfigEnv.SERVER, 20L));
+		Configs.register(new StringConfiguration(MOD_ID, "gayest", ConfigEnv.SERVER, "WAH"));
+
 		Configs.reload(MOD_ID);
 
 		// Config

@@ -1,8 +1,18 @@
 {
     "pneumonocore.configs_screen.title": "PneumonoCore Configs",
     "pneumonocore.configs_screen.reset_all": "Reset All Configs",
+    "pneumonocore.configs_screen.information": "Information",
+    "pneumonocore.configs_screen.entry_type_error": "Unsupported!",
     "pneumonocore.configs_screen.boolean_enabled": "ON",
     "pneumonocore.configs_screen.boolean_disabled": "OFF",
-    "pneumonocore.configs_screen.entry_type_error": "Unsupported!",
-    "pneumonocore.configs_screen.information": "Information"
+    "pneumonocore.configs_screen.ticks": "T",
+    "pneumonocore.configs_screen.seconds": "S",
+    "pneumonocore.configs_screen.minutes": "M",
+    "pneumonocore.configs_screen.hours": "H",
+    "pneumonocore.configs_screen.days": "D",
+    "pneumonocore.configs_screen.ticks.full": "Ticks",
+    "pneumonocore.configs_screen.seconds.full": "Seconds",
+    "pneumonocore.configs_screen.minutes.full": "Minutes",
+    "pneumonocore.configs_screen.hours.full": "Hours",
+    "pneumonocore.configs_screen.days.full": "Days"
 }
