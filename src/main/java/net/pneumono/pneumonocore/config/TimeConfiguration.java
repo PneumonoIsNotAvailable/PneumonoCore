@@ -12,6 +12,7 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
      * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
      * @param defaultValue The default value of the configuration.
      */
+    @SuppressWarnings("unused")
     public TimeConfiguration(String modID, String name, ConfigEnv environment, Long defaultValue) {
         super(modID, name, environment, defaultValue);
     }
