@@ -17,7 +17,7 @@ public class ConfigOptionsScreen extends Screen {
     public AbstractConfiguration<?> selectedConfiguration;
 
     public ConfigOptionsScreen(Screen parent, String modID) {
-        super(Text.translatable(modID + ".configs_screen.title"));
+        super(Text.translatable("configs." + modID + ".screen_title"));
         this.parent = parent;
         this.modID = modID;
     }

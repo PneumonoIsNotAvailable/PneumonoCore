@@ -42,7 +42,7 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
     @SuppressWarnings("unchecked")
     public void update() {
         this.value = configuration instanceof EnumConfiguration<?> enumConfiguration ? (T)enumConfiguration.getValue() : null;
-        this.cycleWidget.setMessage(Text.translatable(this.configuration.getModID() + ".configs." + this.configuration.getName() + "." + value.name().toLowerCase()));
+        this.cycleWidget.setMessage(Text.translatable("configs." + this.configuration.getModID() + this.configuration.getName() + "." + value.name().toLowerCase()));
     }
 
     @Override

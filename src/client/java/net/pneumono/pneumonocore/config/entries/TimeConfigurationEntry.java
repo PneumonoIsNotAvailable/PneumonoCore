@@ -77,7 +77,7 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry {
             this.amount = Long.parseLong(this.textWidget.getText());
         } catch (NumberFormatException ignored) {}
 
-        String key = "pneumonocore.configs_screen." + units.name().toLowerCase();
+        String key = "configs_screen.pneumonocore." + units.name().toLowerCase();
         this.cycleWidget.setMessage(Text.translatable(key));
         this.cycleWidget.setTooltip(Tooltip.of(Text.translatable(key + ".full")));
     }

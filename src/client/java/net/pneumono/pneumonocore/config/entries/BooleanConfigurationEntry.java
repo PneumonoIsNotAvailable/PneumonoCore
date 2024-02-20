@@ -32,7 +32,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry {
 
     public void update() {
         this.value = configuration instanceof BooleanConfiguration booleanConfiguration && booleanConfiguration.getValue();
-        this.toggleWidget.setMessage(Text.translatable(value ? "pneumonocore.configs_screen.boolean_enabled" : "pneumonocore.configs_screen.boolean_disabled"));
+        this.toggleWidget.setMessage(Text.translatable(value ? "configs_screen.pneumonocore.boolean_enabled" : "configs_screen.pneumonocore.boolean_disabled"));
     }
 
     @Override

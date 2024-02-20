@@ -45,10 +45,10 @@ public class ErroneousConfigurationEntry extends AbstractConfigurationEntry {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
 
-        Text text = Text.translatable("pneumonocore.configs_screen.entry_type_error").formatted(Formatting.RED);
+        Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error").formatted(Formatting.RED);
         int width = textRenderer.getWidth(text);
         int textX = x + 145 - (width / 2);
         int textY = y + entryHeight / 2;
-        context.drawText(textRenderer, Text.translatable("pneumonocore.configs_screen.entry_type_error").formatted(Formatting.RED), textX, textY - 9 / 2, 16777215, false);
+        context.drawText(textRenderer, text, textX, textY - 9 / 2, 16777215, false);
     }
 }
