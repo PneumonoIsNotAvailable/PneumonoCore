@@ -85,9 +85,9 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry {
     @Override
     public void reset() {
         if (configuration instanceof TimeConfiguration timeConfiguration) {
-            this.amount = getAmount(timeConfiguration.getValue());
+            this.amount = getAmount(timeConfiguration.getDefaultValue());
             this.textWidget.setText(String.valueOf(amount));
-            this.units = TimeUnit.fromValue(timeConfiguration.getValue());
+            this.units = TimeUnit.fromValue(timeConfiguration.getDefaultValue());
             ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
         }
         this.update();
