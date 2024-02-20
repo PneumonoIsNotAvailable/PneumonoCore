@@ -46,6 +46,12 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
     }
 
     @Override
+    public void reset() {
+        ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
+        update();
+    }
+
+    @Override
     public List<? extends Selectable> selectableChildren() {
         return ImmutableList.of(this.cycleWidget);
     }

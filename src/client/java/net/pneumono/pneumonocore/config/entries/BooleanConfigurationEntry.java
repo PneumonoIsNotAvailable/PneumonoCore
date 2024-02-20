@@ -36,6 +36,12 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry {
     }
 
     @Override
+    public void reset() {
+        ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
+        update();
+    }
+
+    @Override
     public List<? extends Selectable> selectableChildren() {
         return ImmutableList.of(this.toggleWidget);
     }

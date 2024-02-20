@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config.entries.AbstractConfigurationEntry;
 
 import java.util.Objects;
 
@@ -27,8 +28,8 @@ public class ConfigOptionsScreen extends Screen {
         this.addSelectableChild(this.configsList);
 
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("pneumonocore.configs_screen.reset_all"), (button) -> {
-            for(AbstractConfiguration<?> configuration : configsList.configurations) {
-                save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
+            for(AbstractConfigurationEntry entry : configsList.children()) {
+                entry.reset();
             }
 
             this.configsList.update();

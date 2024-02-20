@@ -32,6 +32,8 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
 
     public abstract void update();
 
+    public abstract void reset();
+
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         context.drawText(textRenderer, this.configName, x - 60, (y + entryHeight / 2) - 9 / 2, 16777215, false);
