@@ -27,7 +27,7 @@ public class ConfigOptionsScreen extends Screen {
         this.configsList = new ConfigsListWidget(this, this.client);
         this.addSelectableChild(this.configsList);
 
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("pneumonocore.configs_screen.reset_all"), (button) -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), (button) -> {
             for(AbstractConfigurationEntry entry : configsList.children()) {
                 entry.reset();
             }
