@@ -26,7 +26,7 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
         this.configName = Text.translatable(configuration.getTranslationKey());
         this.parent = parent;
         this.widget = widget;
-        this.infoWidget = new InformationIconWidget(Text.translatable("pneumonocore.configs_screen.information"));
+        this.infoWidget = new InformationIconWidget();
         this.infoWidget.setTooltip(Tooltip.of(Text.translatable(configuration.getTranslationKey() + ".tooltip")));
     }
 
@@ -43,8 +43,8 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
     }
 
     public static class InformationIconWidget extends ButtonWidget {
-        InformationIconWidget(Text message) {
-            super(0, 0, 20, 20, message, button -> {}, DEFAULT_NARRATION_SUPPLIER);
+        InformationIconWidget() {
+            super(0, 0, 20, 20, Text.translatable("pneumonocore.configs_screen.information"), button -> {}, DEFAULT_NARRATION_SUPPLIER);
         }
 
         @Override
