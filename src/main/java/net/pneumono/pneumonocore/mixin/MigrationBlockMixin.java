@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public abstract class MigrationBlockMixin {
     @ModifyVariable(method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;", at = @At("HEAD"))
     private Identifier getMigrated(Identifier identifier) {
-        if (this == Registries.BLOCK) {
+        if (this == Registries.BLOCK && identifier != null) {
             String oldId = identifier.toString();
             if (Migration.getBlocks().containsKey(oldId)) {
                 String newId = Migration.getBlocks().get(oldId).get();
