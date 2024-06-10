@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 public class StringConfiguration extends AbstractConfiguration<String> {
     /**
      * Creates a new string configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
-     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
+     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
