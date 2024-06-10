@@ -45,10 +45,6 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
         return getDefaultValue();
     }
 
-    public Class<T> getEnumClass() {
-        return enumClass;
-    }
-
     @Override
     public String getClassID() {
         return "EnumConfiguration";
