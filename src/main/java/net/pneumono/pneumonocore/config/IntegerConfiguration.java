@@ -9,8 +9,8 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
 
     /**
      * Creates a new integer configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
-     * Configuration names use the translation key {@code "<modID>.configs.<name>"} in config menus.
-     * Double configurations have set minimum and maximum values. Any values read from files or set as default values that fall outside this range will be set to the nearest valid value.
+     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
+     * Integer configurations have set minimum and maximum values. Any values read from files or set as default values that fall outside this range will be set to the nearest valid value.
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.

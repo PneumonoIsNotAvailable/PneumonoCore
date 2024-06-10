@@ -7,8 +7,8 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
 
     /**
      * Creates a new enum configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
-     * Configuration names use the translation key {@code "<modID>.configs.<name>"} in config menus.<p>
-     * Enum configuration values use the translation keys {@code "<modID>.configs.<configName>.<valueName>"}.
+     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
+     * Enum configuration values use the translation keys {@code "configs.<modID>.<configName>.<valueName>"}.
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.

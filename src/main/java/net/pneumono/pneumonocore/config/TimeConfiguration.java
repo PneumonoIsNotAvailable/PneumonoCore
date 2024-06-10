@@ -5,7 +5,8 @@ import com.google.gson.JsonElement;
 public class TimeConfiguration extends AbstractConfiguration<Long> {
     /**
      * Creates a new time configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
-     * Configuration names use the translation key {@code "<modID>.configs.<name>"} in config menus.<p>
+     * Time configurations are used for configuring amounts of time, e.g. the time taken for an item to be used.<p>
+     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
