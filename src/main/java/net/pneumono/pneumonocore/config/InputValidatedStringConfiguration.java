@@ -11,10 +11,10 @@ public class InputValidatedStringConfiguration extends AbstractConfiguration<Str
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
      * Input-validated string configurations have a check to make sure the value inputted is acceptable, and if it is not it will use the default value. If configured using the config screen, an error is shown to the user.
      *
-     * @param modID        The mod ID of the mod registering the configuration.
-     * @param name         The name of the configuration.
-     * @param environment  Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
-     * @param check        The check an inputted string must pass.
+     * @param modID The mod ID of the mod registering the configuration.
+     * @param name The name of the configuration.
+     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param check The check an inputted string must pass.
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
