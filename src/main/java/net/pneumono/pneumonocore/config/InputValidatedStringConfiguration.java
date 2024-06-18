@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 
 @SuppressWarnings("unused")
 public class InputValidatedStringConfiguration extends AbstractConfiguration<String> {
@@ -29,13 +30,13 @@ public class InputValidatedStringConfiguration extends AbstractConfiguration<Str
     }
 
     @Override
-    public InputValidatedStringConfiguration fromElement(JsonElement element) {
-        return new InputValidatedStringConfiguration(modID, name, environment, check, getDefaultValue(), valueFromElement(element));
+    public InputValidatedStringConfiguration fromElement(NbtElement element) {
+        return new InputValidatedStringConfiguration(modID, name, environment, check, getDefaultValue(), element.asString());
     }
 
     @Override
-    public String valueFromElement(JsonElement element) {
-        return element.getAsString();
+    protected InputValidatedStringConfiguration fromElement(JsonElement element) {
+        return new InputValidatedStringConfiguration(modID, name, environment, check, getDefaultValue(), element.getAsString());
     }
 
 

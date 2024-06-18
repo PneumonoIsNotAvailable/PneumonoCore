@@ -20,7 +20,7 @@ public abstract class MigrationBlockMixin {
                 String newId = Migration.getBlocks().get(oldId).get();
                 PneumonoCore.LOGGER.info("Block \"'{}'\" successfully migrated to \"'{}'\"", oldId, newId);
 
-                return new Identifier(newId);
+                return Identifier.of(newId);
             }
         }
 

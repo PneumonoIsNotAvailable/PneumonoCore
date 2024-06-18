@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
 import net.pneumono.pneumonocore.config.*;
 import net.pneumono.pneumonocore.util.PneumonoMathHelper;
 
@@ -32,7 +33,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
             this.parent.selectedConfiguration = configuration;
             ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configValue);
             this.widget.update();
-        }, value / (maxValue - minValue), minValue, maxValue, 0, 0, 110, 20);
+        }, value, minValue, maxValue, 0, 0, 110, 20);
         this.sliderWidget.setValue(value);
         this.update();
     }
@@ -75,7 +76,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
         private final int max;
 
         public ConfigSliderWidget(SliderChangeAction action, int value, int min, int max, int x, int y, int width, int height) {
-            super(x, y, width, height, Text.literal(Integer.toString(PneumonoMathHelper.round(toPercentage(value, max, min)))), toPercentage(value, max, min));
+            super(x, y, width, height, Text.literal(Integer.toString(PneumonoMathHelper.round(toPercentage(value, min, max)))), toPercentage(value, min, max));
             this.action = action;
             this.min = min;
             this.max = max;
@@ -83,24 +84,24 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
 
         @Override
         protected void updateMessage() {
-            setMessage(Text.literal(Integer.toString(fromPercentage(value, max, min))));
+            setMessage(Text.literal(Integer.toString(fromPercentage(value, min, max))));
+        }
+
+        private static int fromPercentage(double value, int min, int max) {
+            return PneumonoMathHelper.round((value * (max - min)) + min);
+        }
+
+        private static double toPercentage(int value, int min, int max) {
+            return (value - min) / (double)(max - min);
         }
 
         @Override
         protected void applyValue() {
-            action.onChange(this, fromPercentage(value, max, min));
-        }
-
-        private static int fromPercentage(double value, int max, int min) {
-            return PneumonoMathHelper.round((value * (max - min)) + min);
-        }
-
-        private static double toPercentage(int value, int max, int min) {
-            return value / (double)(max - min);
+            action.onChange(this, fromPercentage(value, min, max));
         }
 
         public void setValue(int value) {
-            this.value = toPercentage(value, max, min);
+            this.value = toPercentage(MathHelper.clamp(value, min, max), min, max);
             updateMessage();
         }
     }

@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.MathHelper;
 
 public class FloatConfiguration extends AbstractConfiguration<Float> {
@@ -24,13 +25,13 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
     }
 
     @Override
-    public FloatConfiguration fromElement(JsonElement element) {
-        return new FloatConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element));
+    public FloatConfiguration fromElement(NbtElement element) {
+        return new FloatConfiguration(modID, name, environment, getDefaultValue(), Float.parseFloat(element.asString()));
     }
 
     @Override
-    public Float valueFromElement(JsonElement element) {
-        return element.getAsFloat();
+    protected FloatConfiguration fromElement(JsonElement element) {
+        return new FloatConfiguration(modID, name, environment, getDefaultValue(), element.getAsFloat());
     }
 
     @Override

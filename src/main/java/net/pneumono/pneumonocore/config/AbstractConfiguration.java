@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
 
 import java.util.Objects;
@@ -43,9 +44,8 @@ public abstract class AbstractConfiguration<T> {
         return useDefaultValues || loadedValue == null ? defaultValue.toString() : loadedValue.toString();
     }
 
+    protected abstract AbstractConfiguration<T> fromElement(NbtElement element);
     protected abstract AbstractConfiguration<T> fromElement(JsonElement element);
-
-    public abstract T valueFromElement(JsonElement element);
 
     public boolean isClientSide() {
         return environment == ConfigEnv.CLIENT;
@@ -58,7 +58,7 @@ public abstract class AbstractConfiguration<T> {
     }
 
     public Identifier getID() {
-        return new Identifier(modID, name);
+        return Identifier.of(modID, name);
     }
 
     public String getTranslationKey() {

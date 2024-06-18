@@ -17,7 +17,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry {
 
     public FloatConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         super(configuration, parent, widget);
-        this.value = configuration instanceof FloatConfiguration integerConfiguration ? integerConfiguration.getValue() : 0;
+        this.value = configuration instanceof FloatConfiguration floatConfiguration ? floatConfiguration.getValue() : 0;
         this.sliderWidget = new ConfigSliderWidget((slider, configValue) -> {
             this.parent.selectedConfiguration = configuration;
             ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configValue);

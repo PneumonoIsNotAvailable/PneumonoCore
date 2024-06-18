@@ -13,7 +13,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigurationEn
     protected final ConfigOptionsScreen parent;
 
     public ConfigsListWidget(ConfigOptionsScreen parent, MinecraftClient client) {
-        super(client, parent.width + 45, parent.height, 20, parent.height - 32, 23);
+        super(client, parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
         this.parent = parent;
         this.configurations = Configs.CONFIGS.get(this.parent.modID).configurations;
 

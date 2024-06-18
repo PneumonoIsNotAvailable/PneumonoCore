@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 
 public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<T> {
     private final Class<T> enumClass;
@@ -27,13 +28,13 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     }
 
     @Override
-    public EnumConfiguration<T> fromElement(JsonElement element) {
-        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), valueFromElement(element));
+    public EnumConfiguration<T> fromElement(NbtElement element) {
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), getEnumFromString(element.asString()));
     }
 
     @Override
-    public T valueFromElement(JsonElement element) {
-        return getEnumFromString(element.getAsString());
+    protected EnumConfiguration<T> fromElement(JsonElement element) {
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), getEnumFromString(element.getAsString()));
     }
 
     private T getEnumFromString(String string) {

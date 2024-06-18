@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 
 public class TimeConfiguration extends AbstractConfiguration<Long> {
     /**
@@ -23,13 +24,13 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
     }
 
     @Override
-    protected TimeConfiguration fromElement(JsonElement element) {
-        return new TimeConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element));
+    protected TimeConfiguration fromElement(NbtElement element) {
+        return new TimeConfiguration(modID, name, environment, getDefaultValue(), Long.parseLong(element.asString()));
     }
 
     @Override
-    public Long valueFromElement(JsonElement element) {
-        return element.getAsLong();
+    protected TimeConfiguration fromElement(JsonElement element) {
+        return new TimeConfiguration(modID, name, environment, getDefaultValue(), element.getAsLong());
     }
 
     @Override

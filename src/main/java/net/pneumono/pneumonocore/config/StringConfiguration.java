@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 
 @SuppressWarnings("unused")
 public class StringConfiguration extends AbstractConfiguration<String> {
@@ -23,13 +24,13 @@ public class StringConfiguration extends AbstractConfiguration<String> {
     }
 
     @Override
-    public StringConfiguration fromElement(JsonElement element) {
-        return new StringConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element));
+    public StringConfiguration fromElement(NbtElement element) {
+        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.asString());
     }
 
     @Override
-    public String valueFromElement(JsonElement element) {
-        return element.getAsString();
+    protected StringConfiguration fromElement(JsonElement element) {
+        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.getAsString());
     }
 
     @Override

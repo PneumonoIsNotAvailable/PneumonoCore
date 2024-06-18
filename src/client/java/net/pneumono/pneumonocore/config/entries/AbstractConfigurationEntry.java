@@ -3,8 +3,8 @@ package net.pneumono.pneumonocore.config.entries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
@@ -19,14 +19,17 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
     protected final Text configName;
     protected final ConfigOptionsScreen parent;
     protected final ConfigsListWidget widget;
-    protected final InformationIconWidget infoWidget;
+    protected final TextIconButtonWidget infoWidget;
 
     public AbstractConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         this.configuration = configuration;
         this.configName = Text.translatable(configuration.getTranslationKey());
         this.parent = parent;
         this.widget = widget;
-        this.infoWidget = new InformationIconWidget();
+        this.infoWidget = TextIconButtonWidget.builder(Text.translatable("pneumonocore.configs_screen.information"), button -> {}, true)
+                .texture(Identifier.of(PneumonoCore.MOD_ID, "icon/information"), 15, 15)
+                .width(20)
+                .build();
         this.infoWidget.setTooltip(Tooltip.of(Text.translatable(configuration.getTranslationKey() + ".tooltip")));
     }
 
@@ -40,23 +43,5 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
         this.infoWidget.setX(x + 205);
         this.infoWidget.setY(y);
         this.infoWidget.render(context, mouseX, mouseY, delta);
-    }
-
-    public static class InformationIconWidget extends ButtonWidget {
-        InformationIconWidget() {
-            super(0, 0, 20, 20, Text.translatable("pneumonocore.configs_screen.information"), button -> {}, DEFAULT_NARRATION_SUPPLIER);
-        }
-
-        @Override
-        public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
-            super.renderButton(context, mouseX, mouseY, delta);
-            int i = this.getX() + 3;
-            int j = this.getY() + 3;
-            this.drawTexture(context, new Identifier(PneumonoCore.MOD_ID, "textures/gui/sprites/icon/information.png"), i, j, 0, 0, 0, 15, 15, 15, 15);
-        }
-
-        @Override
-        public void drawMessage(DrawContext context, TextRenderer textRenderer, int color) {
-        }
     }
 }

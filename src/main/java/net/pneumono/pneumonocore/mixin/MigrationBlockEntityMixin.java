@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.migration.Migration;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings("unused")
 public abstract class MigrationBlockEntityMixin {
     @Inject(method = "createFromNbt", at = @At("HEAD"))
-    private static void createMigratedFromNbt(BlockPos pos, BlockState state, NbtCompound nbt, CallbackInfoReturnable<BlockEntity> cir) {
+    private static void createMigratedFromNbt(BlockPos pos, BlockState state, NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, CallbackInfoReturnable<BlockEntity> cir) {
         if (nbt.contains("id", NbtElement.STRING_TYPE)) {
             String oldId = nbt.getString("id");
             if (Migration.getBlockEntities().containsKey(oldId)) {

@@ -1,14 +1,15 @@
 package net.pneumono.pneumonocore.config;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.pneumono.pneumonocore.PneumonoCore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class Configs {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
@@ -74,11 +75,9 @@ public class Configs {
      * @param players The players the packets will be sent to.
      */
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
-        PacketByteBuf buffer = PacketByteBufs.create();
-        String json = new PackagedConfigs().toJsonString();
-        buffer.writeString(json);
+        NbtCompound compound = new PackagedConfigs().toNbt();
         for (ServerPlayerEntity player : players) {
-            ServerPlayNetworking.send(player, PneumonoCore.CONFIG_SYNC_ID, buffer);
+            ServerPlayNetworking.send(player, new ConfigPayload(compound));
         }
     }
 
@@ -102,7 +101,7 @@ public class Configs {
     public static boolean hasConfigs(String modID) {
         ModConfigurations modConfigs = CONFIGS.get(modID);
         if (modConfigs != null) {
-            return modConfigs.configurations.size() > 0;
+            return !modConfigs.configurations.isEmpty();
         }
         return false;
     }

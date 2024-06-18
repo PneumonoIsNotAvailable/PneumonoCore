@@ -3,45 +3,52 @@ package net.pneumono.pneumonocore.config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config.entries.AbstractConfigurationEntry;
 
 import java.util.Objects;
 
-public class ConfigOptionsScreen extends Screen {
-    private final Screen parent;
+public class ConfigOptionsScreen extends GameOptionsScreen {
     public final String modID;
     private ConfigsListWidget configsList;
     public AbstractConfiguration<?> selectedConfiguration;
 
     public ConfigOptionsScreen(Screen parent, String modID) {
-        super(Text.translatable("configs." + modID + ".screen_title"));
-        this.parent = parent;
+        super(parent, null, Text.translatable("configs." + modID + ".screen_title"));
         this.modID = modID;
     }
 
     @Override
-    protected void init() {
-        this.configsList = new ConfigsListWidget(this, this.client);
-        this.addSelectableChild(this.configsList);
+    protected void initBody() {
+        this.configsList = this.layout.addBody(new ConfigsListWidget(this, this.client));
+    }
 
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), (button) -> {
+    @Override
+    protected void addOptions() {
+
+    }
+
+    @Override
+    protected void initFooter() {
+        ButtonWidget resetAllButton = ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), (button) -> {
             for(AbstractConfigurationEntry entry : configsList.children()) {
                 entry.reset();
             }
 
             this.configsList.update();
-        }).dimensions(this.width / 2 - 154, this.height - 28, 150, 20).build());
+        }).build();
 
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> Objects.requireNonNull(this.client).setScreen(this.parent)).dimensions(this.width / 2 + 4, this.height - 28, 150, 20).build());
+        DirectionalLayoutWidget directionalLayoutWidget = this.layout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
+        directionalLayoutWidget.add(resetAllButton);
+        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).build());
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.configsList.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 8, 0xffffff);
         super.render(context, mouseX, mouseY, delta);
     }
 

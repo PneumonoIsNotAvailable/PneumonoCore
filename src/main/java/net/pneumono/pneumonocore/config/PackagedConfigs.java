@@ -1,8 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 
 import java.util.*;
 
@@ -24,17 +23,16 @@ public class PackagedConfigs {
         this.configs = Set.copyOf(packagedConfigs);
     }
 
-    public PackagedConfigs(String json) {
+    public PackagedConfigs(NbtCompound compound) {
         Configs.LOGGER.info("Received config sync packet");
         this.configs = new HashSet<>();
 
-        JsonObject jsonObject = (JsonObject) JsonParser.parseString(json);
-        if (jsonObject != null) {
+        if (compound != null) {
             for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                    if (jsonObject.get(config.getName()) != null) {
+                    if (compound.get(config.getName()) != null) {
 
-                        JsonElement element = jsonObject.get(config.getName());
+                        NbtElement element = compound.get(config.getName());
                         configs.add(config.fromElement(element));
 
                     }
@@ -43,12 +41,12 @@ public class PackagedConfigs {
         }
     }
 
-    public String toJsonString() {
-        JsonObject jsonObject = new JsonObject();
+    public NbtCompound toNbt() {
+        NbtCompound compound = new NbtCompound();
         for (AbstractConfiguration<?> config : configs) {
-            jsonObject.addProperty(config.getName(), config.valueToJson(false));
+            compound.putString(config.getName(), config.valueToJson(false));
         }
-        return jsonObject.toString();
+        return compound;
     }
 
     public void updateServerConfigs() {

@@ -1,6 +1,9 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
+
+import java.util.Objects;
 
 public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     /**
@@ -22,13 +25,13 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     }
 
     @Override
-    public BooleanConfiguration fromElement(JsonElement element) {
-        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), valueFromElement(element));
+    public BooleanConfiguration fromElement(NbtElement element) {
+        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), Objects.equals(element.asString(), "true"));
     }
 
     @Override
-    public Boolean valueFromElement(JsonElement element) {
-        return element.getAsBoolean();
+    public BooleanConfiguration fromElement(JsonElement element) {
+        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), element.getAsBoolean());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.MathHelper;
 
 public class IntegerConfiguration extends AbstractConfiguration<Integer> {
@@ -33,13 +34,13 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     }
 
     @Override
-    public IntegerConfiguration fromElement(JsonElement element) {
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), valueFromElement(element));
+    public IntegerConfiguration fromElement(NbtElement element) {
+        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), Integer.parseInt(element.asString()));
     }
 
     @Override
-    public Integer valueFromElement(JsonElement element) {
-        return element.getAsInt();
+    protected IntegerConfiguration fromElement(JsonElement element) {
+        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), element.getAsInt());
     }
 
     public int getMinValue() {
