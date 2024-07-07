@@ -65,6 +65,10 @@ public abstract class AbstractConfiguration<T> {
         return "configs." + modID + "." + name;
     }
 
+    public String getTooltipTranslationKey() {
+        return "configs." + modID + "." + name + ".tooltip";
+    }
+
     public T getDefaultValue() {
         return defaultValue;
     }

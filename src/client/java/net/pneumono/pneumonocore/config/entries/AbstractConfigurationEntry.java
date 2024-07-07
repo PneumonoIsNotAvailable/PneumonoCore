@@ -29,7 +29,7 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
                 .texture(PneumonoCore.identifier( "icon/information"), 15, 15)
                 .width(20)
                 .build();
-        this.infoWidget.setTooltip(Tooltip.of(Text.translatable(configuration.getTranslationKey() + ".tooltip")));
+        this.infoWidget.setTooltip(Tooltip.of(Text.translatable(configuration.getTooltipTranslationKey())));
     }
 
     public abstract void update();
