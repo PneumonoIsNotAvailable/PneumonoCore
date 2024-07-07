@@ -6,7 +6,6 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config.AbstractConfiguration;
 import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
@@ -27,7 +26,7 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
         this.parent = parent;
         this.widget = widget;
         this.infoWidget = TextIconButtonWidget.builder(Text.translatable("pneumonocore.configs_screen.information"), button -> {}, true)
-                .texture(Identifier.of(PneumonoCore.MOD_ID, "icon/information"), 15, 15)
+                .texture(PneumonoCore.identifier( "icon/information"), 15, 15)
                 .width(20)
                 .build();
         this.infoWidget.setTooltip(Tooltip.of(Text.translatable(configuration.getTranslationKey() + ".tooltip")));

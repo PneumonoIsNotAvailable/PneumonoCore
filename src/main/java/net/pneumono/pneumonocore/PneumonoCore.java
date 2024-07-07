@@ -12,7 +12,7 @@ public class PneumonoCore implements ModInitializer {
 	public static final String MOD_ID = "pneumonocore";
 	public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCore");
 
-	public static final Identifier CONFIG_SYNC_ID = Identifier.of(MOD_ID, "config_sync");
+	public static final Identifier CONFIG_SYNC_ID = identifier("config_sync");
 
 	@Override
 	public void onInitialize() {
@@ -23,5 +23,9 @@ public class PneumonoCore implements ModInitializer {
 		PayloadTypeRegistry.playS2C().register(ConfigPayload.ID, ConfigPayload.CODEC);
 		ServerConfigCommandRegistry.registerServerConfigCommand();
 		ServerPlayConnectionEvents.JOIN.register(new PlayerJoinEvent());
+	}
+
+	public static Identifier identifier(String path) {
+		return Identifier.of(MOD_ID, path);
 	}
 }
