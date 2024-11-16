@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.pneumono.pneumonocore.datagen.enums.ConditionType;
 
+@SuppressWarnings("unused")
 public class OrConfigCondition extends AbstractConfigCondition {
     private final AbstractConfigCondition[] conditions;
 

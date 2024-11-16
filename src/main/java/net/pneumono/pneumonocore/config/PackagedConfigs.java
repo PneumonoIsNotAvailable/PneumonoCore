@@ -71,7 +71,7 @@ public class PackagedConfigs {
                 }
             }
 
-            Configs.LOGGER.warn("Received config " + packedConfig.modID + ":" + packedConfig.name + " which does not exist!");
+            Configs.LOGGER.warn("Received config {}:{} which does not exist!", packedConfig.modID, packedConfig.name);
         }
     }
 }

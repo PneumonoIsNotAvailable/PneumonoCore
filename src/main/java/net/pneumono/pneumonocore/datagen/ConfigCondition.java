@@ -7,6 +7,7 @@ import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.pneumonocore.datagen.enums.ConditionType;
 import net.pneumono.pneumonocore.datagen.enums.Operator;
 
+@SuppressWarnings("unused")
 public class ConfigCondition extends AbstractConfigCondition {
     private final Identifier configuration;
     private final Operator operator;

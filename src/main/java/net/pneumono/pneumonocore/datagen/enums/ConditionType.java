@@ -6,6 +6,7 @@ public enum ConditionType {
     NOT,
     CONFIG;
 
+    @SuppressWarnings("unused")
     public static ConditionType fromString(String string) {
         return switch (string.toUpperCase()) {
             case "AND" -> AND;

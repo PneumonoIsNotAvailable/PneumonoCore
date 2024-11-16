@@ -7,6 +7,7 @@ public enum Operator {
     LESS_OR_EQUAL,
     GREATER_OR_EQUAL;
 
+    @SuppressWarnings("unused")
     public static Operator fromString(String string) {
         return switch (string.toUpperCase()) {
             case "LESS" -> LESS;
