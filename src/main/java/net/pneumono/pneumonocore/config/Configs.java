@@ -25,7 +25,7 @@ public class Configs {
      */
     @SafeVarargs
     @SuppressWarnings("unused")
-    public static <T extends AbstractConfiguration<?>> void registerAll(String modID, T... configurations) {
+    public static <T extends AbstractConfiguration<?>> void register(String modID, T... configurations) {
         for (T configuration : configurations) {
             register(configuration);
         }
@@ -34,7 +34,7 @@ public class Configs {
 
     /**
      * Registers a new configuration. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
-     * {@link #reload(String)} must be called in your ModInitializer because this system for configs is just terrible and I can't think of a better solution right now.
+     * It is recommended to use {@link #register(String, AbstractConfiguration[])} rather than individually registering configurations. If it is not used, {@link #reload(String)} must be called in your ModInitializer after the configs are registered.
      *
      * @param configuration The configuration to be registered.
      * @return The registered configuration.
