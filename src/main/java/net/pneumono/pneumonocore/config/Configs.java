@@ -17,6 +17,22 @@ public class Configs {
     protected static Map<String, ModConfigurations> CONFIGS = new HashMap<>();
 
     /**
+     * Registers all your configurations at once via {@link #register(AbstractConfiguration)}, and calls {@link #reload(String)} after.<p>
+     * Do NOT call this method multiple times!!!
+     *
+     * @param modID The mod ID of the mod the configs are being registered for
+     * @param configurations The configurations to be registered
+     */
+    @SafeVarargs
+    @SuppressWarnings("unused")
+    public static <T extends AbstractConfiguration<?>> void registerAll(String modID, T... configurations) {
+        for (T configuration : configurations) {
+            register(configuration);
+        }
+        reload(modID);
+    }
+
+    /**
      * Registers a new configuration. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
      * {@link #reload(String)} must be called in your ModInitializer because this system for configs is just terrible and I can't think of a better solution right now.
      *
