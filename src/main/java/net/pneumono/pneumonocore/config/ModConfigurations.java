@@ -80,7 +80,7 @@ public class ModConfigurations {
             (new GsonBuilder().setPrettyPrinting().create()).toJson(getConfigsAsJSON(configs, useDefaultValues), writer);
             writer.close();
         } catch (IOException e) {
-            Configs.LOGGER.error("Could not write " + modID + " configuration file.", e);
+            Configs.LOGGER.error("Could not write {} configuration file.", modID, e);
         }
     }
 

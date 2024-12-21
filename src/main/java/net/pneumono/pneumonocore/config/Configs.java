@@ -41,7 +41,7 @@ public class Configs {
      */
     public static <T extends AbstractConfiguration<?>> T register(T configuration) {
         if (!isValid(configuration)) {
-            LOGGER.error("Configuration " + configuration.modID + ":" + configuration.name + " was not registered successfully!");
+            LOGGER.error("Configuration {}:{} was not registered successfully!", configuration.modID, configuration.name);
             return configuration;
         }
 
@@ -60,7 +60,7 @@ public class Configs {
                 modConfigs.configurations.add(configuration);
                 modConfigExists = true;
             } else {
-                LOGGER.error("Configuration " + configuration.modID + ":" + configuration.name + " is a duplicate, and so was not registered!");
+                LOGGER.error("Configuration {}:{} is a duplicate, and so was not registered!", configuration.modID, configuration.name);
             }
         }
 
@@ -135,7 +135,7 @@ public class Configs {
                 }
             }
         }
-        LOGGER.warn("Requested config " + modID + ":" + name + ", which does not exist!");
+        LOGGER.warn("Requested config {}:{}, which does not exist!", modID, name);
         return null;
     }
 }
