@@ -5,7 +5,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.config.ConfigCategory;
 import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config.ConfigsListWidget;
@@ -17,7 +16,7 @@ public class CategoryTitleEntry extends AbstractConfigListWidgetEntry {
     protected final ConfigOptionsScreen parent;
     protected final ConfigCategory category;
 
-    public CategoryTitleEntry(ConfigCategory category, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+    public CategoryTitleEntry(ConfigCategory category, ConfigOptionsScreen parent) {
         this.parent = parent;
         this.category = category;
     }

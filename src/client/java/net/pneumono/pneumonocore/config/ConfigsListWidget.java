@@ -3,7 +3,6 @@ package net.pneumono.pneumonocore.config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.PneumonoCoreClient;
 import net.pneumono.pneumonocore.config.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config.entries.AbstractConfigurationEntry;
@@ -27,7 +26,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         List<Identifier> usedIds = new ArrayList<>();
         if (categories.length > 0) {
             for (ConfigCategory category : categories) {
-                AbstractConfigListWidgetEntry entry = new CategoryTitleEntry(category, parent, this);
+                AbstractConfigListWidgetEntry entry = new CategoryTitleEntry(category, parent);
                 this.addEntry(entry);
 
                 for (AbstractConfiguration<?> configuration : configurations) {
@@ -40,7 +39,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
                     }
                 }
             }
-            this.addEntry(new CategoryTitleEntry(ConfigCategory.getEmpty(), parent, this));
+            this.addEntry(new CategoryTitleEntry(ConfigCategory.getEmpty(), parent));
         }
         for (AbstractConfiguration<?> configuration : configurations) {
             if (!usedIds.contains(configuration.getID())) {
