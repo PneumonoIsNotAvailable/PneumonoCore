@@ -16,6 +16,19 @@ public class Configs {
 
     protected static Map<String, ModConfigurations> CONFIGS = new HashMap<>();
 
+    private static final Map<String, ConfigCategory[]> CATEGORIES = new HashMap<>();
+
+    /**
+     * Registers config categories for a specific mod ID.
+     * Do NOT call this method multiple times!!!
+     *
+     * @param modID The mod ID of the mod the config categories are being registered for.
+     * @param categories The config categories to be registered.
+     */
+    public static void registerCategories(String modID, ConfigCategory... categories) {
+        CATEGORIES.put(modID, categories);
+    }
+
     /**
      * Registers all your configurations at once via {@link #register(AbstractConfiguration)}, and calls {@link #reload(String)} after.<p>
      * Do NOT call this method multiple times!!!
@@ -137,5 +150,15 @@ public class Configs {
         }
         LOGGER.warn("Requested config {}:{}, which does not exist!", modID, name);
         return null;
+    }
+
+    /**
+     * Returns a list of all config categories registered for that mod ID.
+     *
+     * @param modID The mod ID of the mod to get the config categories of.
+     * @return The config categories.
+     */
+    public static ConfigCategory[] getCategories(String modID) {
+        return CATEGORIES.get(modID);
     }
 }
