@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config.entries.AbstractConfigurationEntry;
 
 import java.util.Objects;
@@ -35,8 +36,10 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     @Override
     protected void initFooter() {
         ButtonWidget resetAllButton = ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), (button) -> {
-            for(AbstractConfigurationEntry entry : configsList.children()) {
-                entry.reset();
+            for(AbstractConfigListWidgetEntry entry : configsList.children()) {
+                if (entry instanceof AbstractConfigurationEntry configurationEntry) {
+                    configurationEntry.reset();
+                }
             }
 
             this.configsList.update();
@@ -45,6 +48,14 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
         DirectionalLayoutWidget directionalLayoutWidget = this.layout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
         directionalLayoutWidget.add(resetAllButton);
         directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).build());
+    }
+
+    @Override
+    protected void refreshWidgetPositions() {
+        this.layout.refreshPositions();
+        if (this.configsList != null) {
+            this.configsList.position(this.width, this.layout);
+        }
     }
 
     @Override

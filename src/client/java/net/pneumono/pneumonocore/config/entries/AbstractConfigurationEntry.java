@@ -13,7 +13,7 @@ import net.pneumono.pneumonocore.config.ConfigsListWidget;
 
 import java.util.Objects;
 
-public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry<AbstractConfigurationEntry> {
+public abstract class AbstractConfigurationEntry extends AbstractConfigListWidgetEntry {
     protected final AbstractConfiguration<?> configuration;
     protected final Text configName;
     protected final ConfigOptionsScreen parent;
@@ -32,14 +32,10 @@ public abstract class AbstractConfigurationEntry extends ElementListWidget.Entry
         this.infoWidget.setTooltip(Tooltip.of(Text.translatable(configuration.getTooltipTranslationKey())));
     }
 
-    public abstract void update();
-
-    public abstract void reset();
-
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
-        context.drawText(textRenderer, this.configName, x - 60, (y + entryHeight / 2) - 9 / 2, 16777215, false);
-        this.infoWidget.setX(x + 205);
+        context.drawText(textRenderer, this.configName, x + 104 - textRenderer.getWidth(this.configName), (y + entryHeight / 2) - 2, 16777215, true);
+        this.infoWidget.setX(x + 227);
         this.infoWidget.setY(y);
         this.infoWidget.render(context, mouseX, mouseY, delta);
     }

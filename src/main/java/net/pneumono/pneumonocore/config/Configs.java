@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.config;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.pneumono.pneumonocore.PneumonoCore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,7 +160,6 @@ public class Configs {
      * @param modID The mod ID of the mod to get the config categories of.
      * @return The config categories.
      */
-    @SuppressWarnings("unused")
     public static ConfigCategory[] getCategories(String modID) {
         return CATEGORIES.get(modID);
     }
