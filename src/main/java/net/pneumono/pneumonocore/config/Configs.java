@@ -25,6 +25,7 @@ public class Configs {
      * @param modID The mod ID of the mod the config categories are being registered for.
      * @param categories The config categories to be registered.
      */
+    @SuppressWarnings("unused")
     public static void registerCategories(String modID, ConfigCategory... categories) {
         CATEGORIES.put(modID, categories);
     }
@@ -158,6 +159,7 @@ public class Configs {
      * @param modID The mod ID of the mod to get the config categories of.
      * @return The config categories.
      */
+    @SuppressWarnings("unused")
     public static ConfigCategory[] getCategories(String modID) {
         return CATEGORIES.get(modID);
     }
