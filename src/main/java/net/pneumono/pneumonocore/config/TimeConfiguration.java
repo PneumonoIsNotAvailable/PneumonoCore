@@ -25,12 +25,26 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
 
     @Override
     protected TimeConfiguration fromElement(NbtElement element) {
-        return new TimeConfiguration(modID, name, environment, getDefaultValue(), Long.parseLong(element.asString()));
+        long l;
+        try {
+            l = Long.parseLong(element.asString());
+        } catch (NumberFormatException e) {
+            Configs.LOGGER.warn("Received server config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
+            l = getDefaultValue();
+        }
+        return new TimeConfiguration(modID, name, environment, getDefaultValue(), l);
     }
 
     @Override
     protected TimeConfiguration fromElement(JsonElement element) {
-        return new TimeConfiguration(modID, name, environment, getDefaultValue(), element.getAsLong());
+        long l;
+        try {
+            l = element.getAsLong();
+        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not a long! Using default value instead.", element, getID().toString());
+            l = getDefaultValue();
+        }
+        return new TimeConfiguration(modID, name, environment, getDefaultValue(), l);
     }
 
     @Override

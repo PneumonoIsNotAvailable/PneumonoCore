@@ -35,12 +35,26 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
 
     @Override
     public IntegerConfiguration fromElement(NbtElement element) {
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), Integer.parseInt(element.asString()));
+        int i;
+        try {
+            i = Integer.parseInt(element.asString());
+        } catch (NumberFormatException e) {
+            Configs.LOGGER.warn("Received config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
+            i = getDefaultValue();
+        }
+        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), i);
     }
 
     @Override
     protected IntegerConfiguration fromElement(JsonElement element) {
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), element.getAsInt());
+        int i;
+        try {
+            i = element.getAsInt();
+        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not an integer! Using default value instead.", element, getID().toString());
+            i = getDefaultValue();
+        }
+        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), i);
     }
 
     public int getMinValue() {

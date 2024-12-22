@@ -17,7 +17,6 @@ public class PneumonoCore implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initializing PneumonoCore");
-		Configs.reload(MOD_ID);
 
 		// Config
 		PayloadTypeRegistry.playS2C().register(ConfigPayload.ID, ConfigPayload.CODEC);

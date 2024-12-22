@@ -30,7 +30,14 @@ public class StringConfiguration extends AbstractConfiguration<String> {
 
     @Override
     protected StringConfiguration fromElement(JsonElement element) {
-        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.getAsString());
+        String s;
+        try {
+            s = element.getAsString();
+        } catch (UnsupportedOperationException | IllegalStateException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not a string! Using default value instead.", element, getID().toString());
+            s = getDefaultValue();
+        }
+        return new StringConfiguration(modID, name, environment, getDefaultValue(), s);
     }
 
     @Override

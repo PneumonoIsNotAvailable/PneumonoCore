@@ -29,12 +29,26 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
 
     @Override
     public EnumConfiguration<T> fromElement(NbtElement element) {
-        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), getEnumFromString(element.asString()));
+        T t;
+        try {
+            t = getEnumFromString(element.asString());
+        } catch (UnsupportedOperationException | IllegalStateException | EnumConstantNotPresentException e) {
+            Configs.LOGGER.warn("Received server config value {} for config {} that was not a suitable enum value! Using default value instead.", element, getID().toString());
+            t = getDefaultValue();
+        }
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), t);
     }
 
     @Override
     protected EnumConfiguration<T> fromElement(JsonElement element) {
-        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), getEnumFromString(element.getAsString()));
+        T t;
+        try {
+            t = getEnumFromString(element.getAsString());
+        } catch (UnsupportedOperationException | IllegalStateException | EnumConstantNotPresentException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not a suitable enum value! Using default value instead.", element, getID().toString());
+            t = getDefaultValue();
+        }
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), t);
     }
 
     private T getEnumFromString(String string) {
@@ -43,7 +57,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
                 return type;
             }
         }
-        return getDefaultValue();
+        throw new EnumConstantNotPresentException(enumClass, string);
     }
 
     @Override

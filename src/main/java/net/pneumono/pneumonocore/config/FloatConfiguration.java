@@ -26,12 +26,26 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
 
     @Override
     public FloatConfiguration fromElement(NbtElement element) {
-        return new FloatConfiguration(modID, name, environment, getDefaultValue(), Float.parseFloat(element.asString()));
+        float f;
+        try {
+            f = Float.parseFloat(element.asString());
+        } catch (NumberFormatException e) {
+            Configs.LOGGER.warn("Received server config value {} for config {} that was not a float! Using default value instead.", element, getID().toString());
+            f = getDefaultValue();
+        }
+        return new FloatConfiguration(modID, name, environment, getDefaultValue(), f);
     }
 
     @Override
     protected FloatConfiguration fromElement(JsonElement element) {
-        return new FloatConfiguration(modID, name, environment, getDefaultValue(), element.getAsFloat());
+        float f;
+        try {
+            f = element.getAsFloat();
+        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not a float! Using default value instead.", element, getID().toString());
+            f = getDefaultValue();
+        }
+        return new FloatConfiguration(modID, name, environment, getDefaultValue(), f);
     }
 
     @Override

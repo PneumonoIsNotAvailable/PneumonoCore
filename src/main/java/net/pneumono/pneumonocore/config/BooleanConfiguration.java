@@ -26,12 +26,36 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
 
     @Override
     public BooleanConfiguration fromElement(NbtElement element) {
-        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), Objects.equals(element.asString(), "true"));
+        boolean b;
+        String elementString = element.asString();
+        if (Objects.equals(elementString, "true")) {
+            b = true;
+        } else if (Objects.equals(elementString, "false")) {
+            b = false;
+        } else {
+            Configs.LOGGER.warn("Received server config value {} for config {} that was not a boolean! Using default value instead.", element, getID().toString());
+            b = getDefaultValue();
+        }
+        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), b);
     }
 
     @Override
     public BooleanConfiguration fromElement(JsonElement element) {
-        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), element.getAsBoolean());
+        boolean b;
+        try {
+            String elementString = element.getAsString();
+            if (Objects.equals(elementString, "true")) {
+                b = true;
+            } else if (Objects.equals(elementString, "false")) {
+                b = false;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } catch (UnsupportedOperationException | IllegalStateException | IllegalArgumentException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not a boolean! Using default value instead.", element, getID().toString());
+            b = getDefaultValue();
+        }
+        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), b);
     }
 
     @Override
