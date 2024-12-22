@@ -33,8 +33,8 @@ public class Configs {
      * Registers all your configurations at once via {@link #register(AbstractConfiguration)}, and calls {@link #reload(String)} after.<p>
      * Do NOT call this method multiple times!!!
      *
-     * @param modID The mod ID of the mod the configs are being registered for
-     * @param configurations The configurations to be registered
+     * @param modID The mod ID of the mod the configs are being registered for.
+     * @param configurations The configurations to be registered.
      */
     @SafeVarargs
     @SuppressWarnings("unused")
@@ -136,7 +136,7 @@ public class Configs {
     }
 
     /**
-     * Returns the condition with that name under that mod ID, or null if such a condition does not exist.
+     * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
      */
     @SuppressWarnings("unused")
     public static AbstractConfiguration<?> getConfig(String modID, String name) {
