@@ -5,6 +5,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config.Configs;
 
+@SuppressWarnings("unused")
 public class PneumonoCoreModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
