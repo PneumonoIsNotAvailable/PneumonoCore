@@ -14,5 +14,6 @@
     "configs_screen.pneumonocore.seconds.full": "Seconds",
     "configs_screen.pneumonocore.minutes.full": "Minutes",
     "configs_screen.pneumonocore.hours.full": "Hours",
-    "configs_screen.pneumonocore.days.full": "Days"
+    "configs_screen.pneumonocore.days.full": "Days",
+    "configs.category.pneumonocore.empty": "Uncategorized"
 }
