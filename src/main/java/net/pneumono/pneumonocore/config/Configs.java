@@ -160,6 +160,7 @@ public class Configs {
      * @return The config categories.
      */
     public static ConfigCategory[] getCategories(String modID) {
-        return CATEGORIES.get(modID);
+        ConfigCategory[] categories = CATEGORIES.get(modID);
+        return categories != null ? categories : new ConfigCategory[0];
     }
 }
