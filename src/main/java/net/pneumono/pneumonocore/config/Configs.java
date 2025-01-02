@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.config;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,6 +134,13 @@ public class Configs {
             return !modConfigs.configurations.isEmpty();
         }
         return false;
+    }
+
+    /**
+     * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
+     */
+    public static AbstractConfiguration<?> getConfig(Identifier id) {
+        return getConfig(id.getNamespace(), id.getPath());
     }
 
     /**
