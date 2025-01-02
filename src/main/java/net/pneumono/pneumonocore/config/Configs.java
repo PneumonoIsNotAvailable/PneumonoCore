@@ -127,7 +127,6 @@ public class Configs {
     /**
      * Returns {@code true} if at least one configuration has been registered for that mod ID, and {@code false} if not.
      */
-    @SuppressWarnings("unused")
     public static boolean hasConfigs(String modID) {
         ModConfigurations modConfigs = CONFIGS.get(modID);
         if (modConfigs != null) {
@@ -139,7 +138,6 @@ public class Configs {
     /**
      * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
      */
-    @SuppressWarnings("unused")
     public static AbstractConfiguration<?> getConfig(String modID, String name) {
         ModConfigurations modConfigs = CONFIGS.get(modID);
         if (modConfigs != null) {
