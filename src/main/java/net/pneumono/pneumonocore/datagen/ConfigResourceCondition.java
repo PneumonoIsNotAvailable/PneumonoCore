@@ -21,6 +21,10 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
             Codec.STRING.fieldOf("value").forGetter(ConfigResourceCondition::value)
     ).apply(instance, ConfigResourceCondition::new));
 
+    public ConfigResourceCondition(AbstractConfiguration<?> configuration, Operator operator, String value) {
+        this(configuration.getID(), operator, value);
+    }
+
     @Override
     public ResourceConditionType<?> getType() {
         return PneumonoCore.RESOURCE_CONDITION_CONFIGURATIONS;
