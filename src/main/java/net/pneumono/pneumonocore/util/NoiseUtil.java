@@ -70,43 +70,43 @@ public class NoiseUtil {
     }
 
     public static double noise3D(double x, double y, double z, int[] permutation) {
-        int X = (int)Math.floor(x) & 255;
-        int Y = (int)Math.floor(y) & 255;
-        int Z = (int)Math.floor(z) & 255;
-        x -= Math.floor(x);
-        y -= Math.floor(y);
-        z -= Math.floor(z);
-        double u = fade(x);
-        double v = fade(y);
-        double w = fade(z);
-        int A = permutation[X  ]+Y, AA = permutation[A]+Z, AB = permutation[A+1]+Z;
-        int B = permutation[X+1]+Y, BA = permutation[B]+Z, BB = permutation[B+1]+Z;
+        int noiseUnitX = (int)Math.floor(x) & 255;
+        int noiseUnitY = (int)Math.floor(y) & 255;
+        int noiseUnitZ = (int)Math.floor(z) & 255;
+        double xWithinUnit = x - Math.floor(x);
+        double yWithinUnit = y - Math.floor(y);
+        double zWithinUnit = z - Math.floor(z);
+        double u = fade(xWithinUnit);
+        double v = fade(yWithinUnit);
+        double w = fade(zWithinUnit);
+        int A = permutation[noiseUnitX  ]+noiseUnitY, AA = permutation[A]+noiseUnitZ, AB = permutation[A+1]+noiseUnitZ;
+        int B = permutation[noiseUnitX+1]+noiseUnitY, BA = permutation[B]+noiseUnitZ, BB = permutation[B+1]+noiseUnitZ;
 
         return lerp(w,
                 lerp(
                         v,
                         lerp(
                                 u,
-                                grad3D(permutation[AA], x, y, z),
-                                grad3D(permutation[BA], x-1, y, z)
+                                grad3D(permutation[AA], xWithinUnit, yWithinUnit, zWithinUnit),
+                                grad3D(permutation[BA], xWithinUnit-1, yWithinUnit, zWithinUnit)
                         ),
                         lerp(
                                 u,
-                                grad3D(permutation[AB], x, y-1, z),
-                                grad3D(permutation[BB], x-1, y-1, z)
+                                grad3D(permutation[AB], xWithinUnit, yWithinUnit-1, zWithinUnit),
+                                grad3D(permutation[BB], xWithinUnit-1, yWithinUnit-1, zWithinUnit)
                         )
                 ),
                 lerp(
                         v,
                         lerp(
                                 u,
-                                grad3D(permutation[AA], x, y, z-1),
-                                grad3D(permutation[BA], x-1, y, z-1)
+                                grad3D(permutation[AA+1], xWithinUnit, yWithinUnit, zWithinUnit-1),
+                                grad3D(permutation[BA+1], xWithinUnit-1, yWithinUnit, zWithinUnit-1)
                         ),
                         lerp(
                                 u,
-                                grad3D(permutation[AB], x, y-1, z-1),
-                                grad3D(permutation[BB], x-1, y-1, z-1)
+                                grad3D(permutation[AB+1], xWithinUnit, yWithinUnit-1, zWithinUnit-1),
+                                grad3D(permutation[BB+1], xWithinUnit-1, yWithinUnit-1, zWithinUnit-1)
                         )
                 )
         );
