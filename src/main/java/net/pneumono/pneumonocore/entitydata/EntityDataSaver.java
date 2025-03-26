@@ -4,7 +4,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Uuids;
 
-import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
