@@ -27,7 +27,7 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     @Override
     public BooleanConfiguration fromElement(NbtElement element) {
         boolean b;
-        String elementString = element.asString();
+        String elementString = element.asString().orElse(null);
         if (Objects.equals(elementString, "true")) {
             b = true;
         } else if (Objects.equals(elementString, "false")) {

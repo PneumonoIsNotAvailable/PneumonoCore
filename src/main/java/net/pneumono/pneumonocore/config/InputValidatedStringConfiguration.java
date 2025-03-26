@@ -31,7 +31,7 @@ public class InputValidatedStringConfiguration extends AbstractConfiguration<Str
 
     @Override
     public InputValidatedStringConfiguration fromElement(NbtElement element) {
-        return new InputValidatedStringConfiguration(modID, name, environment, check, getDefaultValue(), element.asString());
+        return new InputValidatedStringConfiguration(modID, name, environment, check, getDefaultValue(), element.asString().orElse(getDefaultValue()));
     }
 
     @Override

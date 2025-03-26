@@ -25,7 +25,7 @@ public class StringConfiguration extends AbstractConfiguration<String> {
 
     @Override
     public StringConfiguration fromElement(NbtElement element) {
-        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.asString());
+        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.asString().orElse(getDefaultValue()));
     }
 
     @Override

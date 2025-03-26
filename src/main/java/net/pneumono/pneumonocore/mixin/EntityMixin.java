@@ -32,8 +32,6 @@ public abstract class EntityMixin implements EntityDataSaver {
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     protected void injectReadMethod(NbtCompound nbt, CallbackInfo info) {
-        if (nbt.contains("pneumonocore.mod_data", 10)) {
-            persistentData = nbt.getCompound("pneumonocore.mod_data");
-        }
+        persistentData = nbt.getCompoundOrEmpty("pneumonocore.mod_data");
     }
 }

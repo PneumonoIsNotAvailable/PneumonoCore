@@ -31,7 +31,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     public EnumConfiguration<T> fromElement(NbtElement element) {
         T t;
         try {
-            t = getEnumFromString(element.asString());
+            t = getEnumFromString(element.asString().orElse(null));
         } catch (UnsupportedOperationException | IllegalStateException | EnumConstantNotPresentException e) {
             Configs.LOGGER.warn("Received server config value {} for config {} that was not a suitable enum value! Using default value instead.", element, getID().toString());
             t = getDefaultValue();

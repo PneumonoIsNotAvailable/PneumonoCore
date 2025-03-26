@@ -27,7 +27,7 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
     protected TimeConfiguration fromElement(NbtElement element) {
         long l;
         try {
-            l = Long.parseLong(element.asString());
+            l = Long.parseLong(element.asString().orElse(""));
         } catch (NumberFormatException e) {
             Configs.LOGGER.warn("Received server config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
             l = getDefaultValue();

@@ -37,7 +37,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     public IntegerConfiguration fromElement(NbtElement element) {
         int i;
         try {
-            i = Integer.parseInt(element.asString());
+            i = Integer.parseInt(element.asString().orElse(""));
         } catch (NumberFormatException e) {
             Configs.LOGGER.warn("Received config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
             i = getDefaultValue();

@@ -2,6 +2,7 @@ package net.pneumono.pneumonocore.entitydata;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.util.Uuids;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +32,7 @@ public interface EntityDataSaver {
     }
 
     default void putModdedUuid(String key, UUID value) {
-        getModdedData().putUuid(key, value);
+        getModdedData().put(key, Uuids.INT_STREAM_CODEC, value);
     }
 
     default void putModdedByte(String key, byte value) {
@@ -39,10 +40,6 @@ public interface EntityDataSaver {
     }
 
     default void putModdedByteArray(String key, byte[] value) {
-        getModdedData().putByteArray(key, value);
-    }
-
-    default void putModdedByteArray(String key, List<Byte> value) {
         getModdedData().putByteArray(key, value);
     }
 
@@ -58,15 +55,7 @@ public interface EntityDataSaver {
         getModdedData().putIntArray(key, value);
     }
 
-    default void putModdedIntArray(String key, List<Integer> value) {
-        getModdedData().putIntArray(key, value);
-    }
-
     default void putModdedLongArray(String key, long[] value) {
-        getModdedData().putLongArray(key, value);
-    }
-
-    default void putModdedLongArray(String key, List<Long> value) {
         getModdedData().putLongArray(key, value);
     }
 
