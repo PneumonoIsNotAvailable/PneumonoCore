@@ -1,5 +1,5 @@
 {
-    "configs_screen.pneumonocore.title": "PneumonoCore Configs",
+    "configs.pneumonocore.screen_title": "PneumonoCore Configs",
     "configs_screen.pneumonocore.reset_all": "Reset All Configs",
     "configs_screen.pneumonocore.information": "Information",
     "configs_screen.pneumonocore.entry_type_error": "Unsupported!",
