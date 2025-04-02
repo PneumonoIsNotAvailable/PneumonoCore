@@ -3,6 +3,7 @@
     "configs_screen.pneumonocore.reset_all": "Reset All Configs",
     "configs_screen.pneumonocore.information": "Information",
     "configs_screen.pneumonocore.entry_type_error": "Unsupported!",
+    "configs_screen.pneumonocore.no_configs": "This mod has no configs!",
     "configs_screen.pneumonocore.boolean_enabled": "ON",
     "configs_screen.pneumonocore.boolean_disabled": "OFF",
     "configs_screen.pneumonocore.ticks": "T",

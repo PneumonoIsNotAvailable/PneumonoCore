@@ -4,10 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCoreClient;
-import net.pneumono.pneumonocore.config.entries.AbstractConfigListWidgetEntry;
-import net.pneumono.pneumonocore.config.entries.AbstractConfigurationEntry;
-import net.pneumono.pneumonocore.config.entries.CategoryTitleEntry;
-import net.pneumono.pneumonocore.config.entries.ErroneousConfigurationEntry;
+import net.pneumono.pneumonocore.config.entries.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +20,11 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         ModConfigurations modConfigurations = Configs.CONFIGS.get(this.parent.modID);
         this.configurations = modConfigurations != null ? modConfigurations.configurations : List.of();
         this.categories = Configs.getCategories(this.parent.modID);
+
+        if (configurations.isEmpty()) {
+            addEntry(new NoConfigsEntry(this.parent));
+            return;
+        }
 
         List<Identifier> usedIds = new ArrayList<>();
         if (categories.length > 0) {
