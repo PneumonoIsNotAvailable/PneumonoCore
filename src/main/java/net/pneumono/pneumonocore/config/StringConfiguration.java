@@ -2,6 +2,7 @@ package net.pneumono.pneumonocore.config;
 
 import com.google.gson.JsonElement;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtString;
 
 @SuppressWarnings("unused")
 public class StringConfiguration extends AbstractConfiguration<String> {
@@ -25,7 +26,7 @@ public class StringConfiguration extends AbstractConfiguration<String> {
 
     @Override
     public StringConfiguration fromElement(NbtElement element) {
-        return new StringConfiguration(modID, name, environment, getDefaultValue(), element.asString().orElse(getDefaultValue()));
+        return new StringConfiguration(modID, name, environment, getDefaultValue(), element instanceof NbtString nbtString ? nbtString.asString() : getDefaultValue());
     }
 
     @Override

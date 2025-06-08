@@ -28,7 +28,7 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
     public FloatConfiguration fromElement(NbtElement element) {
         float f;
         try {
-            f = Float.parseFloat(element.asString().orElse(""));
+            f = Float.parseFloat(element.asString());
         } catch (NumberFormatException e) {
             Configs.LOGGER.warn("Received server config value {} for config {} that was not a float! Using default value instead.", element, getID().toString());
             f = getDefaultValue();

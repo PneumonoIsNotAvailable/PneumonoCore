@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
-import net.minecraft.registry.RegistryOps;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.PneumonoCore;
@@ -31,7 +31,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     }
 
     @Override
-    public boolean test(@Nullable RegistryOps.RegistryInfoGetter registryInfo) {
+    public boolean test(@Nullable RegistryWrapper.WrapperLookup wrapperLookup) {
         AbstractConfiguration<?> config = Configs.getConfig(configuration);
         if (config == null) {
             return false;

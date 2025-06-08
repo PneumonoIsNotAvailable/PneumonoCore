@@ -51,7 +51,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     @Override
-    protected void refreshWidgetPositions() {
+    protected void initTabNavigation() {
         this.layout.refreshPositions();
         if (this.configsList != null) {
             this.configsList.position(this.width, this.layout);
