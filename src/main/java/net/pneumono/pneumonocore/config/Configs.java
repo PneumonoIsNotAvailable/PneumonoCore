@@ -1,9 +1,12 @@
 package net.pneumono.pneumonocore.config;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.PneumonoCore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,8 +110,10 @@ public class Configs {
      */
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
         NbtCompound compound = new PackagedConfigs().toNbt();
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeNbt(compound);
         for (ServerPlayerEntity player : players) {
-            ServerPlayNetworking.send(player, new ConfigPayload(compound));
+            ServerPlayNetworking.send(player, PneumonoCore.CONFIG_SYNC_ID, buf);
         }
     }
 

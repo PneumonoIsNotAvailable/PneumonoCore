@@ -5,7 +5,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config.entries.AbstractConfigListWidgetEntry;
@@ -24,16 +23,16 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     @Override
+    protected void init() {
+        super.init();
+        initBody();
+        initFooter();
+    }
+
     protected void initBody() {
-        this.configsList = this.layout.addBody(new ConfigsListWidget(this, this.client));
+        this.configsList = this.addSelectableChild(new ConfigsListWidget(this, this.client));
     }
 
-    @Override
-    protected void addOptions() {
-
-    }
-
-    @Override
     protected void initFooter() {
         ButtonWidget resetAllButton = ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), (button) -> {
             for(AbstractConfigListWidgetEntry entry : configsList.children()) {
@@ -45,17 +44,8 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
             this.configsList.update();
         }).build();
 
-        DirectionalLayoutWidget directionalLayoutWidget = this.layout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
-        directionalLayoutWidget.add(resetAllButton);
-        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).build());
-    }
-
-    @Override
-    protected void initTabNavigation() {
-        this.layout.refreshPositions();
-        if (this.configsList != null) {
-            this.configsList.position(this.width, this.layout);
-        }
+        this.addSelectableChild(resetAllButton);
+        this.addSelectableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).build());
     }
 
     @Override
