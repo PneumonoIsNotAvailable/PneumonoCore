@@ -5,7 +5,7 @@ import net.minecraft.nbt.NbtElement;
 
 public class TimeConfiguration extends AbstractConfiguration<Long> {
     /**
-     * Creates a new time configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new time configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Time configurations are used for configuring amounts of time, e.g. the time taken for an item to be used.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
      *

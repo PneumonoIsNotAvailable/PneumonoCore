@@ -16,7 +16,7 @@ public abstract class AbstractConfiguration<T> {
     private T importedValue;
 
     /**
-     * Creates a new configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
      *
      * @param modID The mod ID of the mod registering the configuration.
@@ -82,7 +82,7 @@ public abstract class AbstractConfiguration<T> {
      * Returns the configuration value (from the client or server, depending on whether the configuration is client or server-side).<p>
      *
      * Will return the client-side value if it does not have the server-side value.<p>
-     * Will return its default value if the configuration has not been properly registered with {@link Configs#register(AbstractConfiguration)}.
+     * Will return its default value if the configuration has not been properly registered with {@link Configs#register(String, AbstractConfiguration[])}.
      *
      * @return The configuration value.
      */

@@ -9,7 +9,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     private final int maxValue;
 
     /**
-     * Creates a new integer configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new integer configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
      * Integer configurations have set minimum and maximum values. Any values read from files or set as default values that fall outside this range will be set to the nearest valid value.
      *

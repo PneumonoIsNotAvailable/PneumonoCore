@@ -7,7 +7,7 @@ import net.minecraft.nbt.NbtString;
 @SuppressWarnings("unused")
 public class StringConfiguration extends AbstractConfiguration<String> {
     /**
-     * Creates a new string configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new string configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
      *
      * @param modID The mod ID of the mod registering the configuration.

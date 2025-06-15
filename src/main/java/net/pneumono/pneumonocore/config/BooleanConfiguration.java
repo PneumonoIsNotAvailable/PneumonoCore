@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     /**
-     * Creates a new boolean configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new boolean configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
      *
      * @param modID The mod ID of the mod registering the configuration.

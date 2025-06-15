@@ -6,7 +6,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class FloatConfiguration extends AbstractConfiguration<Float> {
     /**
-     * Creates a new float configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new float configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
      * Float configurations have a minimum value of 0 and a maximum value of 1. Any values read from files or set as default values that fall outside this range will be set to the nearest valid value (0 or 1)
      *
