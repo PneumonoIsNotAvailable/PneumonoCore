@@ -32,7 +32,7 @@ public class Configs {
     }
 
     /**
-     * Registers all your configurations at once via {@link #register(AbstractConfiguration)}, and calls {@link #reload(String)} after.<p>
+     * Registers a mod's configurations. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
      * Do NOT call this method multiple times!!!
      *
      * @param modID The mod ID of the mod the configs are being registered for.
@@ -47,17 +47,10 @@ public class Configs {
         reload(modID);
     }
 
-    /**
-     * Registers a new configuration. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
-     * It is recommended to use {@link #register(String, AbstractConfiguration[])} rather than individually registering configurations. If it is not used, {@link #reload(String)} must be called in your ModInitializer after the configs are registered.
-     *
-     * @param configuration The configuration to be registered.
-     * @return The registered configuration.
-     */
-    public static <T extends AbstractConfiguration<?>> T register(T configuration) {
+    private static <T extends AbstractConfiguration<?>> void register(T configuration) {
         if (!isValid(configuration)) {
             LOGGER.error("Configuration {}:{} was not registered successfully!", configuration.modID, configuration.name);
-            return configuration;
+            return;
         }
 
         boolean modConfigExists = false;
@@ -84,7 +77,6 @@ public class Configs {
         }
 
         configuration.registered = true;
-        return configuration;
     }
 
     /**

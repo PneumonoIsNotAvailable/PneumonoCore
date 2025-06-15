@@ -8,7 +8,7 @@ public class InputValidatedStringConfiguration extends AbstractConfiguration<Str
     private final InputValidator check;
 
     /**
-     * Creates a new input validated string configuration. Register using {@link Configs#register(AbstractConfiguration)}.<p>
+     * Creates a new input validated string configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
      * Input-validated string configurations have a check to make sure the value inputted is acceptable, and if it is not it will use the default value. If configured using the config screen, an error is shown to the user.
      *
