@@ -17,7 +17,7 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry {
 
     public StringConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         super(configuration, parent, widget);
-        this.value = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : (configuration instanceof InputValidatedStringConfiguration stringConfiguration ? stringConfiguration.getValue() : "");
+        this.value = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : "";
         this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 110, 20, null, Text.translatable(configuration.getTranslationKey()));
         this.textWidget.setText(value);
         this.textWidget.setChangedListener((text) -> {
@@ -28,7 +28,7 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry {
 
     @Override
     public void update() {
-        String newValue = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : (configuration instanceof InputValidatedStringConfiguration stringConfiguration ? stringConfiguration.getValue() : "");
+        String newValue = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : "";
         this.value = newValue;
         this.textWidget.setText(newValue);
     }
