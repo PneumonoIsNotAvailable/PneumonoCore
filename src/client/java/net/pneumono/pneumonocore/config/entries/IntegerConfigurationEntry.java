@@ -14,23 +14,16 @@ import net.pneumono.pneumonocore.config.IntegerConfiguration;
 
 import java.util.List;
 
-public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
+public class IntegerConfigurationEntry extends AbstractConfigurationEntry<IntegerConfiguration> {
     private final ConfigSliderWidget sliderWidget;
     private int value;
 
-    public IntegerConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
-        int maxValue;
-        int minValue;
-        if (configuration instanceof IntegerConfiguration integerConfiguration) {
-            this.value = integerConfiguration.getValue();
-            minValue = integerConfiguration.getMinValue();
-            maxValue = integerConfiguration.getMaxValue();
-        } else {
-            this.value = 0;
-            minValue = 0;
-            maxValue = 10;
-        }
+    public IntegerConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super((IntegerConfiguration) abstractConfiguration, parent, widget);
+        this.value = configuration.getValue();
+        int minValue = configuration.getMinValue();
+        int maxValue = configuration.getMaxValue();
+
         this.sliderWidget = new ConfigSliderWidget((slider, configValue) -> {
             this.parent.selectedConfiguration = configuration;
             ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configValue);
@@ -42,7 +35,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
 
     @Override
     public void update() {
-        int newValue = configuration instanceof IntegerConfiguration integerConfiguration ? integerConfiguration.getValue() : 0;
+        int newValue = configuration.getValue();
         this.value = newValue;
         this.sliderWidget.setValue(newValue);
     }

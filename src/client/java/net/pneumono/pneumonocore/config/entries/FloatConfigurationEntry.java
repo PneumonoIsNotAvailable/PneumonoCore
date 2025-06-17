@@ -13,13 +13,13 @@ import net.pneumono.pneumonocore.config.FloatConfiguration;
 
 import java.util.List;
 
-public class FloatConfigurationEntry extends AbstractConfigurationEntry {
+public class FloatConfigurationEntry extends AbstractConfigurationEntry<FloatConfiguration> {
     private final ConfigSliderWidget sliderWidget;
     private float value;
 
-    public FloatConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
-        this.value = configuration instanceof FloatConfiguration floatConfiguration ? floatConfiguration.getValue() : 0;
+    public FloatConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super((FloatConfiguration) abstractConfiguration, parent, widget);
+        this.value = configuration.getValue();
         this.sliderWidget = new ConfigSliderWidget((slider, configValue) -> {
             this.parent.selectedConfiguration = configuration;
             ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configValue);
@@ -31,7 +31,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry {
 
     @Override
     public void update() {
-        float newValue = configuration instanceof FloatConfiguration floatConfiguration ? floatConfiguration.getValue() : 0;
+        float newValue = configuration.getValue();
         this.value = newValue;
         this.sliderWidget.setValue(newValue);
     }

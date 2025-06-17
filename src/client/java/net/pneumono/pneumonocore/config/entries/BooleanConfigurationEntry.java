@@ -14,13 +14,13 @@ import net.pneumono.pneumonocore.config.ConfigsListWidget;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BooleanConfigurationEntry extends AbstractConfigurationEntry {
+public class BooleanConfigurationEntry extends AbstractConfigurationEntry<BooleanConfiguration> {
     private final ButtonWidget toggleWidget;
     private boolean value;
 
-    public BooleanConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
-        Supplier<Boolean> configValueSupplier = () -> configuration instanceof BooleanConfiguration booleanConfiguration && booleanConfiguration.getValue();
+    public BooleanConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super((BooleanConfiguration) abstractConfiguration, parent, widget);
+        Supplier<Boolean> configValueSupplier = configuration::getValue;
         this.value = configValueSupplier.get();
         this.toggleWidget = ButtonWidget.builder(configName, (button) -> {
             this.parent.selectedConfiguration = configuration;
@@ -31,7 +31,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry {
     }
 
     public void update() {
-        this.value = configuration instanceof BooleanConfiguration booleanConfiguration && booleanConfiguration.getValue();
+        this.value = configuration.getValue();
         this.toggleWidget.setMessage(Text.translatable(value ? "configs_screen.pneumonocore.boolean_enabled" : "configs_screen.pneumonocore.boolean_disabled"));
     }
 

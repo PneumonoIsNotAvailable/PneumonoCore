@@ -26,6 +26,5 @@ public class PneumonoCoreClient implements ClientModInitializer {
 		CONFIG_SCREEN_ENTRY_TYPES.put("FloatConfiguration", FloatConfigurationEntry::new);
 		CONFIG_SCREEN_ENTRY_TYPES.put("StringConfiguration", StringConfigurationEntry::new);
 		CONFIG_SCREEN_ENTRY_TYPES.put("TimeConfiguration", TimeConfigurationEntry::new);
-		CONFIG_SCREEN_ENTRY_TYPES.put("InputValidatedStringConfiguration", StringConfigurationEntry::new);
 	}
 }

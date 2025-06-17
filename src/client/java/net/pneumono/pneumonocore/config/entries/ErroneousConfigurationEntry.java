@@ -14,7 +14,7 @@ import net.pneumono.pneumonocore.config.ConfigsListWidget;
 import java.util.List;
 import java.util.Objects;
 
-public class ErroneousConfigurationEntry extends AbstractConfigurationEntry {
+public class ErroneousConfigurationEntry extends AbstractConfigurationEntry<AbstractConfiguration<?>> {
     public ErroneousConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         super(configuration, parent, widget);
     }

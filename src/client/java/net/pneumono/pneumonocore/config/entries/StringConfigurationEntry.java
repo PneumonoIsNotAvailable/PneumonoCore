@@ -11,13 +11,13 @@ import net.pneumono.pneumonocore.config.*;
 import java.util.List;
 import java.util.Objects;
 
-public class StringConfigurationEntry extends AbstractConfigurationEntry {
+public class StringConfigurationEntry extends AbstractConfigurationEntry<StringConfiguration> {
     private final TextFieldWidget textWidget;
     private String value;
 
-    public StringConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
-        this.value = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : "";
+    public StringConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super((StringConfiguration) abstractConfiguration, parent, widget);
+        this.value = configuration.getValue();
         this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 110, 20, null, Text.translatable(configuration.getTranslationKey()));
         this.textWidget.setText(value);
         this.textWidget.setChangedListener((text) -> {
@@ -28,7 +28,7 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry {
 
     @Override
     public void update() {
-        String newValue = configuration instanceof StringConfiguration stringConfiguration ? stringConfiguration.getValue() : "";
+        String newValue = configuration.getValue();
         this.value = newValue;
         this.textWidget.setText(newValue);
     }

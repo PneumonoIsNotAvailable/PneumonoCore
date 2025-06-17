@@ -13,14 +13,14 @@ import net.pneumono.pneumonocore.config.ConfigsListWidget;
 
 import java.util.Objects;
 
-public abstract class AbstractConfigurationEntry extends AbstractConfigListWidgetEntry {
-    protected final AbstractConfiguration<?> configuration;
+public abstract class AbstractConfigurationEntry<T extends AbstractConfiguration<?>> extends AbstractConfigListWidgetEntry {
+    protected final T configuration;
     protected final Text configName;
     protected final ConfigOptionsScreen parent;
     protected final ConfigsListWidget widget;
     protected final TextIconButtonWidget infoWidget;
 
-    public AbstractConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+    public AbstractConfigurationEntry(T configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         this.configuration = configuration;
         this.configName = Text.translatable(configuration.getTranslationKey());
         this.parent = parent;

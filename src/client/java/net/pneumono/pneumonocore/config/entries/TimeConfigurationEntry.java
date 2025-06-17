@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class TimeConfigurationEntry extends AbstractConfigurationEntry {
+public class TimeConfigurationEntry extends AbstractConfigurationEntry<TimeConfiguration> {
     private final TextFieldWidget textWidget;
     private long amount;
     private final ButtonWidget cycleWidget;
     private TimeUnit units;
 
-    public TimeConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
-        Supplier<TimeConfiguration> configValueSupplier = () -> configuration instanceof TimeConfiguration timeConfiguration ? timeConfiguration : null;
+    public TimeConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super((TimeConfiguration) abstractConfiguration, parent, widget);
+        Supplier<Long> configValueSupplier = configuration::getValue;
 
-        this.amount = getAmount(configValueSupplier.get().getValue());
+        this.amount = getAmount(configValueSupplier.get());
         this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 85, 20, null, Text.translatable(configuration.getTranslationKey()));
         this.textWidget.setText(String.valueOf(amount));
         this.textWidget.setChangedListener((text) -> {
@@ -38,7 +38,7 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry {
             }
         });
 
-        this.units = TimeUnit.fromValue(configValueSupplier.get().getValue());
+        this.units = TimeUnit.fromValue(configValueSupplier.get());
         Supplier<Long> amountSupplier = () -> this.amount;
         this.cycleWidget = ButtonWidget.builder(configName, (button) -> {
             this.parent.selectedConfiguration = configuration;
@@ -84,12 +84,10 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry {
 
     @Override
     public void reset() {
-        if (configuration instanceof TimeConfiguration timeConfiguration) {
-            this.amount = getAmount(timeConfiguration.getDefaultValue());
-            this.textWidget.setText(String.valueOf(amount));
-            this.units = TimeUnit.fromValue(timeConfiguration.getDefaultValue());
-            ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
-        }
+        this.amount = getAmount(configuration.getDefaultValue());
+        this.textWidget.setText(String.valueOf(amount));
+        this.units = TimeUnit.fromValue(configuration.getDefaultValue());
+        ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
         this.update();
     }
 

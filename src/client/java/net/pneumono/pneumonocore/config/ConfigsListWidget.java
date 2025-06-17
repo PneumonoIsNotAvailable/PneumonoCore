@@ -69,6 +69,6 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     }
 
     public interface EntryBuilder {
-        AbstractConfigurationEntry build(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget);
+        AbstractConfigurationEntry<?> build(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget);
     }
 }

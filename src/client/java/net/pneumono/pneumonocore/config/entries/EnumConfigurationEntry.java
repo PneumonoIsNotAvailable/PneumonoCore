@@ -11,14 +11,14 @@ import net.pneumono.pneumonocore.config.*;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigurationEntry {
+public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigurationEntry<EnumConfiguration<T>> {
     private final ButtonWidget cycleWidget;
     private T value;
 
     @SuppressWarnings("unchecked")
-    public EnumConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
-        Supplier<T> configValueSupplier = () -> configuration instanceof EnumConfiguration<?> enumConfiguration ? (T)enumConfiguration.getValue() : null;
+    public EnumConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
+        super((EnumConfiguration<T>) abstractConfiguration, parent, widget);
+        Supplier<T> configValueSupplier = configuration::getValue;
         this.value = configValueSupplier.get();
         this.cycleWidget = ButtonWidget.builder(configName, (button) -> {
             this.parent.selectedConfiguration = configuration;
@@ -39,9 +39,8 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
         return value;
     }
 
-    @SuppressWarnings("unchecked")
     public void update() {
-        this.value = configuration instanceof EnumConfiguration<?> enumConfiguration ? (T)enumConfiguration.getValue() : null;
+        this.value = configuration.getValue();
         this.cycleWidget.setMessage(Text.translatable(this.configuration.getTranslationKey(value.name().toLowerCase())));
     }
 
