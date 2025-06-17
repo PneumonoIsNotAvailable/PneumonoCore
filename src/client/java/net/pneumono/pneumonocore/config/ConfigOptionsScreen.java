@@ -36,8 +36,8 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     @Override
     protected void initFooter() {
         ButtonWidget resetAllButton = ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), (button) -> {
-            for(AbstractConfigListWidgetEntry entry : configsList.children()) {
-                if (entry instanceof AbstractConfigurationEntry configurationEntry) {
+            for (AbstractConfigListWidgetEntry entry : configsList.children()) {
+                if (entry instanceof AbstractConfigurationEntry<?> configurationEntry) {
                     configurationEntry.reset();
                 }
             }
