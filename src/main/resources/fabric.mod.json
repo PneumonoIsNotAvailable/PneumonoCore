@@ -21,6 +21,9 @@
 		"client": [
 			"net.pneumono.pneumonocore.PneumonoCoreClient"
 		],
+		"fabric-datagen": [
+			"net.pneumono.pneumonocore.PneumonoCoreDataGenerator"
+		],
 		"modmenu": [
 			"net.pneumono.pneumonocore.PneumonoCoreModMenu"
 		]
