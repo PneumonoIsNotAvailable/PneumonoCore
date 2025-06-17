@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.pneumono.pneumonocore.config.*;
 
 @SuppressWarnings("unused")
-public class PneumonoDatagenUtil {
+public class DatagenUtils {
     public static void generateConfigScreenTranslation(FabricLanguageProvider.TranslationBuilder builder, String modID, String name) {
         builder.add("configs." + modID + ".screen_title", name);
     }
