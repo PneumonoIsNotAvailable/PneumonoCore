@@ -6,8 +6,10 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
-import net.pneumono.pneumonocore.config.*;
-import net.pneumono.pneumonocore.util.PneumonoMathHelper;
+import net.pneumono.pneumonocore.config.AbstractConfiguration;
+import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config.ConfigsListWidget;
+import net.pneumono.pneumonocore.config.FloatConfiguration;
 
 import java.util.List;
 
@@ -73,7 +75,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry {
         }
 
         private static float round(double value) {
-            return PneumonoMathHelper.round(value * 100) / 100F;
+            return Math.round(value * 100) / 100F;
         }
 
         @Override

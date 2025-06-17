@@ -7,8 +7,10 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import net.pneumono.pneumonocore.config.*;
-import net.pneumono.pneumonocore.util.PneumonoMathHelper;
+import net.pneumono.pneumonocore.config.AbstractConfiguration;
+import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config.ConfigsListWidget;
+import net.pneumono.pneumonocore.config.IntegerConfiguration;
 
 import java.util.List;
 
@@ -76,7 +78,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
         private final int max;
 
         public ConfigSliderWidget(SliderChangeAction action, int value, int min, int max, int x, int y, int width, int height) {
-            super(x, y, width, height, Text.literal(Integer.toString(PneumonoMathHelper.round(toPercentage(value, min, max)))), toPercentage(value, min, max));
+            super(x, y, width, height, Text.literal(Integer.toString((int)Math.round(toPercentage(value, min, max)))), toPercentage(value, min, max));
             this.action = action;
             this.min = min;
             this.max = max;
@@ -88,7 +90,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry {
         }
 
         private static int fromPercentage(double value, int min, int max) {
-            return PneumonoMathHelper.round((value * (max - min)) + min);
+            return (int)Math.round((value * (max - min)) + min);
         }
 
         private static double toPercentage(int value, int min, int max) {
