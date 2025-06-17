@@ -51,6 +51,11 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         }
     }
 
+    @Override
+    public int getRowWidth() {
+        return 267;
+    }
+
     private void addConfigurationEntry(AbstractConfiguration<?> configuration) {
         EntryBuilder builder = PneumonoCoreClient.CONFIG_SCREEN_ENTRY_TYPES.get(configuration.getClassID());
         if (builder == null) {

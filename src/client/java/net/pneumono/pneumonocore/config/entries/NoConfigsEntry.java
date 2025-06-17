@@ -20,7 +20,7 @@ public class NoConfigsEntry extends AbstractConfigListWidgetEntry {
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
-        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"), x + 108, (y + entryHeight / 2) - 2, 16777215);
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"), x + OFFSET + 31, (y + entryHeight / 2) - 2, 16777215);
     }
 
     @Override

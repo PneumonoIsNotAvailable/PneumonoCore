@@ -47,7 +47,7 @@ public class ErroneousConfigurationEntry extends AbstractConfigurationEntry<Abst
 
         Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error").formatted(Formatting.RED);
         int width = textRenderer.getWidth(text);
-        int textX = x + 167 - (width / 2);
+        int textX = x + OFFSET + 90 - (width / 2);
         int textY = y + entryHeight / 2;
         context.drawText(textRenderer, text, textX, textY - 2, 16777215, false);
     }

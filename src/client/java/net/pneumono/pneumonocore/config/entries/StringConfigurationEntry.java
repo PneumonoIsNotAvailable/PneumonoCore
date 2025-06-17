@@ -53,7 +53,7 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<StringC
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
-        this.textWidget.setX(x + 112);
+        this.textWidget.setX(x + OFFSET + 35);
         this.textWidget.setY(y);
 
         this.textWidget.render(context, mouseX, mouseY, tickDelta);

@@ -41,8 +41,8 @@ public abstract class AbstractConfigurationEntry<T extends AbstractConfiguration
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
-        context.drawText(textRenderer, this.configName, x + 104 - textRenderer.getWidth(this.configName), (y + entryHeight / 2) - 2, 16777215, true);
-        this.infoWidget.setX(x + 227);
+        context.drawText(textRenderer, this.configName, x + OFFSET + 27 - textRenderer.getWidth(this.configName), (y + entryHeight / 2) - 2, 16777215, true);
+        this.infoWidget.setX(x + OFFSET + 150);
         this.infoWidget.setY(y);
         this.infoWidget.render(context, mouseX, mouseY, delta);
     }

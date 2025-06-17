@@ -53,7 +53,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry<Boolea
 
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
-        this.toggleWidget.setX(x + 112);
+        this.toggleWidget.setX(x + OFFSET + 35);
         this.toggleWidget.setY(y);
 
         this.toggleWidget.render(context, mouseX, mouseY, tickDelta);

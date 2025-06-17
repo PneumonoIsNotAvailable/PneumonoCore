@@ -59,7 +59,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry<Intege
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
-        this.sliderWidget.setX(x + 112);
+        this.sliderWidget.setX(x + OFFSET + 35);
         this.sliderWidget.setY(y);
 
         sliderWidget.render(context, mouseX, mouseY, tickDelta);

@@ -105,11 +105,11 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<TimeConfi
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
 
-        this.textWidget.setX(x + 112);
+        this.textWidget.setX(x + OFFSET + 35);
         this.textWidget.setY(y);
         this.textWidget.render(context, mouseX, mouseY, tickDelta);
 
-        this.cycleWidget.setX(x + 202);
+        this.cycleWidget.setX(x + OFFSET + 125);
         this.cycleWidget.setY(y);
         this.cycleWidget.render(context, mouseX, mouseY, tickDelta);
     }
