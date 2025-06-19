@@ -5,6 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config.AbstractConfiguration;
@@ -41,7 +42,7 @@ public abstract class AbstractConfigurationEntry<T extends AbstractConfiguration
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
-        context.drawText(textRenderer, this.configName, x + OFFSET + 27 - textRenderer.getWidth(this.configName), (y + entryHeight / 2) - 2, 16777215, true);
+        context.drawText(textRenderer, this.configName, x + OFFSET + 27 - textRenderer.getWidth(this.configName), (y + entryHeight / 2) - 2, Colors.WHITE, true);
         this.infoWidget.setX(x + OFFSET + 150);
         this.infoWidget.setY(y);
         this.infoWidget.render(context, mouseX, mouseY, delta);

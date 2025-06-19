@@ -82,8 +82,7 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void addSubtitle(SoundEvent sound, String subtitle) {
-        Identifier id = sound.id();
-        this.builder.add(id.getNamespace() + ".subtitles." + id.getPath(), subtitle);
+        this.builder.add(sound, subtitle);
     }
 
     public void addAdvancement(Identifier id, String name, String description) {
