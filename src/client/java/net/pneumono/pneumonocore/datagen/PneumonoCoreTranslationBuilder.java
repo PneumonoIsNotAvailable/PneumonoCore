@@ -117,6 +117,16 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add("configs.category." + modId + "." + category, name);
     }
 
+    public void addModMenuTranslations(String modId, String name, String summary) {
+        this.addModMenuTranslations(modId, name, summary, summary);
+    }
+
+    public void addModMenuTranslations(String modId, String name, String summary, String description) {
+        this.builder.add("modmenu.nameTranslation." + modId, name);
+        this.builder.add("modmenu.summaryTranslation." + modId, summary);
+        this.builder.add("modmenu.descriptionTranslation." + modId, description);
+    }
+
     public <T> BiConsumer<T, String> createBuilder(Function<T, String> keyFunction) {
         return (object, value) -> this.builder.add(keyFunction.apply(object), value);
     }
