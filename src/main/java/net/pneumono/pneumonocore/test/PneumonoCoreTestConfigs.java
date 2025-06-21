@@ -28,6 +28,17 @@ public class PneumonoCoreTestConfigs {
                 TIME,
                 CLIENT
         );
+        Configs.registerCategories(MOD_ID,
+                new ConfigCategory(MOD_ID, "test_category_1",
+                        BOOLEAN,
+                        ENUM,
+                        FLOAT
+                ),
+                new ConfigCategory(MOD_ID, "test_category_2",
+                        INTEGER,
+                        STRING
+                )
+        );
     }
 
     public enum TestEnum {

@@ -25,6 +25,8 @@
 
   "note_to_translators": "Hi! Everything past this point is test-related, and so doesn't need to be translated. Thanks!",
 
+  "configs.category.pneumonocore.test_category_1": "Category 1",
+  "configs.category.pneumonocore.test_category_2": "Category 2",
   "configs.pneumonocore.test_boolean": "Boolean",
   "configs.pneumonocore.test_boolean.tooltip": "This is a Boolean configuration!",
   "configs.pneumonocore.test_enum": "Enum DyeColor",
