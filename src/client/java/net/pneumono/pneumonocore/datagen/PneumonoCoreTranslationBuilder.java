@@ -58,6 +58,10 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(key, value);
     }
 
+    public void add(SoundEvent sound, String value) {
+        this.builder.add(sound, value);
+    }
+
     public void add(Path existingLangFile) throws IOException {
         this.builder.add(existingLangFile);
     }
@@ -86,8 +90,8 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(key.toTranslationKey(prefix, suffix), value);
     }
 
-    public void addSubtitle(SoundEvent sound, String subtitle) {
-        this.builder.add(sound, subtitle);
+    public void addStat(Identifier stat, String value) {
+        this.builder.add(stat.toTranslationKey("stat"), value);
     }
 
     public void addAdvancement(Identifier id, String name, String description) {
