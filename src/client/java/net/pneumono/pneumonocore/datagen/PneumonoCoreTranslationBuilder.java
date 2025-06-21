@@ -113,6 +113,10 @@ public class PneumonoCoreTranslationBuilder {
         }
     }
 
+    public void addConfigCategory(String modId, String category, String name) {
+        this.builder.add("configs.category." + modId + "." + category, name);
+    }
+
     public <T> BiConsumer<T, String> createBuilder(Function<T, String> keyFunction) {
         return (object, value) -> this.builder.add(keyFunction.apply(object), value);
     }
