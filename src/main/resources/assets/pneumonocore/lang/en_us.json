@@ -21,5 +21,25 @@
   "configs_screen.pneumonocore.ticks": "T",
   "configs_screen.pneumonocore.ticks.full": "Ticks",
 
-  "configs_screen.pneumonocore.reset_all": "Reset All Configs"
+  "configs_screen.pneumonocore.reset_all": "Reset All Configs",
+
+  "note_to_translators": "Hi! Everything past this point is test-related, and so doesn't need to be translated. Thanks!",
+
+  "configs.pneumonocore.test_boolean": "Boolean",
+  "configs.pneumonocore.test_boolean.tooltip": "This is a Boolean configuration!",
+  "configs.pneumonocore.test_enum": "Enum DyeColor",
+  "configs.pneumonocore.test_enum.tooltip": "This is a Enum configuration!",
+  "configs.pneumonocore.test_enum.value_1": "Value 1",
+  "configs.pneumonocore.test_enum.value_2": "Value 2",
+  "configs.pneumonocore.test_enum.value_3": "Value 3",
+  "configs.pneumonocore.test_float": "Float",
+  "configs.pneumonocore.test_float.tooltip": "This is a Float configuration!",
+  "configs.pneumonocore.test_integer": "Integer",
+  "configs.pneumonocore.test_integer.tooltip": "This is a Integer configuration!",
+  "configs.pneumonocore.test_string": "String",
+  "configs.pneumonocore.test_string.tooltip": "This is a String configuration!",
+  "configs.pneumonocore.test_time": "Time",
+  "configs.pneumonocore.test_time.tooltip": "This is a Time configuration!",
+  "configs.pneumonocore.test_client": "Client",
+  "configs.pneumonocore.test_client.tooltip": "This is a Client-Side Boolean configuration!"
 }
