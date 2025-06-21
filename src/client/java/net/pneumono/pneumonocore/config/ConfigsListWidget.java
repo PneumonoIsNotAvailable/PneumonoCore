@@ -27,25 +27,28 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         }
 
         List<Identifier> usedIds = new ArrayList<>();
-        if (categories.length > 0) {
-            for (ConfigCategory category : categories) {
-                AbstractConfigListWidgetEntry entry = new CategoryTitleEntry(category, parent);
-                this.addEntry(entry);
+        for (ConfigCategory category : categories) {
+            AbstractConfigListWidgetEntry entry = new CategoryTitleEntry(category, parent);
+            this.addEntry(entry);
 
-                for (AbstractConfiguration<?> configuration : configurations) {
-                    for (Identifier id : category.configurations()) {
-                        Identifier configId = configuration.getID();
-                        if (id.equals(configId) && !usedIds.contains(configId)) {
-                            addConfigurationEntry(configuration);
-                            usedIds.add(id);
-                        }
+            for (AbstractConfiguration<?> configuration : configurations) {
+                for (Identifier id : category.configurations()) {
+                    Identifier configId = configuration.getID();
+                    if (id.equals(configId) && !usedIds.contains(configId)) {
+                        addConfigurationEntry(configuration);
+                        usedIds.add(id);
                     }
                 }
             }
-            this.addEntry(new CategoryTitleEntry(ConfigCategory.getEmpty(), parent));
         }
+        boolean addUncategorizedTitle = categories.length > 0;
         for (AbstractConfiguration<?> configuration : configurations) {
             if (!usedIds.contains(configuration.getID())) {
+
+                if (addUncategorizedTitle) {
+                    this.addEntry(new CategoryTitleEntry(ConfigCategory.getEmpty(), parent));
+                    addUncategorizedTitle = false;
+                }
                 addConfigurationEntry(configuration);
             }
         }
