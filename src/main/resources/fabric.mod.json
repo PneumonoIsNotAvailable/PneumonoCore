@@ -3,7 +3,7 @@
 	"id": "pneumonocore",
 	"version": "${version}",
 	"name": "PneumonoCore",
-	"description": "Goofy lil core mod with all my lil thingies :> (Mod that most of my other mods depend on).",
+	"description": "Library mod for Pneumono_'s mods.",
 	"authors": [
 		"Pneumono_"
 	],
