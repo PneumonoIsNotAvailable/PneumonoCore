@@ -2,7 +2,6 @@ package net.pneumono.pneumonocore;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
 
 @SuppressWarnings("unused")
 public class PneumonoCoreModMenu implements ModMenuApi {
@@ -12,6 +11,6 @@ public class PneumonoCoreModMenu implements ModMenuApi {
     }
 
     public static ConfigScreenFactory<?> getModConfigScreenFactory(String modID) {
-        return parent -> new ConfigOptionsScreen(parent, modID);
+        return null;
     }
 }

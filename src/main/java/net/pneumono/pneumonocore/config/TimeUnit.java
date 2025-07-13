@@ -1,5 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
+@Deprecated
+@SuppressWarnings("unused")
 public enum TimeUnit {
     TICKS(1),
     SECONDS(20),
@@ -15,21 +17,5 @@ public enum TimeUnit {
 
     public int getDivision() {
         return division;
-    }
-
-    public static TimeUnit fromValue(long value) {
-        if (value == 0) {
-            return TICKS;
-        } else if (value % DAYS.division == 0) {
-            return DAYS;
-        } else if (value % HOURS.division == 0) {
-            return HOURS;
-        } else if (value % MINUTES.division == 0) {
-            return MINUTES;
-        } else if (value % SECONDS.division == 0) {
-            return SECONDS;
-        } else {
-            return TICKS;
-        }
     }
 }
