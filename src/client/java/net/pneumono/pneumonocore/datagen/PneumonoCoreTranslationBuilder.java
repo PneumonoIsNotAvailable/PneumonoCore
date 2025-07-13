@@ -45,12 +45,24 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(item, value);
     }
 
+    public void add(Item item, String value, String suffix) {
+        this.builder.add(item.getTranslationKey() + "." + suffix, value);
+    }
+
     public void add(Block block, String value) {
         this.builder.add(block, value);
     }
 
+    public void add(Block block, String value, String suffix) {
+        this.builder.add(block.getTranslationKey() + "." + suffix, value);
+    }
+
     public void add(EntityType<?> type, String value) {
         this.builder.add(type, value);
+    }
+
+    public void add(EntityType<?> type, String value, String suffix) {
+        this.builder.add(type.getTranslationKey() + "." + suffix, value);
     }
 
     public void add(StatType<?> type, String value) {
