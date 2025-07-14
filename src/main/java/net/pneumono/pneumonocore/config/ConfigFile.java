@@ -20,6 +20,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class ConfigFile {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
@@ -36,19 +37,24 @@ public class ConfigFile {
 
     public <T> void register(Identifier id, AbstractConfiguration<T> configuration) {
         this.configs.put(id.getPath(), configuration);
-        T value = getSavedValue(id, configuration.getValueCodec().fieldOf(id.getPath()), configuration.getDefaultValue());
+        T value = getSavedValue(id, configuration.getValueCodec().fieldOf(id.getPath()), configuration::canAccept, configuration.getDefaultValue());
         configuration.setSavedValue(value);
         configuration.setLoadedValue(value);
     }
 
-    public <T> T getSavedValue(Identifier id, MapCodec<T> mapCodec, T defaultValue) {
+    public <T> T getSavedValue(Identifier id, MapCodec<T> mapCodec, Predicate<T> predicate, T defaultValue) {
         DataResult<Pair<T, JsonElement>> result = mapCodec.codec().decode(JsonOps.INSTANCE, getSavedValues());
         if (result.isError()) {
-            LOGGER.warn("Failed to decode config value for {}", id.toString());
+            LOGGER.warn("Failed to decode config value for config {}", id.toString());
             return defaultValue;
         }
 
-        return result.result().map(Pair::getFirst).orElse(defaultValue);
+        T value = result.result().map(Pair::getFirst).filter(predicate).orElse(defaultValue);
+        if (!predicate.test(value)) {
+            value = defaultValue;
+            LOGGER.warn("Config value {} does not pass validation checks for config {}", value.toString(), id.toString());
+        }
+        return value;
     }
 
     public JsonObject getSavedValues() {
@@ -63,7 +69,7 @@ public class ConfigFile {
         try (Reader reader = Files.newBufferedReader(this.file.toPath())) {
             jsonObject = new GsonBuilder().setPrettyPrinting().create().fromJson(reader, JsonObject.class);
         } catch (IOException e) {
-            LOGGER.warn("Failed to read config file for {}!", this.modId);
+            LOGGER.warn("Failed to read config file for mod {}!", this.modId);
         }
 
         this.json = jsonObject;

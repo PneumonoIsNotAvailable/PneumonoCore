@@ -5,9 +5,12 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config.LoadType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Predicate;
+
 public abstract class AbstractConfiguration<T> {
     private Identifier id;
     protected final Settings settings;
+    private final Predicate<T> validator;
     /**
      * The default value.
      */
@@ -23,10 +26,14 @@ public abstract class AbstractConfiguration<T> {
      */
     private T loadedValue;
 
-    public AbstractConfiguration(T defaultValue, Settings settings) {
+    public AbstractConfiguration(T defaultValue, Predicate<T> validator, Settings settings) {
+        if (!validator.test(defaultValue)) throw new IllegalArgumentException("Default config value must be able to pass validation check");
         this.defaultValue = defaultValue;
+        this.validator = validator;
         this.settings = settings;
     }
+
+    public abstract Codec<T> getValueCodec();
 
     public T get() {
         if (this.id == null) throw new IllegalStateException("Cannot get config value of an unregistered config!");
@@ -53,7 +60,9 @@ public abstract class AbstractConfiguration<T> {
         this.loadedValue = loadedValue;
     }
 
-    public abstract Codec<T> getValueCodec();
+    public boolean canAccept(T value) {
+        return this.validator.test(value);
+    }
 
     public void setId(Identifier id) {
         if (this.id != null) throw new IllegalStateException("Cannot give an ID to a config that has already been registered!");
