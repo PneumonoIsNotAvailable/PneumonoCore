@@ -43,16 +43,17 @@ public class ConfigFile {
     }
 
     public <T> T getSavedValue(Identifier id, MapCodec<T> mapCodec, Predicate<T> predicate, T defaultValue) {
-        DataResult<Pair<T, JsonElement>> result = mapCodec.codec().decode(JsonOps.INSTANCE, getSavedValues());
-        if (result.isError()) {
-            LOGGER.warn("Failed to decode config value for config {}", id.toString());
+        JsonObject savedValues = getSavedValues();
+        DataResult<Pair<T, JsonElement>> result = mapCodec.codec().decode(JsonOps.INSTANCE, savedValues);
+        if (result.isError() && savedValues.has(id.getPath())) {
+            LOGGER.warn("Failed to decode config value for config {}", id);
             return defaultValue;
         }
 
         T value = result.result().map(Pair::getFirst).orElse(defaultValue);
         if (!predicate.test(value)) {
-            value = defaultValue;
             LOGGER.warn("Config value {} does not pass validation checks for config {}", value.toString(), id.toString());
+            value = defaultValue;
         }
         return value;
     }
