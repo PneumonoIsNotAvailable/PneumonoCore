@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 
 public abstract class AbstractConfiguration<T> {
     private Identifier id;
-    protected final Settings settings;
+    private final Settings settings;
     private final Predicate<T> validator;
     /**
      * The default value.
@@ -71,6 +71,11 @@ public abstract class AbstractConfiguration<T> {
     public void setId(Identifier id) {
         if (this.id != null) throw new IllegalStateException("Cannot give an ID to a config that has already been registered!");
         this.id = id;
+    }
+
+    @Deprecated
+    public void setGroup(String group) {
+        this.settings.group = group;
     }
 
     public static class Settings {

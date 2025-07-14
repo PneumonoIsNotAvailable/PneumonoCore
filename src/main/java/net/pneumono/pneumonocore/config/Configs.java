@@ -29,6 +29,9 @@ public class Configs {
     @Deprecated
     @SafeVarargs
     public static <T extends net.pneumono.pneumonocore.config.AbstractConfiguration<?>> void register(String modID, T... configurations) {
-
+        for (T configuration : configurations) {
+            register(Identifier.of(modID, configuration.getName()), configuration.getWrappedConfig());
+        }
+        initializeConfigFile(modID);
     }
 }

@@ -6,5 +6,8 @@ import net.minecraft.util.Identifier;
 public record ConfigCategory(String modID, String name, Identifier... configurations) {
     public ConfigCategory(String modID, String name, AbstractConfiguration<?>... configurations) {
         this(modID, name, new Identifier[0]);
+        for (AbstractConfiguration<?> configuration : configurations) {
+            configuration.getWrappedConfig().setGroup(name);
+        }
     }
 }

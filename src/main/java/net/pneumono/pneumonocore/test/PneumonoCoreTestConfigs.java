@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.test;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.PneumonoCore;
+import net.pneumono.pneumonocore.config.ConfigEnv;
 import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.pneumonocore.config.configuration.*;
 
@@ -47,6 +48,16 @@ public class PneumonoCoreTestConfigs {
 
     public static void registerTestConfigs() {
         Configs.initializeConfigFile(MOD_ID);
+
+        String compatId = "backwards_compat";
+        Configs.register(compatId,
+                new net.pneumono.pneumonocore.config.EnumConfiguration<>(
+                        compatId, "old_enum", ConfigEnv.SERVER, TestEnum.VALUE_2
+                ),
+                new net.pneumono.pneumonocore.config.IntegerConfiguration(
+                        compatId, "old_integer", ConfigEnv.SERVER, 0, 100, 25
+                )
+        );
     }
 
     public enum TestEnum implements StringIdentifiable {
