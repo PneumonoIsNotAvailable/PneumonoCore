@@ -35,7 +35,7 @@ public class ConfigFile {
         this.file = new File(FabricLoader.getInstance().getConfigDir().toFile(), modId + ".json");
     }
 
-    public <T> void register(Identifier id, AbstractConfiguration<T> configuration) {
+    public <T, C extends AbstractConfiguration<T>> void register(Identifier id, C configuration) {
         this.configs.put(id.getPath(), configuration);
         T value = getSavedValue(id, configuration.getValueCodec().fieldOf(id.getPath()), configuration::canAccept, configuration.getDefaultValue());
         configuration.setSavedValue(value);

@@ -9,7 +9,7 @@ import java.util.Map;
 public class Configs {
     private static final Map<String, ConfigFile> CONFIGS = new HashMap<>();
 
-    public static <T> AbstractConfiguration<T> register(Identifier id, AbstractConfiguration<T> configuration) {
+    public static <T, C extends AbstractConfiguration<T>> C register(Identifier id, C configuration) {
         configuration.setId(id);
         ConfigFile configFile = CONFIGS.computeIfAbsent(id.getNamespace(), ConfigFile::new);
         configFile.register(id, configuration);
