@@ -1,7 +1,10 @@
 package net.pneumono.pneumonocore.test;
 
+import com.mojang.serialization.Codec;
+import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.PneumonoCore;
-import net.pneumono.pneumonocore.config.*;
+import net.pneumono.pneumonocore.config.Configs;
+import net.pneumono.pneumonocore.config.configuration.*;
 
 /**
  * This only exists for testing, don't touch anything here as it won't be registered!
@@ -10,40 +13,58 @@ import net.pneumono.pneumonocore.config.*;
 public class PneumonoCoreTestConfigs {
     public static final String MOD_ID = PneumonoCore.MOD_ID;
 
-    public static final BooleanConfiguration BOOLEAN = new BooleanConfiguration(MOD_ID, "test_boolean", ConfigEnv.SERVER, true);
-    public static final EnumConfiguration<TestEnum> ENUM = new EnumConfiguration<>(MOD_ID, "test_enum", ConfigEnv.SERVER, TestEnum.VALUE_1);
-    public static final FloatConfiguration FLOAT = new FloatConfiguration(MOD_ID, "test_float", ConfigEnv.SERVER, 0.5F);
-    public static final IntegerConfiguration INTEGER = new IntegerConfiguration(MOD_ID, "test_integer", ConfigEnv.SERVER, 0, 10, 5);
-    public static final StringConfiguration STRING = new StringConfiguration(MOD_ID, "test_string", ConfigEnv.SERVER, "Testing!");
-    public static final TimeConfiguration TIME = new TimeConfiguration(MOD_ID, "test_time", ConfigEnv.SERVER, TimeUnit.MINUTES.getDivision() * 22L);
-    public static final BooleanConfiguration CLIENT = new BooleanConfiguration(MOD_ID, "test_client", ConfigEnv.CLIENT, true);
+    public static final BooleanConfiguration DEFAULT_TRUE = register("default_true", new BooleanConfiguration(
+            true, new AbstractConfiguration.Settings()
+    ));
+    public static final BooleanConfiguration DEFAULT_FALSE = register("default_false", new BooleanConfiguration(
+            false, new AbstractConfiguration.Settings()
+    ));
+    public static final IntegerConfiguration ANY_INT = register("any_int", new IntegerConfiguration(
+            7, new AbstractConfiguration.Settings()
+    ));
+    public static final BoundedIntegerConfiguration ONE_TO_TEN = register("one_to_ten", new BoundedIntegerConfiguration(
+            5, 0, 10, new AbstractConfiguration.Settings()
+    ));
+    public static final EnumConfiguration<TestEnum> ENUM = register("enum", new EnumConfiguration<>(
+            TestEnum.VALUE_2, TestEnum.CODEC, new AbstractConfiguration.Settings()
+    ));
+    public static final FloatConfiguration ANY_FLOAT = register("any_float", new FloatConfiguration(
+            3.14159F, new AbstractConfiguration.Settings()
+    ));
+    public static final BoundedFloatConfiguration ZERO_TO_ONE = register("zero_to_one", new BoundedFloatConfiguration(
+            0.5F, 0, 1, new AbstractConfiguration.Settings()
+    ));
+    public static final StringConfiguration STRING = register("string", new StringConfiguration(
+            "This is a string!", new AbstractConfiguration.Settings()
+    ));
+    public static final ValidatedStringConfiguration LOWERCASE_STRING = register("lowercase_string", new ValidatedStringConfiguration(
+            "lowercase string", string -> string.toLowerCase().equals(string), new AbstractConfiguration.Settings()
+    ));
 
-    public static void registerTestConfigs() {
-        Configs.register(MOD_ID,
-                BOOLEAN,
-                ENUM,
-                FLOAT,
-                INTEGER,
-                STRING,
-                TIME,
-                CLIENT
-        );
-        Configs.registerCategories(MOD_ID,
-                new ConfigCategory(MOD_ID, "test_category_1",
-                        BOOLEAN,
-                        ENUM,
-                        FLOAT
-                ),
-                new ConfigCategory(MOD_ID, "test_category_2",
-                        INTEGER,
-                        STRING
-                )
-        );
+    private static <T, C extends AbstractConfiguration<T>> C register(String name, C config) {
+        return Configs.register(PneumonoCore.identifier(name), config);
     }
 
-    public enum TestEnum {
-        VALUE_1,
-        VALUE_2,
-        VALUE_3
+    public static void registerTestConfigs() {
+        Configs.initializeConfigFile(MOD_ID);
+    }
+
+    public enum TestEnum implements StringIdentifiable {
+        VALUE_1("value_1"),
+        VALUE_2("value_2"),
+        VALUE_3("value_3");
+
+        public static final Codec<TestEnum> CODEC = StringIdentifiable.createCodec(TestEnum::values);
+
+        private final String name;
+
+        TestEnum(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String asString() {
+            return this.name;
+        }
     }
 }

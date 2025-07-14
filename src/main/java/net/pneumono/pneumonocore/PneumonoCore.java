@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.datagen.ConfigResourceCondition;
+import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,8 @@ public class PneumonoCore implements ModInitializer {
 
 		// Config
 		ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
+
+		PneumonoCoreTestConfigs.registerTestConfigs();
 	}
 
 	public static Identifier identifier(String path) {

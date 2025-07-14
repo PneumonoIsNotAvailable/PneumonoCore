@@ -26,6 +26,10 @@ public abstract class AbstractConfiguration<T> {
      */
     private T loadedValue;
 
+    public AbstractConfiguration(T defaultValue, Settings settings) {
+        this(defaultValue, value -> true, settings);
+    }
+
     public AbstractConfiguration(T defaultValue, Predicate<T> validator, Settings settings) {
         if (!validator.test(defaultValue)) throw new IllegalArgumentException("Default config value must be able to pass validation check");
         this.defaultValue = defaultValue;
