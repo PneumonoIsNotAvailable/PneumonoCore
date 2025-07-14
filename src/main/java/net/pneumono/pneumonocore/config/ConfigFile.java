@@ -49,7 +49,7 @@ public class ConfigFile {
             return defaultValue;
         }
 
-        T value = result.result().map(Pair::getFirst).filter(predicate).orElse(defaultValue);
+        T value = result.result().map(Pair::getFirst).orElse(defaultValue);
         if (!predicate.test(value)) {
             value = defaultValue;
             LOGGER.warn("Config value {} does not pass validation checks for config {}", value.toString(), id.toString());
