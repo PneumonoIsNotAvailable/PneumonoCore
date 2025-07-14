@@ -45,7 +45,7 @@ public class ConfigFile {
     public <T> T getSavedValue(Identifier id, MapCodec<T> mapCodec, Predicate<T> predicate, T defaultValue) {
         JsonObject savedValues = getSavedValues();
         DataResult<Pair<T, JsonElement>> result = mapCodec.codec().decode(JsonOps.INSTANCE, savedValues);
-        if (result.isError() && savedValues.has(id.getPath())) {
+        if (result.isError() && savedValues != null && savedValues.has(id.getPath())) {
             LOGGER.warn("Failed to decode config value for config {}", id);
             return defaultValue;
         }
