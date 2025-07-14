@@ -14,8 +14,8 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.config.AbstractConfiguration;
-import net.pneumono.pneumonocore.config.EnumConfiguration;
+import net.pneumono.pneumonocore.config.configuration.AbstractConfiguration;
+import net.pneumono.pneumonocore.config.configuration.EnumConfiguration;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -103,14 +103,30 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add("configs." + modId + ".screen_title", title);
     }
 
-    @Deprecated
     public void addConfig(AbstractConfiguration<?> config, String name, String tooltip) {
-
+        this.builder.add(config.getId().toTranslationKey("configs"), name);
+        this.builder.add(config.getId().toTranslationKey("configs", "tooltip"), tooltip);
     }
 
     @Deprecated
-    public <T extends Enum<T>> void addEnumConfig(EnumConfiguration<T> config, String name, String tooltip, String... values) {
+    public void addConfig(net.pneumono.pneumonocore.config.AbstractConfiguration<?> config, String name, String tooltip) {
+        this.addConfig(config.getWrappedConfig(), name, tooltip);
+    }
 
+    public <T extends Enum<T>> void addEnumConfig(EnumConfiguration<T> config, String name, String tooltip, String... values) {
+        this.addConfig(config, name, tooltip);
+
+        T[] keys = config.getDefaultValue().getDeclaringClass().getEnumConstants();
+        if (keys.length != values.length) throw new IllegalArgumentException("The number of enum values and translation strings must match!");
+
+        for (int i = 0; i < keys.length; ++i) {
+            this.builder.add(config.getId().toTranslationKey("configs", keys[i].toString().toLowerCase()), values[i]);
+        }
+    }
+
+    @Deprecated
+    public <T extends Enum<T>> void addEnumConfig(net.pneumono.pneumonocore.config.EnumConfiguration<T> config, String name, String tooltip, String... values) {
+        this.addEnumConfig(config.getWrappedConfig(), name, tooltip, values);
     }
 
     public void addConfigCategory(String modId, String category, String name) {

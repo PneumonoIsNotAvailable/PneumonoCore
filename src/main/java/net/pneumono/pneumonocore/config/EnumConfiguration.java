@@ -21,6 +21,11 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
         ));
     }
 
+    @Override
+    public net.pneumono.pneumonocore.config.configuration.EnumConfiguration<T> getWrappedConfig() {
+        return (net.pneumono.pneumonocore.config.configuration.EnumConfiguration<T>)super.getWrappedConfig();
+    }
+
     // Simplified version of StringIdentifiable codec stuff
     private static <E extends Enum<E>> EnumCodec<E> createCodec(Supplier<E[]> enumValues) {
         E[] constants = enumValues.get();
