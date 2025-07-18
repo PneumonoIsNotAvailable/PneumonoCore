@@ -14,6 +14,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
 import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
 
@@ -104,8 +105,8 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void addConfig(AbstractConfiguration<?> config, String name, String tooltip) {
-        this.builder.add(config.getTranslationKey(), name);
-        this.builder.add(config.getTooltipTranslationKey(), tooltip);
+        this.builder.add(ConfigApi.toTranslationKey(config), name);
+        this.builder.add(ConfigApi.toTranslationKey(config, "tooltip"), tooltip);
     }
 
     @Deprecated
@@ -120,7 +121,7 @@ public class PneumonoCoreTranslationBuilder {
         if (keys.length != values.length) throw new IllegalArgumentException("The number of enum values and translation strings must match!");
 
         for (int i = 0; i < keys.length; ++i) {
-            this.builder.add(config.getTranslationKey(keys[i].toString().toLowerCase()), values[i]);
+            this.builder.add(ConfigApi.toTranslationKey(config, keys[i].toString().toLowerCase()), values[i]);
         }
     }
 

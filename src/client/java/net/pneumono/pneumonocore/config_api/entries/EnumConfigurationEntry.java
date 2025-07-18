@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
@@ -44,7 +45,7 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
 
     public void update() {
         this.value = configuration.getValue();
-        this.cycleWidget.setMessage(Text.translatable(this.configuration.getTranslationKey(value.name().toLowerCase())));
+        this.cycleWidget.setMessage(Text.translatable(ConfigApi.toTranslationKey(this.configuration, this.value.name().toLowerCase())));
     }
 
     @Override

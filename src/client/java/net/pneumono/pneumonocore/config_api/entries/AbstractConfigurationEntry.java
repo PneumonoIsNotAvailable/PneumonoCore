@@ -8,6 +8,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.PneumonoCore;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
@@ -23,7 +24,7 @@ public abstract class AbstractConfigurationEntry<T extends AbstractConfiguration
 
     public AbstractConfigurationEntry(T configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         this.configuration = configuration;
-        this.configName = Text.translatable(configuration.getTranslationKey());
+        this.configName = Text.translatable(ConfigApi.toTranslationKey(configuration));
         this.parent = parent;
         this.widget = widget;
         this.infoWidget = TextIconButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.information"), button -> {}, true)
@@ -31,7 +32,7 @@ public abstract class AbstractConfigurationEntry<T extends AbstractConfiguration
                 .width(20)
                 .build();
         this.infoWidget.setTooltip(Tooltip.of(
-                Text.translatable(configuration.getTooltipTranslationKey())
+                Text.translatable(ConfigApi.toTranslationKey(configuration, "tooltip"))
                         .append(Text.literal("\n\n"))
                         .append(configuration.isClientSided() ?
                                 Text.translatable("configs_screen.pneumonocore.client").formatted(Formatting.AQUA) :

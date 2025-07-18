@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
@@ -20,8 +21,8 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<StringC
 
     public StringConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
         super((StringConfiguration) abstractConfiguration, parent, widget);
-        this.value = configuration.getValue();
-        this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 110, 20, null, Text.translatable(configuration.getTranslationKey()));
+        this.value = this.configuration.getValue();
+        this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 110, 20, null, Text.translatable(ConfigApi.toTranslationKey(this.configuration)));
         this.textWidget.setText(value);
         this.textWidget.setChangedListener((text) -> {
             this.parent.selectedConfiguration = configuration;

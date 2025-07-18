@@ -78,18 +78,6 @@ public abstract class AbstractConfiguration<T> {
         return Identifier.of(modID, name);
     }
 
-    public String getTranslationKey() {
-        return getID().toTranslationKey("configs");
-    }
-
-    public String getTranslationKey(String suffix) {
-        return getID().toTranslationKey("configs", suffix);
-    }
-
-    public String getTooltipTranslationKey() {
-        return getTranslationKey("tooltip");
-    }
-
     @Deprecated
     protected void setCategory(String category) {
         this.settings.category(category);

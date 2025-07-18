@@ -48,6 +48,14 @@ public class ConfigApi {
         configFile.addConfiguration(configuration);
     }
 
+    public static String toTranslationKey(AbstractConfiguration<?> configuration, String suffix) {
+        return configuration.getID().toTranslationKey("configs", suffix);
+    }
+
+    public static String toTranslationKey(AbstractConfiguration<?> configuration) {
+        return configuration.getID().toTranslationKey("configs");
+    }
+
     private static boolean isValid(AbstractConfiguration<?> configuration) {
         return !Objects.equals(configuration.getName(), "") && !Objects.equals(configuration.getModID(), "");
     }
