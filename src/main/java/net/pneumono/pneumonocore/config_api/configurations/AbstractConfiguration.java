@@ -6,8 +6,8 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public abstract class AbstractConfiguration<T> {
     private boolean registered = false;
-    protected String modID;
-    protected final String name;
+    private final String modID;
+    private final String name;
     private final ConfigSettings settings;
     private final T defaultValue;
     private T loadedValue;
