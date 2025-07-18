@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config;
+package net.pneumono.pneumonocore.config_api;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -15,12 +15,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class ModConfigurations {
-    protected final String modID;
-    protected List<AbstractConfiguration<?>> configurations = new ArrayList<>();
+    private final String modID;
+    public List<AbstractConfiguration<?>> configurations = new ArrayList<>();
 
     protected ModConfigurations(String modID, AbstractConfiguration<?> firstConfig) {
         this.modID = modID;
         this.configurations.add(firstConfig);
+    }
+
+    public String getModID() {
+        return modID;
     }
 
     /**
@@ -82,7 +86,7 @@ public class ModConfigurations {
             (new GsonBuilder().setPrettyPrinting().create()).toJson(getConfigsAsJSON(configs, useDefaultValues), writer);
             writer.close();
         } catch (IOException e) {
-            Configs.LOGGER.error("Could not write {} configuration file.", modID, e);
+            ConfigApi.LOGGER.error("Could not write {} configuration file.", modID, e);
         }
     }
 

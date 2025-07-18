@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config.entries;
+package net.pneumono.pneumonocore.config_api.entries;
 
 import net.minecraft.client.gui.widget.ElementListWidget;
 

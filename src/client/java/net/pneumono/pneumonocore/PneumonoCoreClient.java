@@ -2,11 +2,11 @@ package net.pneumono.pneumonocore;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.pneumono.pneumonocore.config.ClientConfigCommandRegistry;
-import net.pneumono.pneumonocore.config.ConfigPayload;
-import net.pneumono.pneumonocore.config.ConfigsListWidget;
-import net.pneumono.pneumonocore.config.PackagedConfigs;
-import net.pneumono.pneumonocore.config.entries.*;
+import net.pneumono.pneumonocore.config_api.ClientConfigCommandRegistry;
+import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.entries.*;
+import net.pneumono.pneumonocore.config_api.registry.ConfigPayload;
+import net.pneumono.pneumonocore.config_api.registry.PackagedConfigs;
 
 import java.util.HashMap;
 import java.util.Map;

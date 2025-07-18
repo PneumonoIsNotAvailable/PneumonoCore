@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config;
+package net.pneumono.pneumonocore.config_api.registry;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;

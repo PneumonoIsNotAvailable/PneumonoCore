@@ -9,8 +9,8 @@ import net.minecraft.registry.RegistryOps;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.PneumonoCore;
-import net.pneumono.pneumonocore.config.AbstractConfiguration;
-import net.pneumono.pneumonocore.config.Configs;
+import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
@@ -32,7 +32,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
 
     @Override
     public boolean test(@Nullable RegistryOps.RegistryInfoGetter registryInfo) {
-        AbstractConfiguration<?> config = Configs.getConfig(configuration);
+        AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;
         }

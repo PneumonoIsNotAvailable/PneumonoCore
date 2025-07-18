@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config.entries;
+package net.pneumono.pneumonocore.config_api.entries;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -8,9 +8,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.PneumonoCore;
-import net.pneumono.pneumonocore.config.AbstractConfiguration;
-import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 
 import java.util.Objects;
 

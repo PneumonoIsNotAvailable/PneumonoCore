@@ -1,7 +1,10 @@
-package net.pneumono.pneumonocore.config;
+package net.pneumono.pneumonocore.config_api.registry;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.config_api.ModConfigurations;
 
 import java.util.*;
 
@@ -9,10 +12,10 @@ public class PackagedConfigs {
     private final Set<AbstractConfiguration<?>> configs;
 
     public PackagedConfigs() {
-        Configs.LOGGER.info("Creating new config sync packet");
+        ConfigApi.LOGGER.info("Creating new config sync packet");
 
         List<AbstractConfiguration<?>> packagedConfigs = new ArrayList<>();
-        for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
+        for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (!config.isClientSide()) {
                     packagedConfigs.add(config);
@@ -24,11 +27,11 @@ public class PackagedConfigs {
     }
 
     public PackagedConfigs(NbtCompound compound) {
-        Configs.LOGGER.info("Received config sync packet");
+        ConfigApi.LOGGER.info("Received config sync packet");
         this.configs = new HashSet<>();
 
         if (compound != null) {
-            for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
+            for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
                     if (compound.get(config.getName()) != null) {
 
@@ -51,7 +54,7 @@ public class PackagedConfigs {
 
     public void updateServerConfigs() {
         // Makes sure all client configs are ready to go
-        for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
+        for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 config.getReloadableLoadedValue(false);
             }
@@ -60,18 +63,18 @@ public class PackagedConfigs {
         // Update Server Configs
         packagedConfigLoop:
         for (AbstractConfiguration<?> packedConfig : configs) {
-            ModConfigurations modConfigs = Configs.CONFIGS.get(packedConfig.modID);
+            ModConfigurations modConfigs = ConfigApi.getModConfigs(packedConfig.getModID());
             if (modConfigs != null) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
 
-                    if (Objects.equals(config.name, packedConfig.name) && !config.isClientSide()) {
+                    if (Objects.equals(config.getName(), packedConfig.getName()) && !config.isClientSide()) {
                         config.setImportedValue(packedConfig);
                         continue packagedConfigLoop;
                     }
                 }
             }
 
-            Configs.LOGGER.warn("Received config {}:{} which does not exist!", packedConfig.modID, packedConfig.name);
+            ConfigApi.LOGGER.warn("Received config {}:{} which does not exist!", packedConfig.getModID(), packedConfig.getName());
         }
     }
 }

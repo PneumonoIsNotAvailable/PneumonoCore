@@ -6,6 +6,7 @@ import net.pneumono.pneumonocore.config.*;
 /**
  * This only exists for testing, don't touch anything here as it won't be registered!
  */
+@Deprecated
 @SuppressWarnings("unused")
 public class PneumonoCoreTestConfigs {
     public static final String MOD_ID = PneumonoCore.MOD_ID;

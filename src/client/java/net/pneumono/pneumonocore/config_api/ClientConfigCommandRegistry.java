@@ -1,12 +1,12 @@
-package net.pneumono.pneumonocore.config;
+package net.pneumono.pneumonocore.config_api;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.server.command.ServerCommandSource;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -15,21 +15,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
-public class ServerConfigCommandRegistry {
-    public static void registerServerConfigCommand() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-            dispatcher.register(literal("serverconfig")
-                .requires(source -> source.hasPermissionLevel(4))
+public class ClientConfigCommandRegistry {
+    public static void registerClientConfigCommand() {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+            dispatcher.register(literal("clientconfig")
                 .then(literal("get")
                     .then(argument("modid", StringArgumentType.string())
                         .suggests(new ModIDSuggestionProvider())
                         .then(argument("config", StringArgumentType.string())
                             .suggests(new ConfigSuggestionProvider())
                             .executes(context -> {
-                                context.getSource().sendMessage(Text.literal(getConfigValueString(
+                                context.getSource().sendFeedback(Text.literal(getConfigValueString(
                                         StringArgumentType.getString(context, "modid"),
                                         StringArgumentType.getString(context, "config")
                                 )).formatted(Formatting.AQUA));
@@ -38,13 +37,13 @@ public class ServerConfigCommandRegistry {
                             })
                         )
                         .executes(context -> {
-                            context.getSource().sendMessage(Text.literal("Configs:"));
+                            context.getSource().sendFeedback(Text.literal("Configs:"));
                             List<String> configs = getAllConfigValueStrings(StringArgumentType.getString(context, "modid"));
                             if (configs.isEmpty()) {
-                                context.getSource().sendMessage(Text.literal("   None!"));
+                                context.getSource().sendFeedback(Text.literal("   None!"));
                             } else {
                                 for (String config : configs) {
-                                    context.getSource().sendMessage(Text.literal("   " + config));
+                                    context.getSource().sendFeedback(Text.literal("   " + config));
                                 }
                             }
 
@@ -58,7 +57,7 @@ public class ServerConfigCommandRegistry {
 
     public static List<String> getAllConfigValueStrings(String modID) {
         List<String> returnConfigs = new ArrayList<>();
-        ModConfigurations modConfigs = Configs.CONFIGS.get(modID);
+        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString());
@@ -68,7 +67,7 @@ public class ServerConfigCommandRegistry {
     }
 
     public static String getConfigValueString(String modID, String name) {
-        ModConfigurations modConfigs = Configs.CONFIGS.get(modID);
+        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.getName(), name)) {
@@ -79,12 +78,12 @@ public class ServerConfigCommandRegistry {
         return modID + ":" + name + " does not exist!";
     }
 
-    public static class ModIDSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
+    public static class ModIDSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
         @Override
-        public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-            for (ModConfigurations modConfigs : Configs.CONFIGS.values()) {
-                if (modConfigs.modID.toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                    builder.suggest(modConfigs.modID);
+        public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
+            for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
+                if (modConfigs.getModID().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                    builder.suggest(modConfigs.getModID());
                 }
             }
 
@@ -92,10 +91,10 @@ public class ServerConfigCommandRegistry {
         }
     }
 
-    public static class ConfigSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
+    public static class ConfigSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
         @Override
-        public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-            ModConfigurations modConfigs = Configs.CONFIGS.get(StringArgumentType.getString(context, "modid"));
+        public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
+            ModConfigurations modConfigs = ConfigApi.getModConfigs(StringArgumentType.getString(context, "modid"));
             if (modConfigs != null) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
                     if (config.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {

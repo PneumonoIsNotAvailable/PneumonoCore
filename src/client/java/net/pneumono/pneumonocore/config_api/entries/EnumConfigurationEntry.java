@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config.entries;
+package net.pneumono.pneumonocore.config_api.entries;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
@@ -6,10 +6,10 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
-import net.pneumono.pneumonocore.config.AbstractConfiguration;
-import net.pneumono.pneumonocore.config.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config.ConfigsListWidget;
-import net.pneumono.pneumonocore.config.EnumConfiguration;
+import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
 
 import java.util.List;
 import java.util.function.Supplier;

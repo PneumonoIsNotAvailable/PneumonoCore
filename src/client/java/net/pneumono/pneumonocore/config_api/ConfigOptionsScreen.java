@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config;
+package net.pneumono.pneumonocore.config_api;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -8,8 +8,8 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.pneumono.pneumonocore.config.entries.AbstractConfigListWidgetEntry;
-import net.pneumono.pneumonocore.config.entries.AbstractConfigurationEntry;
+import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
+import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
 
 import java.util.Objects;
 
@@ -64,7 +64,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     public static <T> void save(String modID, String name, T newValue) {
-        ModConfigurations modConfigs = Configs.CONFIGS.get(modID);
+        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.name, name)) {

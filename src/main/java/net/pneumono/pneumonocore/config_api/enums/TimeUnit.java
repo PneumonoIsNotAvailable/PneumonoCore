@@ -1,10 +1,5 @@
-package net.pneumono.pneumonocore.config;
+package net.pneumono.pneumonocore.config_api.enums;
 
-/**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.enums.TimeUnit} instead.
- */
-@Deprecated
-@SuppressWarnings("unused")
 public enum TimeUnit {
     TICKS(1),
     SECONDS(20),
