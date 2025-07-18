@@ -14,12 +14,11 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public FloatConfiguration(String modID, String name, boolean clientSided, float defaultValue) {
-        super(modID, name, clientSided, MathHelper.clamp(defaultValue, 0F, 1F));
+    public FloatConfiguration(String modID, String name, float defaultValue, ConfigSettings settings) {
+        super(modID, name, MathHelper.clamp(defaultValue, 0F, 1F), settings);
     }
 
     @Override

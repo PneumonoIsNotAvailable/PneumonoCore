@@ -12,12 +12,11 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public BooleanConfiguration(String modID, String name, boolean clientSided, boolean defaultValue) {
-        super(modID, name, clientSided, defaultValue);
+    public BooleanConfiguration(String modID, String name, boolean defaultValue, ConfigSettings settings) {
+        super(modID, name, defaultValue, settings);
     }
 
     @Override

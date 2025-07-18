@@ -13,12 +13,11 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public TimeConfiguration(String modID, String name, boolean clientSided, Long defaultValue) {
-        super(modID, name, clientSided, defaultValue);
+    public TimeConfiguration(String modID, String name, long defaultValue, ConfigSettings settings) {
+        super(modID, name, defaultValue, settings);
     }
 
     @Override

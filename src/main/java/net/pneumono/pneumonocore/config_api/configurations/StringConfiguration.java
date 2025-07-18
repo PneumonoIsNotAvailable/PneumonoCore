@@ -12,12 +12,11 @@ public class StringConfiguration extends AbstractConfiguration<String> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public StringConfiguration(String modID, String name, boolean clientSided, String defaultValue) {
-        super(modID, name, clientSided, defaultValue);
+    public StringConfiguration(String modID, String name, String defaultValue, ConfigSettings settings) {
+        super(modID, name, defaultValue, settings);
     }
 
     @Override

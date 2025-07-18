@@ -5,10 +5,10 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public abstract class AbstractConfiguration<T> {
+    private boolean registered = false;
     protected String modID;
     protected final String name;
-    protected final boolean clientSided;
-    private boolean registered = false;
+    private final ConfigSettings settings;
     private final T defaultValue;
     private T loadedValue;
     private T syncedValue;
@@ -19,13 +19,12 @@ public abstract class AbstractConfiguration<T> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
      * @param defaultValue The default value of the configuration.
      */
-    public AbstractConfiguration(String modID, String name, boolean clientSided, T defaultValue) {
+    public AbstractConfiguration(String modID, String name, T defaultValue, ConfigSettings settings) {
         this.modID = modID;
         this.name = name;
-        this.clientSided = clientSided;
+        this.settings = settings;
         this.defaultValue = defaultValue;
         this.loadedValue = defaultValue;
         this.syncedValue = defaultValue;
@@ -60,7 +59,7 @@ public abstract class AbstractConfiguration<T> {
     }
 
     public boolean isClientSided() {
-        return this.clientSided;
+        return this.settings.clientSided;
     }
 
     public String getModID() {

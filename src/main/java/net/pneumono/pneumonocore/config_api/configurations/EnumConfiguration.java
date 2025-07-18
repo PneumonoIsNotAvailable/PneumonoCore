@@ -16,12 +16,11 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public EnumConfiguration(String modID, String name, boolean clientSided, T defaultValue, Codec<T> valueCodec) {
-        super(modID, name, clientSided, defaultValue);
+    public EnumConfiguration(String modID, String name, T defaultValue, Codec<T> valueCodec, ConfigSettings settings) {
+        super(modID, name, defaultValue, settings);
         this.valueCodec = valueCodec;
     }
 

@@ -17,14 +17,13 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param minValue The minimum value the configuration can be set to.
      * @param maxValue The maximum value the configuration can be set to.
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public IntegerConfiguration(String modID, String name, boolean clientSided, int minValue, int maxValue, Integer defaultValue) {
-        super(modID, name, clientSided, MathHelper.clamp(defaultValue, minValue, maxValue));
+    public IntegerConfiguration(String modID, String name, Integer defaultValue, int minValue, int maxValue, ConfigSettings settings) {
+        super(modID, name, MathHelper.clamp(defaultValue, minValue, maxValue), settings);
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
