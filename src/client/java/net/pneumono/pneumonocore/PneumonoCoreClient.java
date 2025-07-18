@@ -4,16 +4,10 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.ClientConfigCommandRegistry;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.entries.*;
 import net.pneumono.pneumonocore.config_api.ConfigSyncS2CPayload;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class PneumonoCoreClient implements ClientModInitializer {
-	public static Map<String, ConfigsListWidget.EntryBuilder> CONFIG_SCREEN_ENTRY_TYPES = new HashMap<>();
-
 	@Override
 	public void onInitializeClient() {
 		// Config
