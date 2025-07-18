@@ -6,6 +6,6 @@ package net.pneumono.pneumonocore.config;
 @Deprecated
 public class BooleanConfiguration extends AbstractConfiguration<Boolean, net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration> {
     public BooleanConfiguration(String modId, String name, ConfigEnv environment, boolean defaultValue) {
-        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration(defaultValue, environment.toNew()));
+        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration(defaultValue, environment.toSettings()));
     }
 }

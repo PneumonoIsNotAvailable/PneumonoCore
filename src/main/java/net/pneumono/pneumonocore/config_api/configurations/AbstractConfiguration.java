@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.config_api.configurations;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
 
 public abstract class AbstractConfiguration<T> {
     private boolean registered = false;
@@ -60,6 +61,10 @@ public abstract class AbstractConfiguration<T> {
 
     public String getCategory() {
         return this.settings.category;
+    }
+
+    public LoadType getLoadType() {
+        return this.settings.loadType;
     }
 
     public String getModID() {

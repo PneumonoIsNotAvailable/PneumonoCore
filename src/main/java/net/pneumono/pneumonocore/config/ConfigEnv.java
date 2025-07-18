@@ -7,7 +7,7 @@ public enum ConfigEnv {
     SERVER,
     CLIENT;
 
-    public ConfigSettings toNew() {
+    public ConfigSettings toSettings() {
         return new ConfigSettings().clientSide(this == CLIENT);
     }
 }
