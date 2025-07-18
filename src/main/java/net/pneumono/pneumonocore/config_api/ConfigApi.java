@@ -15,21 +15,23 @@ public class ConfigApi {
 
     private static final Map<String, ConfigFile> CONFIG_FILES = new HashMap<>();
 
-    public static <T extends AbstractConfiguration<?>> void register(Identifier id, T configuration) {
+    public static <T extends AbstractConfiguration<?>> T register(Identifier id, T configuration) {
         if (id == null || Objects.equals(id.getNamespace(), "") || Objects.equals(id.getPath(), "")) {
             LOGGER.error("Config '{}' used an invalid identifier, and so was not registered.", id);
-            return;
+            return configuration;
         }
 
         ConfigFile configFile = CONFIG_FILES.computeIfAbsent(id.getNamespace(), ConfigFile::new);
 
         if (configFile.hasConfiguration(id.getPath())) {
             LOGGER.error("Config '{}' is a duplicate, and so was not registered.", id);
-            return;
+            return configuration;
         }
 
         ConfigManager.setRegistered(configuration, id);
         configFile.addConfiguration(configuration);
+
+        return configuration;
     }
 
     public static void finishRegistry(String modId) {
