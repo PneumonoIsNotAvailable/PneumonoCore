@@ -53,9 +53,9 @@ public class ConfigApi {
      * @param modID The mod ID of the config file to reload.
      */
     public static void readFromFile(String modID) {
-        ConfigFile modConfigs = CONFIG_FILES.get(modID);
-        if (modConfigs != null) {
-            modConfigs.readFromFile();
+        ConfigFile configFile = CONFIG_FILES.get(modID);
+        if (configFile != null) {
+            configFile.readFromFile();
         }
     }
 
