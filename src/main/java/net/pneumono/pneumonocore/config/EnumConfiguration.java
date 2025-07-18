@@ -1,72 +1,67 @@
 package net.pneumono.pneumonocore.config;
 
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
-import net.minecraft.util.dynamic.Codecs;
+import com.google.gson.JsonElement;
+import net.minecraft.nbt.NbtElement;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-@Deprecated
 public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<T> {
+    private final Class<T> enumClass;
+
+    /**
+     * Creates a new enum configuration. Register using {@link Configs#register(String, AbstractConfiguration[])}.<p>
+     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
+     * Enum configuration values use the translation keys {@code "configs.<modID>.<configName>.<valueName>"}.
+     *
+     * @param modID The mod ID of the mod registering the configuration.
+     * @param name The name of the configuration.
+     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param defaultValue The default value of the configuration.
+     */
+    @SuppressWarnings("unused")
     public EnumConfiguration(String modID, String name, ConfigEnv environment, T defaultValue) {
-        super(name, new net.pneumono.pneumonocore.config.configuration.EnumConfiguration<>(defaultValue,
-                createCodec(() -> defaultValue.getDeclaringClass().getEnumConstants()),
-                createSettings(environment)
-        ));
+        super(modID, name, environment, defaultValue);
+        this.enumClass = defaultValue.getDeclaringClass();
+    }
+
+    private EnumConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, T loadedValue) {
+        super(modID, name, environment, defaultValue, loadedValue);
+        this.enumClass = defaultValue.getDeclaringClass();
     }
 
     @Override
-    public net.pneumono.pneumonocore.config.configuration.EnumConfiguration<T> getWrappedConfig() {
-        return (net.pneumono.pneumonocore.config.configuration.EnumConfiguration<T>)super.getWrappedConfig();
+    public EnumConfiguration<T> fromElement(NbtElement element) {
+        T t;
+        try {
+            t = getEnumFromString(element.asString().orElse(null));
+        } catch (UnsupportedOperationException | IllegalStateException | EnumConstantNotPresentException e) {
+            Configs.LOGGER.warn("Received server config value {} for config {} that was not a suitable enum value! Using default value instead.", element, getID().toString());
+            t = getDefaultValue();
+        }
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), t);
     }
 
-    // Simplified version of StringIdentifiable codec stuff
-    private static <E extends Enum<E>> EnumCodec<E> createCodec(Supplier<E[]> enumValues) {
-        E[] constants = enumValues.get();
-        return new EnumCodec<>(constants, createMapper(constants));
+    @Override
+    protected EnumConfiguration<T> fromElement(JsonElement element) {
+        T t;
+        try {
+            t = getEnumFromString(element.getAsString());
+        } catch (UnsupportedOperationException | IllegalStateException | EnumConstantNotPresentException e) {
+            Configs.LOGGER.warn("Config value {} for config {} was not a suitable enum value! Using default value instead.", element, getID().toString());
+            t = getDefaultValue();
+        }
+        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), t);
     }
 
-    private static <E extends Enum<E>> Function<String, E> createMapper(E[] values) {
-        if (values.length > 16) {
-            Map<String, E> map = Arrays.stream(values)
-                    .collect(Collectors.toMap(Enum::name, value -> value));
-            return name -> name == null ? null : map.get(name);
-        } else {
-            return name -> {
-                for (E constant : values) {
-                    if (constant.name().equals(name)) {
-                        return constant;
-                    }
-                }
-
-                return null;
-            };
+    private T getEnumFromString(String string) {
+        for (T type : enumClass.getEnumConstants()) {
+            if (type.name().equalsIgnoreCase(string)) {
+                return type;
+            }
         }
+        throw new EnumConstantNotPresentException(enumClass, string);
     }
 
-    public static class EnumCodec<E extends Enum<E>> implements Codec<E> {
-        private final Codec<E> codec;
-
-        public EnumCodec(E[] values, Function<String, E> idToConstant) {
-            this.codec = Codecs.orCompressed(
-                    Codec.stringResolver(Enum::name, idToConstant),
-                    Codecs.rawIdChecked(Enum::ordinal, ordinal -> ordinal >= 0 && ordinal < values.length ? values[ordinal] : null, -1)
-            );
-        }
-
-        @Override
-        public <T> DataResult<Pair<E, T>> decode(DynamicOps<T> ops, T input) {
-            return this.codec.decode(ops, input);
-        }
-
-        public <T> DataResult<T> encode(E constant, DynamicOps<T> dynamicOps, T object) {
-            return this.codec.encode(constant, dynamicOps, object);
-        }
+    @Override
+    public String getClassID() {
+        return "EnumConfiguration";
     }
 }

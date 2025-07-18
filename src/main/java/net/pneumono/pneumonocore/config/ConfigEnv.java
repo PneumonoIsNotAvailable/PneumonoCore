@@ -1,6 +1,6 @@
 package net.pneumono.pneumonocore.config;
 
-@Deprecated
+@SuppressWarnings("unused")
 public enum ConfigEnv {
     SERVER,
     CLIENT
