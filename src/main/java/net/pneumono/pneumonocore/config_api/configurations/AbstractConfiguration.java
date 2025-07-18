@@ -31,7 +31,7 @@ public abstract class AbstractConfiguration<T> {
 
     public T getValue() {
         if (!this.registered) throw new IllegalStateException("Cannot get value of unregistered configuration.");
-        return this.syncedValue;
+        return isEnabled() ? this.syncedValue : this.defaultValue;
     }
 
     protected void setRegistered(Identifier id) {
@@ -65,6 +65,14 @@ public abstract class AbstractConfiguration<T> {
 
     public LoadType getLoadType() {
         return this.settings.loadType;
+    }
+
+    public boolean isEnabled() {
+        if (this.settings.condition != null) {
+            return this.settings.condition.get();
+        } else {
+            return true;
+        }
     }
 
     public String getModID() {

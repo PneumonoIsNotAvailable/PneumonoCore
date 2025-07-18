@@ -1,12 +1,19 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ConfigSettings {
     protected boolean clientSided = false;
     protected String category = "misc";
     protected LoadType loadType = LoadType.RELOAD;
+    @Nullable
+    protected Supplier<Boolean> condition = null;
 
     public ConfigSettings clientSide(boolean value) {
         this.clientSided = value;
@@ -27,5 +34,19 @@ public class ConfigSettings {
         if (loadType == null) throw new IllegalArgumentException("Load Type cannot be null.");
         this.loadType = loadType;
         return this;
+    }
+
+    public ConfigSettings condition(Supplier<Boolean> condition) {
+        if (condition == null) throw new IllegalArgumentException("Condition cannot be null.");
+        this.condition = condition;
+        return this;
+    }
+
+    public <T> ConfigSettings parent(AbstractConfiguration<T> configuration, Predicate<T> predicate) {
+        return condition(() -> predicate.test(configuration.getValue()));
+    }
+
+    public ConfigSettings requiresMod(String modId) {
+        return condition(() -> FabricLoader.getInstance().isModLoaded(modId));
     }
 }
