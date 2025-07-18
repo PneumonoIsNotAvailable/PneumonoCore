@@ -82,8 +82,9 @@ public class ConfigFile {
                 continue;
             }
 
-            if (!setConfigValue(configuration, jsonObject.get(name))) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, jsonObject, configuration.getID());
+            JsonElement element = jsonObject.get(name);
+            if (!setConfigValue(configuration, element)) {
+                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.getID());
                 shouldWrite = true;
             }
         }
