@@ -19,7 +19,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public IntegerConfiguration(Integer defaultValue, int minValue, int maxValue, ConfigSettings settings) {
+    public IntegerConfiguration(int defaultValue, int minValue, int maxValue, ConfigSettings settings) {
         super(validateDefaultValue(defaultValue, minValue, maxValue), settings);
         this.minValue = minValue;
         this.maxValue = maxValue;
