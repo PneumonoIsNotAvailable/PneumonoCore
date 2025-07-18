@@ -26,10 +26,10 @@ public class Configs {
 
     @SafeVarargs
     public static <T extends AbstractConfiguration<?, ?>> void register(String modID, T... configurations) {
-        for (T configuration : configurations) {
-            ConfigApi.register(modID, configuration.getWrappedConfiguration());
-        }
-        ConfigApi.reload(modID);
+        ConfigApi.register(modID, Arrays.stream(configurations)
+                .map(config -> config.getWrappedConfiguration())
+                .toArray(net.pneumono.pneumonocore.config_api.AbstractConfiguration[]::new)
+        );
     }
 
     public static void reload(String modID) {
