@@ -9,9 +9,13 @@ import net.minecraft.util.Identifier;
 @SuppressWarnings("unused")
 public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<T>> {
     private final C configuration;
+    private final String modId;
+    private final String name;
 
-    public AbstractConfiguration(C configuration) {
+    public AbstractConfiguration(String modId, String name, C configuration) {
         this.configuration = configuration;
+        this.modId = modId;
+        this.name = name;
     }
 
     public C getWrappedConfiguration() {
@@ -23,11 +27,11 @@ public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonoco
     }
 
     public String getModID() {
-        return this.configuration.getModID();
+        return this.modId;
     }
 
     public String getName() {
-        return this.configuration.getName();
+        return this.name;
     }
 
     public Identifier getID() {

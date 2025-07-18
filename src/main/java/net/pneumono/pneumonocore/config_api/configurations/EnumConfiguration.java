@@ -10,17 +10,15 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
 
 
     /**
-     * Creates a new enum configuration. Register using {@link ConfigApi#register(String, AbstractConfiguration[])}.<p>
+     * Creates a new enum configuration. Register using {@link ConfigApi#register}.<p>
      * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
      * Enum configuration values use the translation keys {@code "configs.<modID>.<configName>.<valueName>"}.
      *
-     * @param modID The mod ID of the mod registering the configuration.
-     * @param name The name of the configuration.
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public EnumConfiguration(String modID, String name, T defaultValue, Codec<T> valueCodec, ConfigSettings settings) {
-        super(modID, name, defaultValue, settings);
+    public EnumConfiguration(T defaultValue, Codec<T> valueCodec, ConfigSettings settings) {
+        super(defaultValue, settings);
         this.valueCodec = valueCodec;
     }
 

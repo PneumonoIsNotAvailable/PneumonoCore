@@ -6,8 +6,8 @@ package net.pneumono.pneumonocore.config;
 @Deprecated
 @SuppressWarnings("unused")
 public class IntegerConfiguration extends AbstractConfiguration<Integer, net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration> {
-    public IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {
-        super(new net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration(modID, name, defaultValue, minValue, maxValue, environment.toNew()));
+    public IntegerConfiguration(String modId, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {
+        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration(defaultValue, minValue, maxValue, environment.toNew()));
     }
 
     public int getMinValue() {

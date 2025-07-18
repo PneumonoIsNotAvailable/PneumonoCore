@@ -27,10 +27,10 @@ public class Configs {
 
     @SafeVarargs
     public static <T extends AbstractConfiguration<?, ?>> void register(String modID, T... configurations) {
-        ConfigApi.register(modID, Arrays.stream(configurations)
-                .map(config -> config.getWrappedConfiguration())
-                .toArray(net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration[]::new)
-        );
+        for (T configuration : configurations) {
+            ConfigApi.register(configuration.getID(), configuration.getWrappedConfiguration());
+        }
+        ConfigApi.finishRegistry(modID);
     }
 
     public static void reload(String modID) {
@@ -77,15 +77,19 @@ public class Configs {
                         configFile.getModID(),
                         entry.getKey(),
                         entry.getValue().stream()
-                                .map(net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration::getID)
+                                .map(net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration::getId)
                                 .toArray(Identifier[]::new)
                 ))
                 .toArray(ConfigCategory[]::new);
     }
 
     public static class WrappedConfiguration<T, C extends net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<T>> extends AbstractConfiguration<T, C> {
+        public WrappedConfiguration(String modId, String name, C configuration) {
+            super(modId, name, configuration);
+        }
+
         public WrappedConfiguration(C configuration) {
-            super(configuration);
+            super(configuration.getModID(), configuration.getName(), configuration);
         }
     }
 }

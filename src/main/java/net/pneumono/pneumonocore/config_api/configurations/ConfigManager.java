@@ -1,5 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
+import net.minecraft.util.Identifier;
+
 public class ConfigManager {
     public static <T, C extends AbstractConfiguration<T>> void setValue(C configuration, T value) {
         setLoadedValue(configuration, value);
@@ -18,8 +20,8 @@ public class ConfigManager {
         return configuration.getLoadedValue();
     }
 
-    public static void setRegistered(AbstractConfiguration<?> configuration) {
-        configuration.setRegistered();
+    public static void setRegistered(AbstractConfiguration<?> configuration, Identifier id) {
+        configuration.setRegistered(id);
     }
 
     @Deprecated

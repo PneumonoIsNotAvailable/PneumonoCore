@@ -78,7 +78,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
         try {
             ConfigManager.setLoadedValue(config, (T)value);
         } catch (ClassCastException e) {
-            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.getID());
+            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.getId());
             return false;
         }
         return true;

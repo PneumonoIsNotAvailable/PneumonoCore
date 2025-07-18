@@ -5,7 +5,7 @@ package net.pneumono.pneumonocore.config;
  */
 @Deprecated
 public class StringConfiguration extends AbstractConfiguration<String, net.pneumono.pneumonocore.config_api.configurations.StringConfiguration> {
-    public StringConfiguration(String modID, String name, ConfigEnv environment, String defaultValue) {
-        super(new net.pneumono.pneumonocore.config_api.configurations.StringConfiguration(modID, name, defaultValue, environment.toNew()));
+    public StringConfiguration(String modId, String name, ConfigEnv environment, String defaultValue) {
+        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.StringConfiguration(defaultValue, environment.toNew()));
     }
 }

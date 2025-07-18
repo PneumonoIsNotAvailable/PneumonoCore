@@ -15,49 +15,33 @@ public class ConfigApi {
 
     private static final Map<String, ConfigFile> CONFIG_FILES = new HashMap<>();
 
-    /**
-     * Registers a mod's configurations. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
-     * Do NOT call this method multiple times!!!
-     *
-     * @param modID The mod ID of the mod the configs are being registered for.
-     * @param configurations The configurations to be registered.
-     */
-    @SafeVarargs
-    @SuppressWarnings("unused")
-    public static <T extends AbstractConfiguration<?>> void register(String modID, T... configurations) {
-        for (T configuration : configurations) {
-            register(configuration);
-        }
-        readFromFile(modID);
-    }
-
-    private static <T extends AbstractConfiguration<?>> void register(T configuration) {
-        if (!isValid(configuration)) {
-            LOGGER.error("Config '{}' used an invalid identifier, and so was not registered.", configuration.getID());
+    public static <T extends AbstractConfiguration<?>> void register(Identifier id, T configuration) {
+        if (id == null || Objects.equals(id.getNamespace(), "") || Objects.equals(id.getPath(), "")) {
+            LOGGER.error("Config '{}' used an invalid identifier, and so was not registered.", id);
             return;
         }
 
-        ConfigFile configFile = CONFIG_FILES.computeIfAbsent(configuration.getModID(), ConfigFile::new);
+        ConfigFile configFile = CONFIG_FILES.computeIfAbsent(id.getNamespace(), ConfigFile::new);
 
-        if (configFile.hasConfiguration(configuration.getName())) {
-            LOGGER.error("Config '{}' is a duplicate, and so was not registered.", configuration.getID());
+        if (configFile.hasConfiguration(id.getPath())) {
+            LOGGER.error("Config '{}' is a duplicate, and so was not registered.", id);
             return;
         }
 
-        ConfigManager.setRegistered(configuration);
+        ConfigManager.setRegistered(configuration, id);
         configFile.addConfiguration(configuration);
     }
 
+    public static void finishRegistry(String modId) {
+        readFromFile(modId);
+    }
+
     public static String toTranslationKey(AbstractConfiguration<?> configuration, String suffix) {
-        return configuration.getID().toTranslationKey("configs", suffix);
+        return configuration.getId().toTranslationKey("configs", suffix);
     }
 
     public static String toTranslationKey(AbstractConfiguration<?> configuration) {
-        return configuration.getID().toTranslationKey("configs");
-    }
-
-    private static boolean isValid(AbstractConfiguration<?> configuration) {
-        return !Objects.equals(configuration.getName(), "") && !Objects.equals(configuration.getModID(), "");
+        return configuration.getId().toTranslationKey("configs");
     }
 
     /**

@@ -22,7 +22,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     ).apply(instance, ConfigResourceCondition::new));
 
     public ConfigResourceCondition(AbstractConfiguration<?> configuration, Operator operator, String value) {
-        this(configuration.getID(), operator, value);
+        this(configuration.getId(), operator, value);
     }
 
     @Override

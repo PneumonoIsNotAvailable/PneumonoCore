@@ -89,14 +89,14 @@ public class ConfigFile {
             String name = configuration.getName();
 
             if (!jsonObject.has(name)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modID, configuration.getID());
+                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modID, configuration.getId());
                 shouldWrite = true;
                 continue;
             }
 
             JsonElement element = jsonObject.get(name);
             if (!setConfigValue(configuration, element)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.getID());
+                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.getId());
                 shouldWrite = true;
             }
         }
@@ -142,12 +142,12 @@ public class ConfigFile {
     private static <T> JsonElement encodeJson(AbstractConfiguration<T> config) {
         DataResult<JsonElement> result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getLoadedValue(config));
         if (result.isError()) {
-            ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.getID());
+            ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.getId());
 
             result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getLoadedValue(config));
         }
 
-        return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.getID() + "'"));
+        return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.getId() + "'"));
     }
 
     public NbtCompound toNbt() {

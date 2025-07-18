@@ -49,7 +49,7 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
                 NbtElement element = compound.get(configuration.getName());
                 if (!setConfigValue(configuration, element)) {
-                    ConfigApi.LOGGER.warn("Config sync packet contains invalid value '{}' for config '{}'. The default config value will be used instead.", element, configuration.getID());
+                    ConfigApi.LOGGER.warn("Config sync packet contains invalid value '{}' for config '{}'. The default config value will be used instead.", element, configuration.getId());
                 }
             }
         }

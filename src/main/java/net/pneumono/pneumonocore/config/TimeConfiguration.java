@@ -5,7 +5,7 @@ package net.pneumono.pneumonocore.config;
  */
 @Deprecated
 public class TimeConfiguration extends AbstractConfiguration<Long, net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration> {
-    public TimeConfiguration(String modID, String name, ConfigEnv environment, Long defaultValue) {
-        super(new net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration(modID, name, defaultValue, environment.toNew()));
+    public TimeConfiguration(String modId, String name, ConfigEnv environment, Long defaultValue) {
+        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration(defaultValue, environment.toNew()));
     }
 }
