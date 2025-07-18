@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import net.minecraft.nbt.NbtElement;
 import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<T> {
     private final Class<T> enumClass;
@@ -16,17 +15,17 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public EnumConfiguration(String modID, String name, ConfigEnv environment, T defaultValue) {
-        super(modID, name, environment, defaultValue);
+    public EnumConfiguration(String modID, String name, boolean clientSided, T defaultValue) {
+        super(modID, name, clientSided, defaultValue);
         this.enumClass = defaultValue.getDeclaringClass();
     }
 
-    private EnumConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, T loadedValue) {
-        super(modID, name, environment, defaultValue, loadedValue);
+    private EnumConfiguration(String modID, String name, boolean clientSided, T defaultValue, T loadedValue) {
+        super(modID, name, clientSided, defaultValue, loadedValue);
         this.enumClass = defaultValue.getDeclaringClass();
     }
 
@@ -39,7 +38,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
             ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not a suitable enum value! Using default value instead.", element, getID().toString());
             t = getDefaultValue();
         }
-        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), t);
+        return new EnumConfiguration<>(modID, name, clientSided, getDefaultValue(), t);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
             ConfigApi.LOGGER.warn("Config value {} for config {} was not a suitable enum value! Using default value instead.", element, getID().toString());
             t = getDefaultValue();
         }
-        return new EnumConfiguration<>(modID, name, environment, getDefaultValue(), t);
+        return new EnumConfiguration<>(modID, name, clientSided, getDefaultValue(), t);
     }
 
     private T getEnumFromString(String string) {

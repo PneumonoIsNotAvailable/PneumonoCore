@@ -5,7 +5,6 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.MathHelper;
 import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 public class FloatConfiguration extends AbstractConfiguration<Float> {
     /**
@@ -15,16 +14,16 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public FloatConfiguration(String modID, String name, ConfigEnv environment, float defaultValue) {
-        super(modID, name, environment, MathHelper.clamp(defaultValue, 0F, 1F));
+    public FloatConfiguration(String modID, String name, boolean clientSided, float defaultValue) {
+        super(modID, name, clientSided, MathHelper.clamp(defaultValue, 0F, 1F));
     }
 
-    private FloatConfiguration(String modID, String name, ConfigEnv environment, float defaultValue, float loadedValue) {
-        super(modID, name, environment, MathHelper.clamp(defaultValue, 0F, 1F), MathHelper.clamp(loadedValue, 0F, 1F));
+    private FloatConfiguration(String modID, String name, boolean clientSided, float defaultValue, float loadedValue) {
+        super(modID, name, clientSided, MathHelper.clamp(defaultValue, 0F, 1F), MathHelper.clamp(loadedValue, 0F, 1F));
     }
 
     @Override
@@ -36,7 +35,7 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
             ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not a float! Using default value instead.", element, getID().toString());
             f = getDefaultValue();
         }
-        return new FloatConfiguration(modID, name, environment, getDefaultValue(), f);
+        return new FloatConfiguration(modID, name, clientSided, getDefaultValue(), f);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
             ConfigApi.LOGGER.warn("Config value {} for config {} was not a float! Using default value instead.", element, getID().toString());
             f = getDefaultValue();
         }
-        return new FloatConfiguration(modID, name, environment, getDefaultValue(), f);
+        return new FloatConfiguration(modID, name, clientSided, getDefaultValue(), f);
     }
 
     @Override

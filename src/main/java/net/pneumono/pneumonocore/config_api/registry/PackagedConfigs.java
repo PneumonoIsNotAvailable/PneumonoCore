@@ -17,7 +17,7 @@ public class PackagedConfigs {
         List<AbstractConfiguration<?>> packagedConfigs = new ArrayList<>();
         for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                if (!config.isClientSide()) {
+                if (!config.isClientSided()) {
                     packagedConfigs.add(config);
                 }
             }
@@ -67,7 +67,7 @@ public class PackagedConfigs {
             if (modConfigs != null) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
 
-                    if (Objects.equals(config.getName(), packedConfig.getName()) && !config.isClientSide()) {
+                    if (Objects.equals(config.getName(), packedConfig.getName()) && !config.isClientSided()) {
                         config.setImportedValue(packedConfig);
                         continue packagedConfigLoop;
                     }

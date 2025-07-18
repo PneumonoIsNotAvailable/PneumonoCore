@@ -3,14 +3,13 @@ package net.pneumono.pneumonocore.config_api;
 import com.google.gson.JsonElement;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 import java.util.Objects;
 
 public abstract class AbstractConfiguration<T> {
     protected String modID;
     protected final String name;
-    protected final ConfigEnv environment;
+    protected final boolean clientSided;
     protected boolean registered = false;
     private final T defaultValue;
     private T loadedValue;
@@ -22,21 +21,21 @@ public abstract class AbstractConfiguration<T> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param clientSided Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
      * @param defaultValue The default value of the configuration.
      */
-    public AbstractConfiguration(String modID, String name, ConfigEnv environment, T defaultValue) {
+    public AbstractConfiguration(String modID, String name, boolean clientSided, T defaultValue) {
         this.modID = modID;
         this.name = name;
-        this.environment = environment;
+        this.clientSided = clientSided;
         this.defaultValue = defaultValue;
         this.loadedValue = defaultValue;
     }
 
-    protected AbstractConfiguration(String modID, String name, ConfigEnv environment, T defaultValue, T loadedValue) {
+    protected AbstractConfiguration(String modID, String name, boolean clientSided, T defaultValue, T loadedValue) {
         this.modID = modID;
         this.name = name;
-        this.environment = environment;
+        this.clientSided = clientSided;
         this.defaultValue = defaultValue;
         this.loadedValue = loadedValue;
     }
@@ -48,12 +47,8 @@ public abstract class AbstractConfiguration<T> {
     public abstract AbstractConfiguration<T> fromElement(NbtElement element);
     public abstract AbstractConfiguration<T> fromElement(JsonElement element);
 
-    public boolean isClientSide() {
-        return environment == ConfigEnv.CLIENT;
-    }
-
-    public ConfigEnv getEnvironment() {
-        return environment;
+    public boolean isClientSided() {
+        return this.clientSided;
     }
 
     public String getModID() {return modID;}
@@ -114,7 +109,7 @@ public abstract class AbstractConfiguration<T> {
             }
         }
 
-        return thisConfig != null ? (thisConfig.isClientSide() ? (T) thisConfig.getReloadableLoadedValue(looped) : (thisConfig.importedValue != null ? (T) thisConfig.importedValue : (T) thisConfig.getReloadableLoadedValue(looped))) : null;
+        return thisConfig != null ? (thisConfig.isClientSided() ? (T) thisConfig.getReloadableLoadedValue(looped) : (thisConfig.importedValue != null ? (T) thisConfig.importedValue : (T) thisConfig.getReloadableLoadedValue(looped))) : null;
     }
 
     public T getReloadableLoadedValue(boolean looped) {

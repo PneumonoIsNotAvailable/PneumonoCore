@@ -5,7 +5,6 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.MathHelper;
 import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     private final int minValue;
@@ -18,20 +17,20 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param minValue The minimum value the configuration can be set to.
      * @param maxValue The maximum value the configuration can be set to.
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {
-        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue));
+    public IntegerConfiguration(String modID, String name, boolean clientSided, int minValue, int maxValue, Integer defaultValue) {
+        super(modID, name, clientSided, MathHelper.clamp(defaultValue, minValue, maxValue));
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
 
-    private IntegerConfiguration(String modID, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue, Integer loadedValue) {
-        super(modID, name, environment, MathHelper.clamp(defaultValue, minValue, maxValue), MathHelper.clamp(loadedValue, minValue, maxValue));
+    private IntegerConfiguration(String modID, String name, boolean clientSided, int minValue, int maxValue, Integer defaultValue, Integer loadedValue) {
+        super(modID, name, clientSided, MathHelper.clamp(defaultValue, minValue, maxValue), MathHelper.clamp(loadedValue, minValue, maxValue));
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
@@ -45,7 +44,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
             ConfigApi.LOGGER.warn("Received config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
             i = getDefaultValue();
         }
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), i);
+        return new IntegerConfiguration(modID, name, clientSided, minValue, maxValue, getDefaultValue(), i);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
             ConfigApi.LOGGER.warn("Config value {} for config {} was not an integer! Using default value instead.", element, getID().toString());
             i = getDefaultValue();
         }
-        return new IntegerConfiguration(modID, name, environment, minValue, maxValue, getDefaultValue(), i);
+        return new IntegerConfiguration(modID, name, clientSided, minValue, maxValue, getDefaultValue(), i);
     }
 
     public int getMinValue() {

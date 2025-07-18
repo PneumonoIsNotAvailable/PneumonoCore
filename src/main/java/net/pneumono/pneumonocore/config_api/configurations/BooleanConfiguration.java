@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import net.minecraft.nbt.NbtElement;
 import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 import java.util.Objects;
 
@@ -15,16 +14,16 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public BooleanConfiguration(String modID, String name, ConfigEnv environment, boolean defaultValue) {
-        super(modID, name, environment, defaultValue);
+    public BooleanConfiguration(String modID, String name, boolean clientSided, boolean defaultValue) {
+        super(modID, name, clientSided, defaultValue);
     }
 
-    private BooleanConfiguration(String modID, String name, ConfigEnv environment, boolean defaultValue, boolean loadedValue) {
-        super(modID, name, environment, defaultValue, loadedValue);
+    private BooleanConfiguration(String modID, String name, boolean clientSided, boolean defaultValue, boolean loadedValue) {
+        super(modID, name, clientSided, defaultValue, loadedValue);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
             ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not a boolean! Using default value instead.", element, getID().toString());
             b = getDefaultValue();
         }
-        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), b);
+        return new BooleanConfiguration(modID, name, clientSided, getDefaultValue(), b);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
             ConfigApi.LOGGER.warn("Config value {} for config {} was not a boolean! Using default value instead.", element, getID().toString());
             b = getDefaultValue();
         }
-        return new BooleanConfiguration(modID, name, environment, getDefaultValue(), b);
+        return new BooleanConfiguration(modID, name, clientSided, getDefaultValue(), b);
     }
 
     @Override

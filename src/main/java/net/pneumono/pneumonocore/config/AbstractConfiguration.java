@@ -1,7 +1,6 @@
 package net.pneumono.pneumonocore.config;
 
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 /**
  * @deprecated Use {@link net.pneumono.pneumonocore.config_api.AbstractConfiguration} instead.
@@ -20,7 +19,7 @@ public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonoco
     }
 
     public boolean isClientSide() {
-        return this.configuration.getEnvironment() == ConfigEnv.CLIENT;
+        return this.configuration.isClientSided();
     }
 
     public String getModID() {

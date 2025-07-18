@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import net.minecraft.nbt.NbtElement;
 import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.enums.ConfigEnv;
 
 public class TimeConfiguration extends AbstractConfiguration<Long> {
     /**
@@ -14,16 +13,16 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
      *
      * @param modID The mod ID of the mod registering the configuration.
      * @param name The name of the configuration.
-     * @param environment Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param clientSided Whether the configuration is client-side (e.g. visual settings) or server-side (e.g. gameplay features).
      * @param defaultValue The default value of the configuration.
      */
     @SuppressWarnings("unused")
-    public TimeConfiguration(String modID, String name, ConfigEnv environment, Long defaultValue) {
-        super(modID, name, environment, defaultValue);
+    public TimeConfiguration(String modID, String name, boolean clientSided, Long defaultValue) {
+        super(modID, name, clientSided, defaultValue);
     }
 
-    protected TimeConfiguration(String modID, String name, ConfigEnv environment, Long defaultValue, Long loadedValue) {
-        super(modID, name, environment, defaultValue, loadedValue);
+    protected TimeConfiguration(String modID, String name, boolean clientSided, Long defaultValue, Long loadedValue) {
+        super(modID, name, clientSided, defaultValue, loadedValue);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
             ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
             l = getDefaultValue();
         }
-        return new TimeConfiguration(modID, name, environment, getDefaultValue(), l);
+        return new TimeConfiguration(modID, name, clientSided, getDefaultValue(), l);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
             ConfigApi.LOGGER.warn("Config value {} for config {} was not a long! Using default value instead.", element, getID().toString());
             l = getDefaultValue();
         }
-        return new TimeConfiguration(modID, name, environment, getDefaultValue(), l);
+        return new TimeConfiguration(modID, name, clientSided, getDefaultValue(), l);
     }
 
     @Override

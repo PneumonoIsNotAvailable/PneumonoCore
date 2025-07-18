@@ -33,7 +33,7 @@ public abstract class AbstractConfigurationEntry<T extends AbstractConfiguration
         this.infoWidget.setTooltip(Tooltip.of(
                 Text.translatable(configuration.getTooltipTranslationKey())
                         .append(Text.literal("\n\n"))
-                        .append(configuration.isClientSide() ?
+                        .append(configuration.isClientSided() ?
                                 Text.translatable("configs_screen.pneumonocore.client").formatted(Formatting.AQUA) :
                                 Text.translatable("configs_screen.pneumonocore.server").formatted(Formatting.GOLD)
                         )
