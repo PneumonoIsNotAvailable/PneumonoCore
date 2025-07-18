@@ -4,10 +4,10 @@ import com.mojang.serialization.Codec;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.util.CodecUtil;
 
 public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<T> {
     private final Codec<T> valueCodec;
-
 
     /**
      * Creates a new enum configuration. Register using {@link ConfigApi#register}.<p>
@@ -20,6 +20,10 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     public EnumConfiguration(T defaultValue, Codec<T> valueCodec, ConfigSettings settings) {
         super(defaultValue, settings);
         this.valueCodec = valueCodec;
+    }
+
+    public EnumConfiguration(T defaultValue, ConfigSettings settings) {
+        this(defaultValue, CodecUtil.createEnumCodec(defaultValue.getDeclaringClass().getEnumConstants()), settings);
     }
 
     @Override
