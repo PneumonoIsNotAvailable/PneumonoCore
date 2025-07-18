@@ -1,8 +1,8 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
-import com.google.gson.JsonElement;
-import net.minecraft.nbt.NbtElement;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class StringConfiguration extends AbstractConfiguration<String> {
@@ -20,29 +20,13 @@ public class StringConfiguration extends AbstractConfiguration<String> {
         super(modID, name, clientSided, defaultValue);
     }
 
-    private StringConfiguration(String modID, String name, boolean clientSided, String defaultValue, String loadedValue) {
-        super(modID, name, clientSided, defaultValue, loadedValue);
+    @Override
+    public Codec<String> getValueCodec() {
+        return Codec.STRING;
     }
 
     @Override
-    public StringConfiguration fromElement(NbtElement element) {
-        return new StringConfiguration(modID, name, clientSided, getDefaultValue(), element.asString().orElse(getDefaultValue()));
-    }
-
-    @Override
-    public StringConfiguration fromElement(JsonElement element) {
-        String s;
-        try {
-            s = element.getAsString();
-        } catch (UnsupportedOperationException | IllegalStateException e) {
-            ConfigApi.LOGGER.warn("Config value {} for config {} was not a string! Using default value instead.", element, getID().toString());
-            s = getDefaultValue();
-        }
-        return new StringConfiguration(modID, name, clientSided, getDefaultValue(), s);
-    }
-
-    @Override
-    public String getClassID() {
-        return "StringConfiguration";
+    public Identifier getConfigTypeId() {
+        return PneumonoCore.identifier("string");
     }
 }

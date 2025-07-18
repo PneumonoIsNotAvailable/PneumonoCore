@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.ModConfigurations;
+import net.pneumono.pneumonocore.config_api.ConfigFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,16 +28,16 @@ public class Configs {
     public static <T extends AbstractConfiguration<?, ?>> void register(String modID, T... configurations) {
         ConfigApi.register(modID, Arrays.stream(configurations)
                 .map(config -> config.getWrappedConfiguration())
-                .toArray(net.pneumono.pneumonocore.config_api.AbstractConfiguration[]::new)
+                .toArray(net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration[]::new)
         );
     }
 
     public static void reload(String modID) {
-        ConfigApi.reload(modID);
+        ConfigApi.readFromFile(modID);
     }
 
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
-        ConfigApi.sendS2CConfigSyncPacket(players);
+        ConfigApi.sendConfigSyncPacket(players);
     }
 
     public static boolean hasConfigs(String modID) {
@@ -49,9 +49,9 @@ public class Configs {
     }
 
     public static AbstractConfiguration<?, ?> getConfig(String modID, String name) {
-        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
-            for (net.pneumono.pneumonocore.config_api.AbstractConfiguration<?> config : modConfigs.configurations) {
+            for (net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.getName(), name)) {
                     return new WrappedConfiguration<>(config);
                 }
@@ -66,7 +66,7 @@ public class Configs {
         return Arrays.stream(categories).map(ConfigCategory::new).toArray(ConfigCategory[]::new);
     }
 
-    public static class WrappedConfiguration<T, C extends net.pneumono.pneumonocore.config_api.AbstractConfiguration<T>> extends AbstractConfiguration<T, C> {
+    public static class WrappedConfiguration<T, C extends net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<T>> extends AbstractConfiguration<T, C> {
         public WrappedConfiguration(C configuration) {
             super(configuration);
         }

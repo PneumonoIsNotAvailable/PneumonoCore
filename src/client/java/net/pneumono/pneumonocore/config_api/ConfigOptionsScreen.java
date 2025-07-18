@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
 
@@ -64,7 +65,7 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     public static <T> void save(String modID, String name, T newValue) {
-        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.name, name)) {

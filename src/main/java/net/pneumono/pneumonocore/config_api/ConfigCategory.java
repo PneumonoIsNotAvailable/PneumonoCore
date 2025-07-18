@@ -2,6 +2,7 @@ package net.pneumono.pneumonocore.config_api;
 
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 
 public record ConfigCategory(String modID, String name, Identifier... configurations) {
     @SuppressWarnings("unused")

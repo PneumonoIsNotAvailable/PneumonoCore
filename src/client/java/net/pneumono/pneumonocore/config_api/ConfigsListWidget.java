@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCoreClient;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.entries.*;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     public ConfigsListWidget(ConfigOptionsScreen parent, MinecraftClient client) {
         super(client, parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
         this.parent = parent;
-        ModConfigurations modConfigurations = ConfigApi.getModConfigs(this.parent.modID);
-        this.configurations = modConfigurations != null ? modConfigurations.configurations : List.of();
+        ConfigFile configFile = ConfigApi.getConfigFile(this.parent.modID);
+        this.configurations = configFile != null ? configFile.configurations : List.of();
         this.categories = ConfigApi.getCategories(this.parent.modID);
 
         if (configurations.isEmpty()) {
@@ -68,7 +69,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     }
 
     public void update() {
-        ConfigApi.reload(this.parent.modID);
+        ConfigApi.readFromFile(this.parent.modID);
         this.updateChildren();
     }
 

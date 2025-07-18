@@ -3,11 +3,11 @@ package net.pneumono.pneumonocore.config;
 import net.minecraft.util.Identifier;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.AbstractConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")
-public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonocore.config_api.AbstractConfiguration<T>> {
+public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<T>> {
     private final C configuration;
 
     public AbstractConfiguration(C configuration) {

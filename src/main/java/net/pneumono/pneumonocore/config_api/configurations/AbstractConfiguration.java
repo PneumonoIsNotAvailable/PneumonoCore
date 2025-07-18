@@ -1,0 +1,89 @@
+package net.pneumono.pneumonocore.config_api.configurations;
+
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
+
+public abstract class AbstractConfiguration<T> {
+    protected String modID;
+    protected final String name;
+    protected final boolean clientSided;
+    private boolean registered = false;
+    private final T defaultValue;
+    private T loadedValue;
+    private T syncedValue;
+
+    /**
+     * Creates a new configuration. Register using {@link ConfigApi#register(String, AbstractConfiguration[])}.<p>
+     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
+     *
+     * @param modID The mod ID of the mod registering the configuration.
+     * @param name The name of the configuration.
+     * @param clientSided Whether the configuration is server-side (e.g. gameplay features) or client-side (e.g. visual settings).
+     * @param defaultValue The default value of the configuration.
+     */
+    public AbstractConfiguration(String modID, String name, boolean clientSided, T defaultValue) {
+        this.modID = modID;
+        this.name = name;
+        this.clientSided = clientSided;
+        this.defaultValue = defaultValue;
+        this.loadedValue = defaultValue;
+        this.syncedValue = defaultValue;
+    }
+
+    public abstract Codec<T> getValueCodec();
+    public abstract Identifier getConfigTypeId();
+
+    public T getValue() {
+        if (!this.registered) throw new IllegalStateException("Cannot get value of unregistered configuration.");
+        return this.syncedValue;
+    }
+
+    protected void setRegistered() {
+        this.registered = true;
+    }
+
+    protected void setLoadedValue(T value) {
+        this.loadedValue = value;
+    }
+
+    protected void setSyncedValue(T value) {
+        this.syncedValue = value;
+    }
+
+    protected T getLoadedValue() {
+        return loadedValue;
+    }
+
+    public T getDefaultValue() {
+        return defaultValue;
+    }
+
+    public boolean isClientSided() {
+        return this.clientSided;
+    }
+
+    public String getModID() {
+        return modID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Identifier getID() {
+        return Identifier.of(modID, name);
+    }
+
+    public String getTranslationKey() {
+        return getID().toTranslationKey("configs");
+    }
+
+    public String getTranslationKey(String suffix) {
+        return getID().toTranslationKey("configs", suffix);
+    }
+
+    public String getTooltipTranslationKey() {
+        return getTranslationKey("tooltip");
+    }
+}

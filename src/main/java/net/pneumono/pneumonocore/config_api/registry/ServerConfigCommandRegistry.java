@@ -9,9 +9,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.ModConfigurations;
+import net.pneumono.pneumonocore.config_api.ConfigFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,21 +61,21 @@ public class ServerConfigCommandRegistry {
 
     public static List<String> getAllConfigValueStrings(String modID) {
         List<String> returnConfigs = new ArrayList<>();
-        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString());
+                returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getValue().toString());
             }
         }
         return returnConfigs;
     }
 
     public static String getConfigValueString(String modID, String name) {
-        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.getName(), name)) {
-                    return config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString();
+                    return config.getModID() + ":" + config.getName() + " is set to " + config.getValue().toString();
                 }
             }
         }
@@ -85,7 +85,7 @@ public class ServerConfigCommandRegistry {
     public static class ModIDSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-            for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
+            for (ConfigFile modConfigs : ConfigApi.getConfigFiles()) {
                 if (modConfigs.getModID().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
                     builder.suggest(modConfigs.getModID());
                 }
@@ -98,7 +98,7 @@ public class ServerConfigCommandRegistry {
     public static class ConfigSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-            ModConfigurations modConfigs = ConfigApi.getModConfigs(StringArgumentType.getString(context, "modid"));
+            ConfigFile modConfigs = ConfigApi.getConfigFile(StringArgumentType.getString(context, "modid"));
             if (modConfigs != null) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
                     if (config.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {

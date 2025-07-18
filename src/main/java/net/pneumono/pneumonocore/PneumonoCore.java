@@ -6,8 +6,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.config_api.registry.ConfigPayload;
-import net.pneumono.pneumonocore.config_api.registry.PlayerJoinEvent;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.config_api.ConfigSyncS2CPayload;
 import net.pneumono.pneumonocore.config_api.registry.ServerConfigCommandRegistry;
 import net.pneumono.pneumonocore.datagen.ConfigResourceCondition;
 import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
@@ -30,9 +30,9 @@ public class PneumonoCore implements ModInitializer {
 		LOGGER.info("Initializing PneumonoCore");
 
 		// Config
-		PayloadTypeRegistry.playS2C().register(ConfigPayload.ID, ConfigPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(ConfigSyncS2CPayload.ID, ConfigSyncS2CPayload.CODEC);
 		ServerConfigCommandRegistry.registerServerConfigCommand();
-		ServerPlayConnectionEvents.JOIN.register(new PlayerJoinEvent());
+		ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) -> ConfigApi.sendConfigSyncPacket(handler.getPlayer()));
 		ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
 		PneumonoCoreTestConfigs.registerTestConfigs();
 	}

@@ -5,8 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.pneumono.pneumonocore.config_api.ClientConfigCommandRegistry;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.entries.*;
-import net.pneumono.pneumonocore.config_api.registry.ConfigPayload;
-import net.pneumono.pneumonocore.config_api.registry.PackagedConfigs;
+import net.pneumono.pneumonocore.config_api.ConfigSyncS2CPayload;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class PneumonoCoreClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// Config
 
-		ClientPlayNetworking.registerGlobalReceiver(ConfigPayload.ID, (payload, context) -> new PackagedConfigs(payload.compound()).updateServerConfigs());
+		ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, (payload, context) -> payload.updateConfigs());
 		ClientConfigCommandRegistry.registerClientConfigCommand();
 		CONFIG_SCREEN_ENTRY_TYPES.put("BooleanConfiguration", BooleanConfigurationEntry::new);
 		CONFIG_SCREEN_ENTRY_TYPES.put("EnumConfiguration", EnumConfigurationEntry::new);

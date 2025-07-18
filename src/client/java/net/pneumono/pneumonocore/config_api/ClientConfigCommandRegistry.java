@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class ClientConfigCommandRegistry {
 
     public static List<String> getAllConfigValueStrings(String modID) {
         List<String> returnConfigs = new ArrayList<>();
-        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString());
@@ -67,7 +68,7 @@ public class ClientConfigCommandRegistry {
     }
 
     public static String getConfigValueString(String modID, String name) {
-        ModConfigurations modConfigs = ConfigApi.getModConfigs(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.getName(), name)) {
@@ -81,7 +82,7 @@ public class ClientConfigCommandRegistry {
     public static class ModIDSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
-            for (ModConfigurations modConfigs : ConfigApi.getModConfigs()) {
+            for (ConfigFile modConfigs : ConfigApi.getConfigFiles()) {
                 if (modConfigs.getModID().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
                     builder.suggest(modConfigs.getModID());
                 }
@@ -94,7 +95,7 @@ public class ClientConfigCommandRegistry {
     public static class ConfigSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
-            ModConfigurations modConfigs = ConfigApi.getModConfigs(StringArgumentType.getString(context, "modid"));
+            ConfigFile modConfigs = ConfigApi.getConfigFile(StringArgumentType.getString(context, "modid"));
             if (modConfigs != null) {
                 for (AbstractConfiguration<?> config : modConfigs.configurations) {
                     if (config.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {

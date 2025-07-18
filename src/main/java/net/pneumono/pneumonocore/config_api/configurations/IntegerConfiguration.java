@@ -1,9 +1,9 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
-import com.google.gson.JsonElement;
-import net.minecraft.nbt.NbtElement;
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class IntegerConfiguration extends AbstractConfiguration<Integer> {
@@ -29,36 +29,6 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
         this.maxValue = maxValue;
     }
 
-    private IntegerConfiguration(String modID, String name, boolean clientSided, int minValue, int maxValue, Integer defaultValue, Integer loadedValue) {
-        super(modID, name, clientSided, MathHelper.clamp(defaultValue, minValue, maxValue), MathHelper.clamp(loadedValue, minValue, maxValue));
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-    }
-
-    @Override
-    public IntegerConfiguration fromElement(NbtElement element) {
-        int i;
-        try {
-            i = Integer.parseInt(element.asString().orElse(""));
-        } catch (NumberFormatException e) {
-            ConfigApi.LOGGER.warn("Received config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
-            i = getDefaultValue();
-        }
-        return new IntegerConfiguration(modID, name, clientSided, minValue, maxValue, getDefaultValue(), i);
-    }
-
-    @Override
-    public IntegerConfiguration fromElement(JsonElement element) {
-        int i;
-        try {
-            i = element.getAsInt();
-        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
-            ConfigApi.LOGGER.warn("Config value {} for config {} was not an integer! Using default value instead.", element, getID().toString());
-            i = getDefaultValue();
-        }
-        return new IntegerConfiguration(modID, name, clientSided, minValue, maxValue, getDefaultValue(), i);
-    }
-
     public int getMinValue() {
         return minValue;
     }
@@ -68,7 +38,12 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     }
 
     @Override
-    public String getClassID() {
-        return "IntegerConfiguration";
+    public Codec<Integer> getValueCodec() {
+        return Codec.INT;
+    }
+
+    @Override
+    public Identifier getConfigTypeId() {
+        return PneumonoCore.identifier("integer");
     }
 }

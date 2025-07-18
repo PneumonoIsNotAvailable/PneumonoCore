@@ -1,8 +1,8 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
-import com.google.gson.JsonElement;
-import net.minecraft.nbt.NbtElement;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class TimeConfiguration extends AbstractConfiguration<Long> {
@@ -21,36 +21,13 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
         super(modID, name, clientSided, defaultValue);
     }
 
-    protected TimeConfiguration(String modID, String name, boolean clientSided, Long defaultValue, Long loadedValue) {
-        super(modID, name, clientSided, defaultValue, loadedValue);
+    @Override
+    public Codec<Long> getValueCodec() {
+        return Codec.LONG;
     }
 
     @Override
-    public TimeConfiguration fromElement(NbtElement element) {
-        long l;
-        try {
-            l = Long.parseLong(element.asString().orElse(""));
-        } catch (NumberFormatException e) {
-            ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not an integer! Using default value instead.", element, getID().toString());
-            l = getDefaultValue();
-        }
-        return new TimeConfiguration(modID, name, clientSided, getDefaultValue(), l);
-    }
-
-    @Override
-    public TimeConfiguration fromElement(JsonElement element) {
-        long l;
-        try {
-            l = element.getAsLong();
-        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
-            ConfigApi.LOGGER.warn("Config value {} for config {} was not a long! Using default value instead.", element, getID().toString());
-            l = getDefaultValue();
-        }
-        return new TimeConfiguration(modID, name, clientSided, getDefaultValue(), l);
-    }
-
-    @Override
-    public String getClassID() {
-        return "TimeConfiguration";
+    public Identifier getConfigTypeId() {
+        return PneumonoCore.identifier("time");
     }
 }

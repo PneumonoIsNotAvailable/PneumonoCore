@@ -1,11 +1,9 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
-import com.google.gson.JsonElement;
-import net.minecraft.nbt.NbtElement;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-
-import java.util.Objects;
 
 public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     /**
@@ -22,46 +20,13 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
         super(modID, name, clientSided, defaultValue);
     }
 
-    private BooleanConfiguration(String modID, String name, boolean clientSided, boolean defaultValue, boolean loadedValue) {
-        super(modID, name, clientSided, defaultValue, loadedValue);
+    @Override
+    public Codec<Boolean> getValueCodec() {
+        return Codec.BOOL;
     }
 
     @Override
-    public BooleanConfiguration fromElement(NbtElement element) {
-        boolean b;
-        String elementString = element.asString().orElse(null);
-        if (Objects.equals(elementString, "true")) {
-            b = true;
-        } else if (Objects.equals(elementString, "false")) {
-            b = false;
-        } else {
-            ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not a boolean! Using default value instead.", element, getID().toString());
-            b = getDefaultValue();
-        }
-        return new BooleanConfiguration(modID, name, clientSided, getDefaultValue(), b);
-    }
-
-    @Override
-    public BooleanConfiguration fromElement(JsonElement element) {
-        boolean b;
-        try {
-            String elementString = element.getAsString();
-            if (Objects.equals(elementString, "true")) {
-                b = true;
-            } else if (Objects.equals(elementString, "false")) {
-                b = false;
-            } else {
-                throw new IllegalArgumentException();
-            }
-        } catch (UnsupportedOperationException | IllegalStateException | IllegalArgumentException e) {
-            ConfigApi.LOGGER.warn("Config value {} for config {} was not a boolean! Using default value instead.", element, getID().toString());
-            b = getDefaultValue();
-        }
-        return new BooleanConfiguration(modID, name, clientSided, getDefaultValue(), b);
-    }
-
-    @Override
-    public String getClassID() {
-        return "BooleanConfiguration";
+    public Identifier getConfigTypeId() {
+        return PneumonoCore.identifier("boolean");
     }
 }

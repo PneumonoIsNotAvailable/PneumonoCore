@@ -1,11 +1,10 @@
 package net.pneumono.pneumonocore.config_api;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.config_api.registry.ConfigPayload;
-import net.pneumono.pneumonocore.config_api.registry.PackagedConfigs;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +13,9 @@ import java.util.*;
 public class ConfigApi {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
 
-    protected static Map<String, ModConfigurations> CONFIGS = new HashMap<>();
+    private static final Map<String, ConfigFile> CONFIG_FILES = new HashMap<>();
 
-    private static final Map<String, ConfigCategory[]> CATEGORIES = new HashMap<>();
+    private static final Map<String, ConfigCategory[]> CONFIG_CATEGORIES = new HashMap<>();
 
     /**
      * Registers config categories for a specific mod ID.
@@ -27,7 +26,7 @@ public class ConfigApi {
      */
     @SuppressWarnings("unused")
     public static void registerCategories(String modID, ConfigCategory... categories) {
-        CATEGORIES.put(modID, categories);
+        CONFIG_CATEGORIES.put(modID, categories);
     }
 
     /**
@@ -43,51 +42,42 @@ public class ConfigApi {
         for (T configuration : configurations) {
             register(configuration);
         }
-        reload(modID);
+        readFromFile(modID);
     }
 
     private static <T extends AbstractConfiguration<?>> void register(T configuration) {
         if (!isValid(configuration)) {
-            LOGGER.error("Configuration {}:{} was not registered successfully!", configuration.modID, configuration.name);
+            LOGGER.error("Config '{}' used an invalid identifier, and so was not registered.", configuration.getID());
             return;
         }
 
-        boolean modConfigExists = false;
-        ModConfigurations modConfigs = CONFIGS.get(configuration.modID);
-        if (modConfigs != null) {
-            boolean isDuplicate = false;
-            for (AbstractConfiguration<?> checkedConfiguration : modConfigs.configurations) {
-                if (Objects.equals(checkedConfiguration.name, configuration.name)) {
-                    isDuplicate = true;
-                    break;
-                }
-            }
+        ConfigFile configFile = CONFIG_FILES.computeIfAbsent(configuration.getModID(), ConfigFile::new);
 
-            if (!isDuplicate) {
-                modConfigs.configurations.add(configuration);
-                modConfigExists = true;
-            } else {
-                LOGGER.error("Configuration {}:{} is a duplicate, and so was not registered!", configuration.modID, configuration.name);
+        for (AbstractConfiguration<?> checkedConfiguration : configFile.configurations) {
+            if (Objects.equals(checkedConfiguration.getName(), configuration.getName())) {
+                LOGGER.error("Config '{}' is a duplicate, and so was not registered.", configuration.getID());
+                return;
             }
         }
 
-        if (!modConfigExists) {
-            CONFIGS.put(configuration.getModID(), new ModConfigurations(configuration.getModID(), configuration));
-        }
+        ConfigManager.setRegistered(configuration);
+        configFile.configurations.add(configuration);
+    }
 
-        configuration.registered = true;
+    private static boolean isValid(AbstractConfiguration<?> configuration) {
+        return !Objects.equals(configuration.getName(), "") && !Objects.equals(configuration.getModID(), "");
     }
 
     /**
      * Reloads the specified config file. <p>
-     * It is recommended to use {@link #sendS2CConfigSyncPacket(ServerPlayerEntity...)} to send a config sync packet to the client to update their configs if called on the logical server.
+     * It is recommended to use {@link #sendConfigSyncPacket(ServerPlayerEntity...)} to send a config sync packet to the client to update their configs if called on the logical server.
      *
      * @param modID The mod ID of the config file to reload.
      */
-    public static void reload(String modID) {
-        ModConfigurations modConfigs = CONFIGS.get(modID);
+    public static void readFromFile(String modID) {
+        ConfigFile modConfigs = CONFIG_FILES.get(modID);
         if (modConfigs != null) {
-            modConfigs.reload();
+            modConfigs.readFromFile();
         }
     }
 
@@ -96,10 +86,10 @@ public class ConfigApi {
      *
      * @param players The players the packets will be sent to.
      */
-    public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
-        NbtCompound compound = new PackagedConfigs().toNbt();
+    public static void sendConfigSyncPacket(List<ServerPlayerEntity> players) {
+        LOGGER.info("Sending config sync packets...");
         for (ServerPlayerEntity player : players) {
-            ServerPlayNetworking.send(player, new ConfigPayload(compound));
+            ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
         }
     }
 
@@ -108,31 +98,27 @@ public class ConfigApi {
      *
      * @param players The players the packets will be sent to.
      */
-    public static void sendS2CConfigSyncPacket(ServerPlayerEntity... players) {
-        sendS2CConfigSyncPacket(List.of(players));
-    }
-
-    private static boolean isValid(AbstractConfiguration<?> configuration) {
-        return configuration.getName() != null && !Objects.equals(configuration.getName(), "") && configuration.getModID() != null && !Objects.equals(configuration.getModID(), "");
+    public static void sendConfigSyncPacket(ServerPlayerEntity... players) {
+        sendConfigSyncPacket(List.of(players));
     }
 
     /**
      * Returns {@code true} if at least one configuration has been registered for that mod ID, and {@code false} if not.
      */
     public static boolean hasConfigs(String modID) {
-        ModConfigurations modConfigs = CONFIGS.get(modID);
+        ConfigFile modConfigs = CONFIG_FILES.get(modID);
         if (modConfigs != null) {
             return !modConfigs.configurations.isEmpty();
         }
         return false;
     }
 
-    public static Collection<ModConfigurations> getModConfigs() {
-        return CONFIGS.values();
+    public static Collection<ConfigFile> getConfigFiles() {
+        return CONFIG_FILES.values();
     }
 
-    public static ModConfigurations getModConfigs(String modId) {
-        return CONFIGS.get(modId);
+    public static ConfigFile getConfigFile(String modId) {
+        return CONFIG_FILES.get(modId);
     }
 
     /**
@@ -146,15 +132,14 @@ public class ConfigApi {
      * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
      */
     public static AbstractConfiguration<?> getConfig(String modID, String name) {
-        ModConfigurations modConfigs = CONFIGS.get(modID);
+        ConfigFile modConfigs = CONFIG_FILES.get(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                if (Objects.equals(config.name, name)) {
+                if (Objects.equals(config.getName(), name)) {
                     return config;
                 }
             }
         }
-        LOGGER.warn("Requested config {}:{}, which does not exist!", modID, name);
         return null;
     }
 
@@ -165,7 +150,7 @@ public class ConfigApi {
      * @return The config categories.
      */
     public static ConfigCategory[] getCategories(String modID) {
-        ConfigCategory[] categories = CATEGORIES.get(modID);
+        ConfigCategory[] categories = CONFIG_CATEGORIES.get(modID);
         return categories != null ? categories : new ConfigCategory[0];
     }
 }

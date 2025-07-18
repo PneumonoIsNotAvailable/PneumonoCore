@@ -1,9 +1,9 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
-import com.google.gson.JsonElement;
-import net.minecraft.nbt.NbtElement;
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class FloatConfiguration extends AbstractConfiguration<Float> {
@@ -22,36 +22,13 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
         super(modID, name, clientSided, MathHelper.clamp(defaultValue, 0F, 1F));
     }
 
-    private FloatConfiguration(String modID, String name, boolean clientSided, float defaultValue, float loadedValue) {
-        super(modID, name, clientSided, MathHelper.clamp(defaultValue, 0F, 1F), MathHelper.clamp(loadedValue, 0F, 1F));
+    @Override
+    public Codec<Float> getValueCodec() {
+        return Codec.FLOAT;
     }
 
     @Override
-    public FloatConfiguration fromElement(NbtElement element) {
-        float f;
-        try {
-            f = Float.parseFloat(element.asString().orElse(""));
-        } catch (NumberFormatException e) {
-            ConfigApi.LOGGER.warn("Received server config value {} for config {} that was not a float! Using default value instead.", element, getID().toString());
-            f = getDefaultValue();
-        }
-        return new FloatConfiguration(modID, name, clientSided, getDefaultValue(), f);
-    }
-
-    @Override
-    public FloatConfiguration fromElement(JsonElement element) {
-        float f;
-        try {
-            f = element.getAsFloat();
-        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
-            ConfigApi.LOGGER.warn("Config value {} for config {} was not a float! Using default value instead.", element, getID().toString());
-            f = getDefaultValue();
-        }
-        return new FloatConfiguration(modID, name, clientSided, getDefaultValue(), f);
-    }
-
-    @Override
-    public String getClassID() {
-        return "FloatConfiguration";
+    public Identifier getConfigTypeId() {
+        return PneumonoCore.identifier("float");
     }
 }

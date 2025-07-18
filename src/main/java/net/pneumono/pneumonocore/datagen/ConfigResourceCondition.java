@@ -9,7 +9,7 @@ import net.minecraft.registry.RegistryOps;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.PneumonoCore;
-import net.pneumono.pneumonocore.config_api.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import org.jetbrains.annotations.Nullable;
 
