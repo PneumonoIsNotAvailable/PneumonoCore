@@ -55,6 +55,10 @@ public abstract class AbstractConfiguration<T> {
         return defaultValue;
     }
 
+    public ConfigSettings getSettings() {
+        return settings.copy();
+    }
+
     public boolean isClientSided() {
         return this.settings.clientSided;
     }

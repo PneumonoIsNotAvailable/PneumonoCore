@@ -15,6 +15,14 @@ public class ConfigSettings {
     @Nullable
     protected Supplier<Boolean> condition = null;
 
+    public ConfigSettings copy() {
+        return new ConfigSettings()
+                .clientSide(clientSided)
+                .category(category)
+                .loadType(loadType)
+                .condition(condition);
+    }
+
     public ConfigSettings clientSide(boolean value) {
         this.clientSided = value;
         return this;
