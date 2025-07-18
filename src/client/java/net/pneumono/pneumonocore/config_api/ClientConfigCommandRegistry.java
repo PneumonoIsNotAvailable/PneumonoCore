@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ClientConfigCommandRegistry {
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString());
+                returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + ConfigManager.getLoadedValue(config).toString());
             }
         }
         return returnConfigs;
@@ -72,7 +73,7 @@ public class ClientConfigCommandRegistry {
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.configurations) {
                 if (Objects.equals(config.getName(), name)) {
-                    return config.getModID() + ":" + config.getName() + " is set to " + config.getReloadableLoadedValue(false).toString();
+                    return config.getModID() + ":" + config.getName() + " is set to " + ConfigManager.getLoadedValue(config).toString();
                 }
             }
         }
