@@ -3,7 +3,6 @@ package net.pneumono.pneumonocore.config_api;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.PneumonoCoreClient;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.entries.*;
 
@@ -61,7 +60,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     }
 
     private void addConfigurationEntry(AbstractConfiguration<?> configuration) {
-        EntryBuilder builder = PneumonoCoreClient.CONFIG_SCREEN_ENTRY_TYPES.get(configuration.getClassID());
+        EntryBuilder builder = ClientConfigApi.getConfigEntryType(configuration.getConfigTypeId());
         if (builder == null) {
             builder = ErroneousConfigurationEntry::new;
         }

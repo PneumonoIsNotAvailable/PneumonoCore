@@ -9,10 +9,9 @@ import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
-
-import java.util.Objects;
 
 public class ConfigOptionsScreen extends GameOptionsScreen {
     public final String modID;
@@ -65,15 +64,24 @@ public class ConfigOptionsScreen extends GameOptionsScreen {
     }
 
     public static <T> void save(String modID, String name, T newValue) {
-        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
-        if (modConfigs != null) {
-            for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                if (Objects.equals(config.name, name)) {
-                    config.setLoadedValue(newValue);
-                }
+        ConfigFile configFile = ConfigApi.getConfigFile(modID);
+        if (configFile != null) {
+            AbstractConfiguration<?> config = configFile.getConfiguration(name);
+            if (setValue(config, newValue)) {
+                configFile.writeToFile();
             }
-            modConfigs.writeConfigs(modConfigs.configurations, false);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> boolean setValue(AbstractConfiguration<T> config, Object value) {
+        try {
+            ConfigManager.setLoadedValue(config, (T)value);
+        } catch (ClassCastException e) {
+            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.getID());
+            return false;
+        }
+        return true;
     }
 
     public MinecraftClient getClient() {

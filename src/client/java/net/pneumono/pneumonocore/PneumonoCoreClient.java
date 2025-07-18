@@ -2,6 +2,7 @@ package net.pneumono.pneumonocore;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.ClientConfigCommandRegistry;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.entries.*;
@@ -19,11 +20,11 @@ public class PneumonoCoreClient implements ClientModInitializer {
 
 		ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, (payload, context) -> payload.updateConfigs());
 		ClientConfigCommandRegistry.registerClientConfigCommand();
-		CONFIG_SCREEN_ENTRY_TYPES.put("BooleanConfiguration", BooleanConfigurationEntry::new);
-		CONFIG_SCREEN_ENTRY_TYPES.put("EnumConfiguration", EnumConfigurationEntry::new);
-		CONFIG_SCREEN_ENTRY_TYPES.put("IntegerConfiguration", IntegerConfigurationEntry::new);
-		CONFIG_SCREEN_ENTRY_TYPES.put("FloatConfiguration", FloatConfigurationEntry::new);
-		CONFIG_SCREEN_ENTRY_TYPES.put("StringConfiguration", StringConfigurationEntry::new);
-		CONFIG_SCREEN_ENTRY_TYPES.put("TimeConfiguration", TimeConfigurationEntry::new);
+		ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier("boolean"), BooleanConfigurationEntry::new);
+		ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier("enum"), EnumConfigurationEntry::new);
+		ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier("integer"), IntegerConfigurationEntry::new);
+		ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier("float"), FloatConfigurationEntry::new);
+		ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier("string"), StringConfigurationEntry::new);
+		ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier("time"), TimeConfigurationEntry::new);
 	}
 }

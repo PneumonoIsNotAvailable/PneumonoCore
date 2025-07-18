@@ -32,6 +32,13 @@ public class ConfigFile {
         return modID;
     }
 
+    public AbstractConfiguration<?> getConfiguration(String name) {
+        for (AbstractConfiguration<?> configuration : this.configurations) {
+            if (configuration.getName().equals(name)) return configuration;
+        }
+        return null;
+    }
+
     /**
      * Updates configurations with values from the config file.
      */
