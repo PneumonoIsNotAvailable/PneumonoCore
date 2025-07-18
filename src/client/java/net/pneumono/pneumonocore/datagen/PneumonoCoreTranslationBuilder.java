@@ -110,8 +110,7 @@ public class PneumonoCoreTranslationBuilder {
 
     @Deprecated
     public void addConfig(net.pneumono.pneumonocore.config.AbstractConfiguration<?, ?> config, String name, String tooltip) {
-        this.builder.add(config.getTranslationKey(), name);
-        this.builder.add(config.getTooltipTranslationKey(), tooltip);
+        this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
 
     public <T extends Enum<T>> void addEnumConfig(EnumConfiguration<T> config, String name, String tooltip, String... values) {
@@ -127,14 +126,7 @@ public class PneumonoCoreTranslationBuilder {
 
     @Deprecated
     public <T extends Enum<T>> void addEnumConfig(net.pneumono.pneumonocore.config.EnumConfiguration<T> config, String name, String tooltip, String... values) {
-        this.addConfig(config, name, tooltip);
-
-        T[] keys = config.getDefaultValue().getDeclaringClass().getEnumConstants();
-        if (keys.length != values.length) throw new IllegalArgumentException("The number of enum values and translation strings must match!");
-
-        for (int i = 0; i < keys.length; ++i) {
-            this.builder.add(config.getTranslationKey(keys[i].toString().toLowerCase()), values[i]);
-        }
+        this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
 
     public void addConfigCategory(String modId, String category, String name) {
