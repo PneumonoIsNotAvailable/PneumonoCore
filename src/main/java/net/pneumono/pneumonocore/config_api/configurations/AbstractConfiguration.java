@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractConfiguration<T> {
     private boolean registered = false;
@@ -76,6 +77,15 @@ public abstract class AbstractConfiguration<T> {
             return this.settings.condition.get();
         } else {
             return true;
+        }
+    }
+
+    @Nullable
+    public Identifier getParent() {
+        if (this.settings.parent != null) {
+            return this.settings.parent.get();
+        } else {
+            return null;
         }
     }
 

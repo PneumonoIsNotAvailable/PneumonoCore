@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,13 +15,16 @@ public class ConfigSettings {
     protected LoadType loadType = LoadType.RELOAD;
     @Nullable
     protected Supplier<Boolean> condition = null;
+    @Nullable
+    protected Supplier<Identifier> parent = null;
 
     public ConfigSettings copy() {
         return new ConfigSettings()
                 .clientSide(clientSided)
                 .category(category)
                 .loadType(loadType)
-                .condition(condition);
+                .condition(condition)
+                .parent(parent);
     }
 
     public ConfigSettings clientSide(boolean value) {
@@ -49,11 +53,21 @@ public class ConfigSettings {
         return this;
     }
 
+    public ConfigSettings requiresMod(String modId) {
+        return condition(() -> FabricLoader.getInstance().isModLoaded(modId));
+    }
+
     public <T> ConfigSettings parent(AbstractConfiguration<T> configuration, Predicate<T> predicate) {
+        parent(configuration);
         return condition(() -> predicate.test(configuration.getValue()));
     }
 
-    public ConfigSettings requiresMod(String modId) {
-        return condition(() -> FabricLoader.getInstance().isModLoaded(modId));
+    public ConfigSettings parent(Supplier<Identifier> parent) {
+        this.parent = parent;
+        return this;
+    }
+
+    public ConfigSettings parent(AbstractConfiguration<?> parent) {
+        return this.parent(parent::getId);
     }
 }
