@@ -12,7 +12,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
                 new net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration<>(
                 defaultValue,
                 CodecUtil.createEnumCodec(defaultValue.getDeclaringClass().getEnumConstants()),
-                environment.toNew()
+                environment.toSettings()
         ));
     }
 }

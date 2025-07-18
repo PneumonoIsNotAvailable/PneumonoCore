@@ -7,7 +7,7 @@ package net.pneumono.pneumonocore.config;
 @SuppressWarnings("unused")
 public class IntegerConfiguration extends AbstractConfiguration<Integer, net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration> {
     public IntegerConfiguration(String modId, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {
-        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration(defaultValue, minValue, maxValue, environment.toNew()));
+        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration(defaultValue, minValue, maxValue, environment.toSettings()));
     }
 
     public int getMinValue() {
