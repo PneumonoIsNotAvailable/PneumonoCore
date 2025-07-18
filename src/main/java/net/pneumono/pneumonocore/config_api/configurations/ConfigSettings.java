@@ -45,7 +45,6 @@ public class ConfigSettings {
     }
 
     public ConfigSettings condition(Supplier<Boolean> condition) {
-        if (condition == null) throw new IllegalArgumentException("Condition cannot be null.");
         this.condition = condition;
         return this;
     }
