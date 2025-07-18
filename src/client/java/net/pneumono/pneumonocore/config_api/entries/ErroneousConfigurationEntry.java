@@ -6,7 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
@@ -45,10 +45,10 @@ public class ErroneousConfigurationEntry extends AbstractConfigurationEntry<Abst
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
 
-        Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error").formatted(Formatting.RED);
+        Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error");
         int width = textRenderer.getWidth(text);
         int textX = x + OFFSET + 90 - (width / 2);
-        int textY = y + entryHeight / 2;
-        context.drawText(textRenderer, text, textX, textY - 2, 16777215, false);
+        int textY = (y + entryHeight / 2) - 2;
+        context.drawText(textRenderer, text, textX, textY, Colors.RED, true);
     }
 }
