@@ -43,5 +43,7 @@
   "configs.pneumonocore.test_time": "Time",
   "configs.pneumonocore.test_time.tooltip": "This is a Time configuration!",
   "configs.pneumonocore.test_client": "Client",
-  "configs.pneumonocore.test_client.tooltip": "This is a Client-Side Boolean configuration!"
+  "configs.pneumonocore.test_client.tooltip": "This is a Client-Side Boolean configuration!",
+  "configs.pneumonocore.test_per_player": "Per-Player",
+  "configs.pneumonocore.test_player_player.tooltip": "This is a Per-Player Boolean configuration!"
 }
