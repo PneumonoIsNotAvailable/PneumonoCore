@@ -2,7 +2,6 @@ package net.pneumono.pneumonocore.config_api.configurations;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -23,9 +22,16 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      */
     @SuppressWarnings("unused")
     public IntegerConfiguration(String modID, String name, Integer defaultValue, int minValue, int maxValue, ConfigSettings settings) {
-        super(modID, name, MathHelper.clamp(defaultValue, minValue, maxValue), settings);
+        super(modID, name, validateDefaultValue(defaultValue, minValue, maxValue), settings);
         this.minValue = minValue;
         this.maxValue = maxValue;
+    }
+
+    private static int validateDefaultValue(int defaultValue, int min, int max) {
+        if (defaultValue > max || defaultValue < min) {
+            throw new IllegalArgumentException("Integer Configurations cannot have a default value outside their bounds!");
+        }
+        return defaultValue;
     }
 
     public int getMinValue() {
