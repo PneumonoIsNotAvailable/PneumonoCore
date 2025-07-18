@@ -1,6 +1,6 @@
 {
   "configs.pneumonocore.screen_title": "PneumonoCore Configs",
-  "configs.category.pneumonocore.empty": "Uncategorized",
+  "configs.category.pneumonocore.misc": "Miscellaneous",
 
   "configs_screen.pneumonocore.no_configs": "This mod has no configs!",
   "configs_screen.pneumonocore.information": "Information",

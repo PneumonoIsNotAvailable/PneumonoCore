@@ -15,20 +15,6 @@ public class ConfigApi {
 
     private static final Map<String, ConfigFile> CONFIG_FILES = new HashMap<>();
 
-    private static final Map<String, ConfigCategory[]> CONFIG_CATEGORIES = new HashMap<>();
-
-    /**
-     * Registers config categories for a specific mod ID.
-     * Do NOT call this method multiple times!!!
-     *
-     * @param modID The mod ID of the mod the config categories are being registered for.
-     * @param categories The config categories to be registered.
-     */
-    @SuppressWarnings("unused")
-    public static void registerCategories(String modID, ConfigCategory... categories) {
-        CONFIG_CATEGORIES.put(modID, categories);
-    }
-
     /**
      * Registers a mod's configurations. Configuration values cannot be properly obtained via {@link AbstractConfiguration#getValue()} without first registering them.<p>
      * Do NOT call this method multiple times!!!
@@ -135,16 +121,5 @@ public class ConfigApi {
             return modConfigs.getConfiguration(name);
         }
         return null;
-    }
-
-    /**
-     * Returns a list of all config categories registered for that mod ID.
-     *
-     * @param modID The mod ID of the mod to get the config categories of.
-     * @return The config categories.
-     */
-    public static ConfigCategory[] getCategories(String modID) {
-        ConfigCategory[] categories = CONFIG_CATEGORIES.get(modID);
-        return categories != null ? categories : new ConfigCategory[0];
     }
 }

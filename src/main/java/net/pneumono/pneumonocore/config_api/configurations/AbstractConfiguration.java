@@ -62,6 +62,10 @@ public abstract class AbstractConfiguration<T> {
         return this.settings.clientSided;
     }
 
+    public String getCategory() {
+        return this.settings.category;
+    }
+
     public String getModID() {
         return modID;
     }
@@ -84,5 +88,10 @@ public abstract class AbstractConfiguration<T> {
 
     public String getTooltipTranslationKey() {
         return getTranslationKey("tooltip");
+    }
+
+    @Deprecated
+    protected void setCategory(String category) {
+        this.settings.category(category);
     }
 }

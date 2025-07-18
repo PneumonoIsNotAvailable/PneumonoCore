@@ -4,6 +4,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
+import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +19,10 @@ public class Configs {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
 
     public static void registerCategories(String modID, ConfigCategory... categories) {
-        ConfigApi.registerCategories(modID, Arrays.stream(categories)
-                .map(ConfigCategory::toNew)
-                .toArray(net.pneumono.pneumonocore.config_api.ConfigCategory[]::new)
-        );
+        for (ConfigCategory category : categories) for (Identifier id : category.configurations()) {
+            net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration = ConfigApi.getConfig(id);
+            ConfigManager.setCategory(configuration, category.name());
+        }
     }
 
     @SafeVarargs
@@ -61,8 +62,25 @@ public class Configs {
     }
 
     public static ConfigCategory[] getCategories(String modID) {
-        net.pneumono.pneumonocore.config_api.ConfigCategory[] categories = ConfigApi.getCategories(modID);
-        return Arrays.stream(categories).map(ConfigCategory::new).toArray(ConfigCategory[]::new);
+        ConfigFile configFile = ConfigApi.getConfigFile(modID);
+
+        Map<String, List<net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?>>> categories = new HashMap<>();
+        for (net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
+            String category = configuration.getCategory();
+            if (!Objects.equals(category, "misc") && !categories.containsKey(category)) {
+                categories.computeIfAbsent(category, string -> new ArrayList<>()).add(configuration);
+            }
+        }
+
+        return categories.entrySet().stream()
+                .map(entry -> new ConfigCategory(
+                        configFile.getModID(),
+                        entry.getKey(),
+                        entry.getValue().stream()
+                                .map(net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration::getID)
+                                .toArray(Identifier[]::new)
+                ))
+                .toArray(ConfigCategory[]::new);
     }
 
     public static class WrappedConfiguration<T, C extends net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<T>> extends AbstractConfiguration<T, C> {

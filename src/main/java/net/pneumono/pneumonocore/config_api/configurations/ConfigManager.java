@@ -14,11 +14,16 @@ public class ConfigManager {
         configuration.setSyncedValue(value);
     }
 
+    public static <T, C extends AbstractConfiguration<T>> T getLoadedValue(C configuration) {
+        return configuration.getLoadedValue();
+    }
+
     public static void setRegistered(AbstractConfiguration<?> configuration) {
         configuration.setRegistered();
     }
 
-    public static <T, C extends AbstractConfiguration<T>> T getLoadedValue(C configuration) {
-        return configuration.getLoadedValue();
+    @Deprecated
+    public static void setCategory(AbstractConfiguration<?> configuration, String category) {
+        configuration.setCategory(category);
     }
 }
