@@ -18,7 +18,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         super(client, parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
         this.parent = parent;
         ConfigFile configFile = ConfigApi.getConfigFile(this.parent.modID);
-        this.configurations = configFile != null ? configFile.configurations : List.of();
+        this.configurations = configFile != null ? configFile.getConfigurations() : List.of();
         this.categories = ConfigApi.getCategories(this.parent.modID);
 
         if (configurations.isEmpty()) {

@@ -53,15 +53,13 @@ public class ConfigApi {
 
         ConfigFile configFile = CONFIG_FILES.computeIfAbsent(configuration.getModID(), ConfigFile::new);
 
-        for (AbstractConfiguration<?> checkedConfiguration : configFile.configurations) {
-            if (Objects.equals(checkedConfiguration.getName(), configuration.getName())) {
-                LOGGER.error("Config '{}' is a duplicate, and so was not registered.", configuration.getID());
-                return;
-            }
+        if (configFile.hasConfiguration(configuration.getName())) {
+            LOGGER.error("Config '{}' is a duplicate, and so was not registered.", configuration.getID());
+            return;
         }
 
         ConfigManager.setRegistered(configuration);
-        configFile.configurations.add(configuration);
+        configFile.addConfiguration(configuration);
     }
 
     private static boolean isValid(AbstractConfiguration<?> configuration) {
@@ -108,7 +106,7 @@ public class ConfigApi {
     public static boolean hasConfigs(String modID) {
         ConfigFile modConfigs = CONFIG_FILES.get(modID);
         if (modConfigs != null) {
-            return !modConfigs.configurations.isEmpty();
+            return !modConfigs.getConfigurations().isEmpty();
         }
         return false;
     }
@@ -134,11 +132,7 @@ public class ConfigApi {
     public static AbstractConfiguration<?> getConfig(String modID, String name) {
         ConfigFile modConfigs = CONFIG_FILES.get(modID);
         if (modConfigs != null) {
-            for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                if (Objects.equals(config.getName(), name)) {
-                    return config;
-                }
-            }
+            return modConfigs.getConfiguration(name);
         }
         return null;
     }

@@ -14,7 +14,6 @@ import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
@@ -61,7 +60,7 @@ public class ClientConfigCommandRegistry {
         List<String> returnConfigs = new ArrayList<>();
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
-            for (AbstractConfiguration<?> config : modConfigs.configurations) {
+            for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
                 returnConfigs.add(config.getModID() + ":" + config.getName() + " is set to " + ConfigManager.getLoadedValue(config).toString());
             }
         }
@@ -71,10 +70,9 @@ public class ClientConfigCommandRegistry {
     public static String getConfigValueString(String modID, String name) {
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
-            for (AbstractConfiguration<?> config : modConfigs.configurations) {
-                if (Objects.equals(config.getName(), name)) {
-                    return config.getModID() + ":" + config.getName() + " is set to " + ConfigManager.getLoadedValue(config).toString();
-                }
+            AbstractConfiguration<?> config = modConfigs.getConfiguration(name);
+            if (config != null) {
+                return config.getModID() + ":" + config.getName() + " is set to " + ConfigManager.getLoadedValue(config).toString();
             }
         }
         return modID + ":" + name + " does not exist!";
@@ -98,7 +96,7 @@ public class ClientConfigCommandRegistry {
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
             ConfigFile modConfigs = ConfigApi.getConfigFile(StringArgumentType.getString(context, "modid"));
             if (modConfigs != null) {
-                for (AbstractConfiguration<?> config : modConfigs.configurations) {
+                for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
                     if (config.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
                         builder.suggest(config.getName());
                     }

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ConfigFile {
     private final String modID;
-    public List<AbstractConfiguration<?>> configurations = new ArrayList<>();
+    private final List<AbstractConfiguration<?>> configurations = new ArrayList<>();
 
     protected ConfigFile(String modID) {
         this.modID = modID;
@@ -32,11 +32,23 @@ public class ConfigFile {
         return modID;
     }
 
+    public void addConfiguration(AbstractConfiguration<?> configuration) {
+        this.configurations.add(configuration);
+    }
+
+    public List<AbstractConfiguration<?>> getConfigurations() {
+        return configurations;
+    }
+
     public AbstractConfiguration<?> getConfiguration(String name) {
         for (AbstractConfiguration<?> configuration : this.configurations) {
             if (configuration.getName().equals(name)) return configuration;
         }
         return null;
+    }
+
+    public boolean hasConfiguration(String name) {
+        return getConfiguration(name) != null;
     }
 
     /**

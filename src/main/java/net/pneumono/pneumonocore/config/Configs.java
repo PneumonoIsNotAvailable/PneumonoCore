@@ -51,10 +51,9 @@ public class Configs {
     public static AbstractConfiguration<?, ?> getConfig(String modID, String name) {
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
-            for (net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> config : modConfigs.configurations) {
-                if (Objects.equals(config.getName(), name)) {
-                    return new WrappedConfiguration<>(config);
-                }
+            net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> config = modConfigs.getConfiguration(name);
+            if (config != null) {
+                return new WrappedConfiguration<>(config);
             }
         }
         LOGGER.warn("Requested config {}:{}, which does not exist!", modID, name);
