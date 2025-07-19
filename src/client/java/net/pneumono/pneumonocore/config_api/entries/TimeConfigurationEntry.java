@@ -79,9 +79,9 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
 
     @Override
     public void reset() {
-        this.amount = getAmount(configuration.getDefaultValue());
+        this.amount = getAmount(configuration.getInfo().getDefaultValue());
         this.textWidget.setText(String.valueOf(amount));
-        this.units = TimeUnit.fromValue(configuration.getDefaultValue());
+        this.units = TimeUnit.fromValue(configuration.getInfo().getDefaultValue());
         super.reset();
     }
 

@@ -16,7 +16,7 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
     private final Codec<Values<T>> codec;
 
     public PerPlayerConfiguration(AbstractConfiguration<T> configuration) {
-        super(new Values<>(configuration.getDefaultValue()), configuration.getSettings());
+        super(new Values<>(configuration.getInfo().getDefaultValue()), configuration.getInfo().getSettings());
         this.configuration = configuration;
         this.codec = RecordCodecBuilder.create(builder -> builder.group(
                 configuration.getValueCodec().fieldOf("default_value").forGetter(Values::getDefaultValue),

@@ -66,7 +66,7 @@ public class Configs {
 
         Map<String, List<net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?>>> categories = new HashMap<>();
         for (net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
-            String category = configuration.getCategory();
+            String category = configuration.getInfo().getCategory();
             if (!Objects.equals(category, "misc") && !categories.containsKey(category)) {
                 categories.computeIfAbsent(category, string -> new ArrayList<>()).add(configuration);
             }
@@ -89,7 +89,7 @@ public class Configs {
         }
 
         public WrappedConfiguration(C configuration) {
-            super(configuration.getModID(), configuration.getName(), configuration);
+            super(configuration.getInfo().getModID(), configuration.getInfo().getName(), configuration);
         }
     }
 }

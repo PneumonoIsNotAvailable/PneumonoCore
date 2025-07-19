@@ -42,7 +42,7 @@ public class ConfigFile {
 
     public AbstractConfiguration<?> getConfiguration(String name) {
         for (AbstractConfiguration<?> configuration : this.configurations) {
-            if (configuration.getName().equals(name)) return configuration;
+            if (configuration.getInfo().getName().equals(name)) return configuration;
         }
         return null;
     }
@@ -86,7 +86,7 @@ public class ConfigFile {
         // Parse config file
         boolean shouldWrite = false;
         for (AbstractConfiguration<?> configuration : this.configurations) {
-            String name = configuration.getName();
+            String name = configuration.getInfo().getName();
 
             if (!jsonObject.has(name)) {
                 ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modID, configuration.getId());
@@ -126,7 +126,7 @@ public class ConfigFile {
         JsonObject jsonObject = new JsonObject();
         for (AbstractConfiguration<?> config : this.configurations) {
             JsonElement jsonElement = encodeJson(config);
-            jsonObject.add(config.getName(), jsonElement);
+            jsonObject.add(config.getInfo().getName(), jsonElement);
         }
 
         // Write JsonObject to config file
@@ -159,6 +159,6 @@ public class ConfigFile {
     }
 
     private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
-        compound.put(config.getName(), config.getValueCodec(), ConfigManager.getLoadedValue(config));
+        compound.put(config.getInfo().getName(), config.getValueCodec(), ConfigManager.getLoadedValue(config));
     }
 }

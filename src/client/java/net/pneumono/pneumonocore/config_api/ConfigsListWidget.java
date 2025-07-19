@@ -25,7 +25,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         this.categorizedConfigs = new HashMap<>();
         List<AbstractConfiguration<?>> configurations = this.configFile.getConfigurations();
         for (AbstractConfiguration<?> configuration : configurations) {
-            this.categorizedConfigs.computeIfAbsent(configuration.getCategory(), string -> new ArrayList<>()).add(configuration);
+            this.categorizedConfigs.computeIfAbsent(configuration.getInfo().getCategory(), string -> new ArrayList<>()).add(configuration);
         }
         this.categorizedConfigs.put("misc", this.categorizedConfigs.remove("misc"));
 

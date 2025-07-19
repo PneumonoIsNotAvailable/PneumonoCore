@@ -34,13 +34,13 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.infoWidget.setTooltip(Tooltip.of(
                 Text.translatable(ConfigApi.toTranslationKey(configuration, "tooltip"))
                         .append(Text.literal("\n\n"))
-                        .append(switch (configuration.getLoadType()) {
+                        .append(switch (configuration.getInfo().getLoadType()) {
                             case INSTANT -> Text.translatable("configs_screen.pneumonocore.load_instant");
                             case RELOAD -> Text.translatable("configs_screen.pneumonocore.load_reload");
                             case RESTART -> Text.translatable("configs_screen.pneumonocore.load_restart");
                         })
                         .append(Text.literal("\n\n"))
-                        .append(configuration.isClientSided() ?
+                        .append(configuration.getInfo().isClientSided() ?
                                 Text.translatable("configs_screen.pneumonocore.client") :
                                 Text.translatable("configs_screen.pneumonocore.server")
                         )
@@ -51,7 +51,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
 
     @Override
     public void reset() {
-        setValue(this.configuration.getDefaultValue());
+        setValue(this.configuration.getInfo().getDefaultValue());
     }
 
     @Override
@@ -66,7 +66,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     }
 
     public void save() {
-        this.widget.save(this.configuration.getName(), this.value);
+        this.widget.save(this.configuration.getInfo().getName(), this.value);
     }
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {

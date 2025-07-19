@@ -35,6 +35,10 @@ public abstract class AbstractConfiguration<T> {
         return isEnabled() ? this.syncedValue : this.defaultValue;
     }
 
+    public Info getInfo() {
+        return new Info();
+    }
+
     protected void setRegistered(Identifier id) {
         this.id = id;
         this.registered = true;
@@ -52,49 +56,12 @@ public abstract class AbstractConfiguration<T> {
         return loadedValue;
     }
 
-    public T getDefaultValue() {
-        return defaultValue;
-    }
-
-    public ConfigSettings getSettings() {
-        return settings.copy();
-    }
-
-    public boolean isClientSided() {
-        return this.settings.clientSided;
-    }
-
-    public String getCategory() {
-        return this.settings.category;
-    }
-
-    public LoadType getLoadType() {
-        return this.settings.loadType;
-    }
-
     public boolean isEnabled() {
         if (this.settings.condition != null) {
             return this.settings.condition.get();
         } else {
             return true;
         }
-    }
-
-    @Nullable
-    public Identifier getParent() {
-        if (this.settings.parent != null) {
-            return this.settings.parent.get();
-        } else {
-            return null;
-        }
-    }
-
-    public String getModID() {
-        return this.getId().getNamespace();
-    }
-
-    public String getName() {
-        return this.getId().getPath();
     }
 
     public Identifier getId() {
@@ -105,5 +72,48 @@ public abstract class AbstractConfiguration<T> {
     @Deprecated
     protected void setCategory(String category) {
         this.settings.category(category);
+    }
+
+    public class Info {
+        public T getDefaultValue() {
+            return AbstractConfiguration.this.defaultValue;
+        }
+
+        public Identifier getId() {
+            return AbstractConfiguration.this.getId();
+        }
+
+        public String getModID() {
+            return this.getId().getNamespace();
+        }
+
+        public String getName() {
+            return this.getId().getPath();
+        }
+
+        public ConfigSettings getSettings() {
+            return AbstractConfiguration.this.settings.copy();
+        }
+
+        public boolean isClientSided() {
+            return this.getSettings().clientSided;
+        }
+
+        public String getCategory() {
+            return this.getSettings().category;
+        }
+
+        public LoadType getLoadType() {
+            return this.getSettings().loadType;
+        }
+
+        @Nullable
+        public AbstractConfiguration<?> getParent() {
+            if (this.getSettings().parent != null) {
+                return this.getSettings().parent.get();
+            } else {
+                return null;
+            }
+        }
     }
 }

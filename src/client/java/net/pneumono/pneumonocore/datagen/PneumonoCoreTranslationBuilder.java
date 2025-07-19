@@ -117,7 +117,7 @@ public class PneumonoCoreTranslationBuilder {
     public <T extends Enum<T>> void addEnumConfig(EnumConfiguration<T> config, String name, String tooltip, String... values) {
         this.addConfig(config, name, tooltip);
 
-        T[] keys = config.getDefaultValue().getDeclaringClass().getEnumConstants();
+        T[] keys = config.getInfo().getDefaultValue().getDeclaringClass().getEnumConstants();
         if (keys.length != values.length) throw new IllegalArgumentException("The number of enum values and translation strings must match!");
 
         for (int i = 0; i < keys.length; ++i) {

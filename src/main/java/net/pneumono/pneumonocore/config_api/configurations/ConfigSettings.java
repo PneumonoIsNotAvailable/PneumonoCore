@@ -1,7 +1,6 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +15,7 @@ public class ConfigSettings {
     @Nullable
     protected Supplier<Boolean> condition = null;
     @Nullable
-    protected Supplier<Identifier> parent = null;
+    protected Supplier<AbstractConfiguration<?>> parent = null;
 
     public ConfigSettings copy() {
         return new ConfigSettings()
@@ -58,16 +57,12 @@ public class ConfigSettings {
     }
 
     public <T> ConfigSettings parent(AbstractConfiguration<T> configuration, Predicate<T> predicate) {
-        parent(configuration);
+        parent(() -> configuration);
         return condition(() -> predicate.test(configuration.getValue()));
     }
 
-    public ConfigSettings parent(Supplier<Identifier> parent) {
+    public ConfigSettings parent(Supplier<AbstractConfiguration<?>> parent) {
         this.parent = parent;
         return this;
-    }
-
-    public ConfigSettings parent(AbstractConfiguration<?> parent) {
-        return this.parent(parent::getId);
     }
 }
