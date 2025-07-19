@@ -4,6 +4,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
 import net.pneumono.pneumonocore.config_api.entries.ErroneousConfigurationEntry;
+import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
 import java.util.HashMap;
 import java.util.Map;

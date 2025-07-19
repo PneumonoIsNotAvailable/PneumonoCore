@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config_api;
+package net.pneumono.pneumonocore.config_api.screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -7,6 +7,7 @@ import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
 

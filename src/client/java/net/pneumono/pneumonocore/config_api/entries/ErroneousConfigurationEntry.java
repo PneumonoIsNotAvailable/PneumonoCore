@@ -8,7 +8,7 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
-import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 
 import java.util.List;

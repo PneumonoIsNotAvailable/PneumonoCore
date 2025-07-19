@@ -6,6 +6,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.entries.*;
+import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;

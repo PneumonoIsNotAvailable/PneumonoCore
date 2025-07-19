@@ -2,7 +2,7 @@ package net.pneumono.pneumonocore;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
 public class PneumonoCoreModMenu implements ModMenuApi {
     @Override

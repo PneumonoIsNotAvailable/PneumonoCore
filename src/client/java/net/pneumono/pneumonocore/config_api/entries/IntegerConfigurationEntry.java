@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
-import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.widgets.IntegerConfigSliderWidget;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration;
