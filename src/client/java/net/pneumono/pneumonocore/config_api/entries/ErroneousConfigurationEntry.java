@@ -43,6 +43,6 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
         int width = textRenderer.getWidth(text);
         int textX = x + OFFSET + 90 - (width / 2);
         int textY = (y + entryHeight / 2) - 2;
-        context.drawText(textRenderer, text, textX, textY, Colors.RED, true);
+        context.drawText(textRenderer, text, textX, textY, Colors.LIGHT_RED, true);
     }
 }
