@@ -2,7 +2,7 @@ package net.pneumono.pneumonocore;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
+import net.pneumono.pneumonocore.config_api.screen.ClientConfigOptionsScreen;
 
 public class PneumonoCoreModMenu implements ModMenuApi {
     @Override
@@ -11,6 +11,6 @@ public class PneumonoCoreModMenu implements ModMenuApi {
     }
 
     public static ConfigScreenFactory<?> getModConfigScreenFactory(String modID) {
-        return parent -> new ConfigOptionsScreen(parent, modID);
+        return parent -> new ClientConfigOptionsScreen(parent, modID);
     }
 }

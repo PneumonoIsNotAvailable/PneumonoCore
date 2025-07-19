@@ -11,7 +11,6 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
-import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 
 import java.util.Objects;
 
@@ -46,7 +45,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
                         )
         ));
 
-        this.value = ConfigManager.getLoadedValue(this.configuration);
+        this.value = this.parent.getConfigValue(this.configuration);
     }
 
     public C getConfiguration() {
@@ -73,7 +72,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     }
 
     public void save() {
-        this.widget.save(this.configuration.getInfo().getName(), this.value);
+        this.parent.save(this.configuration.getInfo().getName(), this.value);
     }
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {

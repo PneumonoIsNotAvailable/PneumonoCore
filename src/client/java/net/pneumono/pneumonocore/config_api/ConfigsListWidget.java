@@ -1,10 +1,8 @@
 package net.pneumono.pneumonocore.config_api;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
-import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.entries.*;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
@@ -15,12 +13,12 @@ import java.util.Map;
 
 public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidgetEntry> {
     protected final ConfigOptionsScreen parent;
-    protected final ConfigFile configFile;
+    public final ConfigFile configFile;
     private final Map<String, List<AbstractConfiguration<?>>> categorizedConfigs;
     private final List<AbstractConfigListWidgetEntry> entries;
 
-    public ConfigsListWidget(ConfigOptionsScreen parent, MinecraftClient client) {
-        super(client, parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
+    public ConfigsListWidget(ConfigOptionsScreen parent) {
+        super(parent.getClient(), parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
         this.parent = parent;
         this.configFile = ConfigApi.getConfigFile(this.parent.modID);
 
@@ -82,24 +80,6 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
             }
         }
         return null;
-    }
-
-    public <T> void save(String name, T newValue) {
-        AbstractConfiguration<?> config = this.configFile.getConfiguration(name);
-        if (setValue(config, newValue)) {
-            this.configFile.writeToFile();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> boolean setValue(AbstractConfiguration<T> config, Object value) {
-        try {
-            ConfigManager.setLoadedValue(config, (T)value);
-            return true;
-        } catch (ClassCastException e) {
-            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.getId());
-            return false;
-        }
     }
 
     @Override

@@ -8,21 +8,26 @@ import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
 
-public class ConfigOptionsScreen extends Screen {
-    protected final Screen parent;
+public abstract class ConfigOptionsScreen extends Screen {
+    public final Screen parent;
     public final String modID;
     public final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
 
-    private ConfigsListWidget configsListWidget;
+    public ConfigsListWidget configsListWidget;
 
     public ConfigOptionsScreen(Screen parent, String modID) {
         super(Text.translatable("configs." + modID + ".screen_title"));
         this.parent = parent;
         this.modID = modID;
     }
+
+    public abstract <T> void save(String name, T newValue);
+
+    public abstract <T> T getConfigValue(AbstractConfiguration<T> configuration);
 
     @Override
     protected void init() {
@@ -38,7 +43,7 @@ public class ConfigOptionsScreen extends Screen {
     }
 
     protected void initBody() {
-        this.configsListWidget = this.layout.addBody(new ConfigsListWidget(this, this.client));
+        this.configsListWidget = this.layout.addBody(new ConfigsListWidget(this));
     }
 
     protected void initFooter() {
