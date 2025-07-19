@@ -11,6 +11,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.nbt.NbtCompound;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class ConfigFile {
     /**
      * Updates configurations with values from the config file.
      */
-    public void readFromFile() {
+    public void readFromFile(LoadType loadType) {
         File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
 
         // Create config file if it does not exist already
@@ -95,7 +96,7 @@ public class ConfigFile {
             }
 
             JsonElement element = jsonObject.get(name);
-            if (!setConfigValue(configuration, element)) {
+            if (!setConfigValue(configuration, element, loadType)) {
                 ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.getId());
                 shouldWrite = true;
             }
@@ -107,12 +108,12 @@ public class ConfigFile {
         }
     }
 
-    private static  <T> boolean setConfigValue(AbstractConfiguration<T> config, JsonElement jsonElement) {
+    private static  <T> boolean setConfigValue(AbstractConfiguration<T> config, JsonElement jsonElement, LoadType loadType) {
         DataResult<Pair<T, JsonElement>> result = config.getValueCodec().decode(JsonOps.INSTANCE, jsonElement);
         if (result.isError()) {
             return false;
         }
-        ConfigManager.setValue(config, result.getOrThrow().getFirst());
+        ConfigManager.setValue(config, result.getOrThrow().getFirst(), loadType, null);
         return true;
     }
 
@@ -120,16 +121,18 @@ public class ConfigFile {
      * Updates the config file with values from configurations.
      */
     public void writeToFile() {
-        File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
-
-        // Create JsonObject
         JsonObject jsonObject = new JsonObject();
         for (AbstractConfiguration<?> config : this.configurations) {
             JsonElement jsonElement = encodeJson(config);
             jsonObject.add(config.getInfo().getName(), jsonElement);
         }
 
-        // Write JsonObject to config file
+        writeToFile(jsonObject);
+    }
+
+    public void writeToFile(JsonObject jsonObject) {
+        File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
+
         try {
             Writer writer = Files.newBufferedWriter(configFile.toPath());
             (new GsonBuilder().setPrettyPrinting().create()).toJson(jsonObject, writer);
@@ -144,7 +147,7 @@ public class ConfigFile {
         if (result.isError()) {
             ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.getId());
 
-            result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getLoadedValue(config));
+            result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, config.getInfo().getDefaultValue());
         }
 
         return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.getId() + "'"));

@@ -72,6 +72,10 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         this.replaceEntries(this.entries.stream().filter(AbstractConfigListWidgetEntry::shouldDisplay).toList());
     }
 
+    public List<AbstractConfigListWidgetEntry> getEntries() {
+        return entries;
+    }
+
     public AbstractConfigurationEntry<?, ?> getEntry(Identifier id) {
         for (AbstractConfigListWidgetEntry entry : this.entries) {
             if (!(entry instanceof AbstractConfigurationEntry<?,?> configEntry)) continue;

@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ public class Configs {
     }
 
     public static void reload(String modID) {
-        ConfigApi.readFromFile(modID);
+        ConfigApi.readFromFile(modID, LoadType.RELOAD);
     }
 
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {

@@ -66,13 +66,17 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         return this.configuration.getInfo().isEnabled(configEntry.value);
     }
 
+    public T getValue() {
+        return value;
+    }
+
     public void setValue(T value) {
         this.value = value;
         this.widget.update();
     }
 
-    public void save() {
-        this.parent.save(this.configuration.getInfo().getName(), this.value);
+    public void saveValue() {
+        this.parent.saveValue(this.configuration.getInfo().getName(), this.value);
     }
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {

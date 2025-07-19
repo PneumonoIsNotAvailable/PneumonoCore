@@ -25,7 +25,9 @@ public abstract class ConfigOptionsScreen extends Screen {
         this.modID = modID;
     }
 
-    public abstract <T> void save(String name, T newValue);
+    public abstract <T> void saveValue(String name, T newValue);
+
+    public abstract void save();
 
     public abstract <T> T getConfigValue(AbstractConfiguration<T> configuration);
 
@@ -62,9 +64,11 @@ public abstract class ConfigOptionsScreen extends Screen {
         directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.children()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry) {
-                    configurationEntry.save();
+                    configurationEntry.saveValue();
                 }
             }
+
+            this.save();
 
             this.close();
         }).build());

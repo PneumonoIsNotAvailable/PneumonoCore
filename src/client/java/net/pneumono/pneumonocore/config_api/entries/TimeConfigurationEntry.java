@@ -86,7 +86,7 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
     }
 
     @Override
-    public void save() {
+    public void saveValue() {
         boolean canParse;
         try {
             Long.parseLong(this.textWidget.getText());
@@ -96,7 +96,7 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
         }
 
         if (canParse) {
-            super.save();
+            super.saveValue();
         }
     }
 

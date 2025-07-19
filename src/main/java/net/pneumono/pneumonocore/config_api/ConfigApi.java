@@ -5,6 +5,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ public class ConfigApi {
     }
 
     public static void finishRegistry(String modId) {
-        readFromFile(modId);
+        readFromFile(modId, LoadType.RESTART);
     }
 
     public static String toTranslationKey(AbstractConfiguration<?> configuration, String suffix) {
@@ -46,16 +47,22 @@ public class ConfigApi {
         return configuration.getId().toTranslationKey("configs");
     }
 
+    public static void readAllFromFiles(LoadType loadType) {
+        for (ConfigFile configFile : CONFIG_FILES.values()) {
+            configFile.readFromFile(loadType);
+        }
+    }
+
     /**
      * Reloads the specified config file. <p>
      * It is recommended to use {@link #sendConfigSyncPacket(ServerPlayerEntity...)} to send a config sync packet to the client to update their configs if called on the logical server.
      *
      * @param modID The mod ID of the config file to reload.
      */
-    public static void readFromFile(String modID) {
+    public static void readFromFile(String modID, LoadType loadType) {
         ConfigFile configFile = CONFIG_FILES.get(modID);
         if (configFile != null) {
-            configFile.readFromFile();
+            configFile.readFromFile(loadType);
         }
     }
 
@@ -64,11 +71,11 @@ public class ConfigApi {
      *
      * @param players The players the packets will be sent to.
      */
-    public static void sendConfigSyncPacket(List<ServerPlayerEntity> players) {
-        LOGGER.info("Sending config sync packets...");
+    public static void sendConfigSyncPacket(Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
             ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
         }
+        LOGGER.info("Sent config sync packet to {} player(s)", players.size());
     }
 
     /**
