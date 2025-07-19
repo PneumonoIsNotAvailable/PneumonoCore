@@ -1,6 +1,8 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.pneumono.pneumonocore.PneumonoCore;
@@ -21,7 +23,28 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
 
     @Override
     public Codec<Float> getValueCodec() {
-        return Codec.FLOAT;
+        return Codec.either(
+                Codec.FLOAT, Codec.STRING.comapFlatMap(this::parseString, Object::toString)
+        ).xmap(
+                either -> {
+                    if (either.left().isPresent()) {
+                        return either.left().get();
+                    } else if (either.right().isPresent()) {
+                        return either.right().get();
+                    }
+                    return null;
+                },
+                Either::left
+        );
+    }
+
+    // Exists for backwards compatibility - previous config system saved everything as strings
+    private DataResult<Float> parseString(String string) {
+        try {
+            return DataResult.success(Float.parseFloat(string));
+        } catch (NumberFormatException e) {
+            return DataResult.error(() -> "'" + string + "' cannot be parsed. " + e.getMessage());
+        }
     }
 
     @Override
