@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -18,7 +17,14 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
      */
     @SuppressWarnings("unused")
     public FloatConfiguration(float defaultValue, ConfigSettings settings) {
-        super(MathHelper.clamp(defaultValue, 0F, 1F), settings);
+        super(validateDefaultValue(defaultValue), settings);
+    }
+
+    private static float validateDefaultValue(float defaultValue) {
+        if (defaultValue > 1 || defaultValue < 0) {
+            throw new IllegalArgumentException("Float Configurations cannot have a default value outside 0-1!");
+        }
+        return defaultValue;
     }
 
     @Override
