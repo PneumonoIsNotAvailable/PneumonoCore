@@ -36,7 +36,7 @@ public class PneumonoCore implements ModInitializer {
 		PayloadTypeRegistry.playS2C().register(ConfigSyncS2CPayload.ID, ConfigSyncS2CPayload.CODEC);
 		ServerConfigCommandRegistry.registerServerConfigCommand();
 		ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) -> ConfigApi.sendConfigSyncPacket(handler.getPlayer()));
-		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
+		ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> {
 			ConfigApi.readAllFromFiles(LoadType.RELOAD);
 			ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
 		});

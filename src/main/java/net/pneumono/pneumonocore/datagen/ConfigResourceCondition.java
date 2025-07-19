@@ -67,17 +67,6 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
 
         public static final EnumCodec<Operator> CODEC = StringIdentifiable.createCodec(Operator::values);
 
-        public static Operator fromString(String string) {
-            return switch (string.toUpperCase()) {
-                case "EQUAL" -> EQUAL;
-                case "LESS" -> LESS;
-                case "GREATER" -> GREATER;
-                case "LESS_OR_EQUAL" -> LESS_OR_EQUAL;
-                case "GREATER_OR_EQUAL" -> GREATER_OR_EQUAL;
-                default -> null;
-            };
-        }
-
         @Override
         public String asString() {
             return this.name();
