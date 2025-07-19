@@ -49,6 +49,10 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.value = ConfigManager.getLoadedValue(this.configuration);
     }
 
+    public C getConfiguration() {
+        return configuration;
+    }
+
     @Override
     public void reset() {
         setValue(this.configuration.getInfo().getDefaultValue());
@@ -56,8 +60,11 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
 
     @Override
     public boolean shouldDisplay() {
-        // todo: fix
-        return this.configuration.isEnabled();
+        AbstractConfiguration<?> configParent = this.configuration.getInfo().getParent();
+        if (configParent == null) return true;
+        AbstractConfigurationEntry<?, ?> configEntry = this.widget.getEntry(configParent.getId());
+        if (configEntry == null) return true;
+        return this.configuration.getInfo().isEnabled(configEntry.value);
     }
 
     public void setValue(T value) {

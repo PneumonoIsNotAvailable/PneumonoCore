@@ -15,7 +15,7 @@ public class ConfigSettings {
     @Nullable
     protected Supplier<Boolean> condition = null;
     @Nullable
-    protected Supplier<AbstractConfiguration<?>> parent = null;
+    protected Parent<?> parent = null;
 
     public ConfigSettings copy() {
         return new ConfigSettings()
@@ -56,13 +56,39 @@ public class ConfigSettings {
         return condition(() -> FabricLoader.getInstance().isModLoaded(modId));
     }
 
-    public <T> ConfigSettings parent(AbstractConfiguration<T> configuration, Predicate<T> predicate) {
-        parent(() -> configuration);
-        return condition(() -> predicate.test(configuration.getValue()));
+    public ConfigSettings parent(Parent<?> parent) {
+        this.parent = parent;
+        if (parent != null) {
+            return condition(parent.createCondition());
+        } else {
+            return condition(null);
+        }
     }
 
-    public ConfigSettings parent(Supplier<AbstractConfiguration<?>> parent) {
-        this.parent = parent;
-        return this;
+    public <T> ConfigSettings parent(AbstractConfiguration<T> configuration, Predicate<T> predicate) {
+        return parent(new Parent<>(configuration, predicate));
+    }
+
+    public record Parent<T>(Supplier<AbstractConfiguration<T>> configuration, Predicate<T> enabledPredicate) {
+        public Parent(AbstractConfiguration<T> configuration, Predicate<T> enabledPredicate) {
+            this(() -> configuration, enabledPredicate);
+        }
+
+        public Parent(AbstractConfiguration<T> configuration) {
+            this(() -> configuration, object -> true);
+        }
+
+        public Supplier<Boolean> createCondition() {
+            return () -> enabledPredicate.test(configuration.get().getValue());
+        }
+
+        @SuppressWarnings("unchecked")
+        public boolean test(Object object) {
+            try {
+                return enabledPredicate.test((T)object);
+            } catch (ClassCastException e) {
+                return false;
+            }
+        }
     }
 }

@@ -110,10 +110,17 @@ public abstract class AbstractConfiguration<T> {
         @Nullable
         public AbstractConfiguration<?> getParent() {
             if (this.getSettings().parent != null) {
-                return this.getSettings().parent.get();
+                return this.getSettings().parent.configuration().get();
             } else {
                 return null;
             }
+        }
+
+        public boolean isEnabled(Object object) {
+            if (this.getSettings().parent != null) {
+                return this.getSettings().parent.test(object);
+            }
+            return true;
         }
     }
 }

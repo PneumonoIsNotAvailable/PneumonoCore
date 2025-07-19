@@ -2,6 +2,7 @@ package net.pneumono.pneumonocore.config_api;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.entries.*;
@@ -70,6 +71,16 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
 
     public void updateEntryList() {
         this.replaceEntries(this.entries.stream().filter(AbstractConfigListWidgetEntry::shouldDisplay).toList());
+    }
+
+    public AbstractConfigurationEntry<?, ?> getEntry(Identifier id) {
+        for (AbstractConfigListWidgetEntry entry : this.entries) {
+            if (!(entry instanceof AbstractConfigurationEntry<?,?> configEntry)) continue;
+            if (configEntry.getConfiguration().getId().equals(id)) {
+                return configEntry;
+            }
+        }
+        return null;
     }
 
     public <T> void save(String name, T newValue) {
