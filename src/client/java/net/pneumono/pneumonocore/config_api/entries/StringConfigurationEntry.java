@@ -7,7 +7,6 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.StringConfiguration;
@@ -15,51 +14,43 @@ import net.pneumono.pneumonocore.config_api.configurations.StringConfiguration;
 import java.util.List;
 import java.util.Objects;
 
-public class StringConfigurationEntry extends AbstractConfigurationEntry<StringConfiguration> {
+public class StringConfigurationEntry extends AbstractConfigurationEntry<String, StringConfiguration> {
     private final TextFieldWidget textWidget;
-    private String value;
 
-    public StringConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super((StringConfiguration) abstractConfiguration, parent, widget);
-        this.value = this.configuration.getValue();
-        this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 110, 20, null, Text.translatable(ConfigApi.toTranslationKey(this.configuration)));
-        this.textWidget.setText(value);
-        this.textWidget.setChangedListener((text) -> {
-            this.parent.selectedConfiguration = configuration;
-            ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), text);
-        });
+    public StringConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, StringConfiguration configuration) {
+        super(parent, widget, configuration);
+        this.textWidget = new TextFieldWidget(
+                Objects.requireNonNull(parent.getClient()).textRenderer,
+                0, 0, 110, 20, null,
+                Text.translatable(ConfigApi.toTranslationKey(this.configuration))
+        );
+        this.textWidget.setChangedListener(configValue -> this.value = configValue);
+
+        this.update();
     }
 
     @Override
     public void update() {
-        String newValue = configuration.getValue();
-        this.value = newValue;
-        this.textWidget.setText(newValue);
-    }
-
-    @Override
-    public void reset() {
-        ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
-        update();
+        this.textWidget.setText(this.value);
     }
 
     @Override
     public List<? extends Selectable> selectableChildren() {
-        return ImmutableList.of(textWidget);
+        return ImmutableList.of(this.textWidget);
     }
 
     @Override
     public List<? extends Element> children() {
-        return ImmutableList.of(textWidget);
+        return ImmutableList.of(this.textWidget);
 
     }
 
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
+
         this.textWidget.setX(x + OFFSET + 35);
         this.textWidget.setY(y);
-
         this.textWidget.render(context, mouseX, mouseY, tickDelta);
     }
 }

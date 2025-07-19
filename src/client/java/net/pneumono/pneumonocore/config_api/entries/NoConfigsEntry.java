@@ -43,4 +43,9 @@ public class NoConfigsEntry extends AbstractConfigListWidgetEntry {
     public void reset() {
 
     }
+
+    @Override
+    public boolean shouldDisplay() {
+        return true;
+    }
 }

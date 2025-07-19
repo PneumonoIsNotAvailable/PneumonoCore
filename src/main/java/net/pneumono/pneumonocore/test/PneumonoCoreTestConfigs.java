@@ -18,6 +18,15 @@ public class PneumonoCoreTestConfigs {
     public static final BooleanConfiguration BOOLEAN = register("test_boolean", new BooleanConfiguration(
             true, new ConfigSettings().category(CATEGORY_1)
     ));
+    public static final FloatConfiguration CHILD_1 = register("test_child_1", new FloatConfiguration(
+            0.33F, new ConfigSettings().parent(BOOLEAN, value -> value)
+    ));
+    public static final FloatConfiguration CHILD_2 = register("test_child_2", new FloatConfiguration(
+            0.66F, new ConfigSettings().parent(BOOLEAN, value -> value)
+    ));
+    public static final FloatConfiguration CHILD_3 = register("test_child_3", new FloatConfiguration(
+            1F, new ConfigSettings().parent(BOOLEAN, value -> value)
+    ));
     public static final EnumConfiguration<TestEnum> ENUM = register("test_enum", new EnumConfiguration<>(
             TestEnum.VALUE_1, new ConfigSettings().category(CATEGORY_1)
     ));

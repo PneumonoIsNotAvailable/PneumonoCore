@@ -45,4 +45,9 @@ public class CategoryTitleEntry extends AbstractConfigListWidgetEntry {
     public void reset() {
 
     }
+
+    @Override
+    public boolean shouldDisplay() {
+        return true;
+    }
 }

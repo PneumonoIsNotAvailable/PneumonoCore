@@ -9,7 +9,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
-import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration;
@@ -17,43 +16,34 @@ import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 
-public class TimeConfigurationEntry extends AbstractConfigurationEntry<TimeConfiguration> {
+public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, TimeConfiguration> {
     private final TextFieldWidget textWidget;
     private long amount;
     private final ButtonWidget cycleWidget;
     private TimeUnit units;
 
-    public TimeConfigurationEntry(AbstractConfiguration<?> abstractConfiguration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super((TimeConfiguration) abstractConfiguration, parent, widget);
-        Supplier<Long> configValueSupplier = this.configuration::getValue;
+    public TimeConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, TimeConfiguration configuration) {
+        super(parent, widget, configuration);
 
-        this.amount = getAmount(configValueSupplier.get());
+        this.amount = getAmount(this.value);
+        this.units = TimeUnit.fromValue(this.value);
+
         this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 85, 20, null, Text.translatable(ConfigApi.toTranslationKey(this.configuration)));
-        this.textWidget.setText(String.valueOf(amount));
+        this.textWidget.setText(String.valueOf(this.amount));
         this.textWidget.setChangedListener((text) -> {
-            this.parent.selectedConfiguration = configuration;
-
             try {
-                long newValue = Long.parseLong(text) * units.getDivision();
-                ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), newValue);
+                setValue(Long.parseLong(text) * this.units.getDivision());
             } catch (NumberFormatException ignored) {
                 // If the value in the text widget isn't valid, it just doesn't save it
             }
         });
 
-        this.units = TimeUnit.fromValue(configValueSupplier.get());
-        Supplier<Long> amountSupplier = () -> this.amount;
-        this.cycleWidget = ButtonWidget.builder(configName, (button) -> {
-            this.parent.selectedConfiguration = configuration;
-
-            this.units = cycle(units);
-            long newValue = amountSupplier.get() * units.getDivision();
-            ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), newValue);
-
-            this.widget.update();
+        this.cycleWidget = ButtonWidget.builder(getConfigName(), (button) -> {
+            this.units = cycle(this.units);
+            setValue(this.amount * this.units.getDivision());
         }).dimensions(0, 0, 20, 20).build();
+
         this.update();
     }
 
@@ -82,7 +72,7 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<TimeConfi
             this.amount = Long.parseLong(this.textWidget.getText());
         } catch (NumberFormatException ignored) {}
 
-        String key = "configs_screen.pneumonocore." + units.name().toLowerCase();
+        String key = "configs_screen.pneumonocore." + this.units.name().toLowerCase();
         this.cycleWidget.setMessage(Text.translatable(key));
         this.cycleWidget.setTooltip(Tooltip.of(Text.translatable(key + ".full")));
     }
@@ -92,8 +82,7 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<TimeConfi
         this.amount = getAmount(configuration.getDefaultValue());
         this.textWidget.setText(String.valueOf(amount));
         this.units = TimeUnit.fromValue(configuration.getDefaultValue());
-        ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
-        this.update();
+        super.reset();
     }
 
     @Override

@@ -9,4 +9,6 @@ public abstract class AbstractConfigListWidgetEntry extends ElementListWidget.En
     public abstract void update();
 
     public abstract void reset();
+
+    public abstract boolean shouldDisplay();
 }

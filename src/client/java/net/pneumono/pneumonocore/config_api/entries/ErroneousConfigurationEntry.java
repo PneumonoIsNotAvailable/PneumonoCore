@@ -14,20 +14,14 @@ import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
 import java.util.List;
 import java.util.Objects;
 
-public class ErroneousConfigurationEntry extends AbstractConfigurationEntry<AbstractConfiguration<?>> {
-    public ErroneousConfigurationEntry(AbstractConfiguration<?> configuration, ConfigOptionsScreen parent, ConfigsListWidget widget) {
-        super(configuration, parent, widget);
+public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> extends AbstractConfigurationEntry<T, C> {
+    public ErroneousConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, C configuration) {
+        super(parent, widget, configuration);
     }
 
     @Override
     public void update() {
 
-    }
-
-    @Override
-    public void reset() {
-        ConfigOptionsScreen.save(configuration.getModID(), configuration.getName(), configuration.getDefaultValue());
-        update();
     }
 
     @Override
@@ -43,8 +37,8 @@ public class ErroneousConfigurationEntry extends AbstractConfigurationEntry<Abst
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
-        TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
 
+        TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error");
         int width = textRenderer.getWidth(text);
         int textX = x + OFFSET + 90 - (width / 2);
