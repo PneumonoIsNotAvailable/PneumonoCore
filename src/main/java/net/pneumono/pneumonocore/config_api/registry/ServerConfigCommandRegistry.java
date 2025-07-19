@@ -63,7 +63,7 @@ public class ServerConfigCommandRegistry {
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
-                returnConfigs.add(config.getInfo().getModID() + ":" + config.getInfo().getName() + " is set to " + config.getValue().toString());
+                returnConfigs.add(config.info().getModID() + ":" + config.info().getName() + " is set to " + config.getValue().toString());
             }
         }
         return returnConfigs;
@@ -74,7 +74,7 @@ public class ServerConfigCommandRegistry {
         if (modConfigs != null) {
             AbstractConfiguration<?> config = modConfigs.getConfiguration(name);
             if (config != null) {
-                return config.getInfo().getModID() + ":" + config.getInfo().getName() + " is set to " + config.getValue().toString();
+                return config.info().getModID() + ":" + config.info().getName() + " is set to " + config.getValue().toString();
             }
         }
         return modID + ":" + name + " does not exist!";
@@ -99,8 +99,8 @@ public class ServerConfigCommandRegistry {
             ConfigFile modConfigs = ConfigApi.getConfigFile(StringArgumentType.getString(context, "modid"));
             if (modConfigs != null) {
                 for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
-                    if (config.getInfo().getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                        builder.suggest(config.getInfo().getName());
+                    if (config.info().getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                        builder.suggest(config.info().getName());
                     }
                 }
             }

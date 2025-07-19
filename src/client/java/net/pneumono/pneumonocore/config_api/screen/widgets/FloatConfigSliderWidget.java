@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config_api.widgets;
+package net.pneumono.pneumonocore.config_api.screen.widgets;
 
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;

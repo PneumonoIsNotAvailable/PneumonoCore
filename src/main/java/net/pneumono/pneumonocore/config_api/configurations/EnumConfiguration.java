@@ -32,7 +32,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     }
 
     @Override
-    public Identifier getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.identifier("enum");
     }
 }

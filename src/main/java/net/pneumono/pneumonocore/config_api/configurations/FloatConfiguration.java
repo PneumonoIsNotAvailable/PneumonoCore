@@ -54,7 +54,7 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
     }
 
     @Override
-    public Identifier getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.identifier("float");
     }
 }

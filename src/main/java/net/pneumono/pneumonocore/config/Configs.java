@@ -22,7 +22,9 @@ public class Configs {
     public static void registerCategories(String modID, ConfigCategory... categories) {
         for (ConfigCategory category : categories) for (Identifier id : category.configurations()) {
             net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration = ConfigApi.getConfig(id);
-            ConfigManager.setCategory(configuration, category.name());
+            if (configuration != null) {
+                ConfigManager.setCategory(configuration, category.name());
+            }
         }
     }
 
@@ -35,7 +37,7 @@ public class Configs {
     }
 
     public static void reload(String modID) {
-        ConfigApi.readFromFile(modID, LoadType.RELOAD);
+        ConfigApi.reloadValuesFromFile(modID, LoadType.RELOAD);
     }
 
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
@@ -43,7 +45,8 @@ public class Configs {
     }
 
     public static boolean hasConfigs(String modID) {
-        return ConfigApi.hasConfigs(modID);
+        ConfigFile configFile = ConfigApi.getConfigFile(modID);
+        return configFile != null && !configFile.getConfigurations().isEmpty();
     }
 
     public static AbstractConfiguration<?, ?> getConfig(Identifier id) {
@@ -67,7 +70,7 @@ public class Configs {
 
         Map<String, List<net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?>>> categories = new HashMap<>();
         for (net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
-            String category = configuration.getInfo().getCategory();
+            String category = configuration.info().getCategory();
             if (!Objects.equals(category, "misc") && !categories.containsKey(category)) {
                 categories.computeIfAbsent(category, string -> new ArrayList<>()).add(configuration);
             }
@@ -78,7 +81,7 @@ public class Configs {
                         configFile.getModID(),
                         entry.getKey(),
                         entry.getValue().stream()
-                                .map(net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration::getId)
+                                .map(config -> config.info().getId())
                                 .toArray(Identifier[]::new)
                 ))
                 .toArray(ConfigCategory[]::new);
@@ -90,7 +93,7 @@ public class Configs {
         }
 
         public WrappedConfiguration(C configuration) {
-            super(configuration.getInfo().getModID(), configuration.getInfo().getName(), configuration);
+            super(configuration.info().getModID(), configuration.info().getName(), configuration);
         }
     }
 }

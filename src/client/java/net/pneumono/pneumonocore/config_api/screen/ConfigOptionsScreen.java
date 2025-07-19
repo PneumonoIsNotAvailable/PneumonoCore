@@ -7,10 +7,10 @@ import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
-import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
-import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
+import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
+import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 
 public abstract class ConfigOptionsScreen extends Screen {
     public final Screen parent;
@@ -25,11 +25,11 @@ public abstract class ConfigOptionsScreen extends Screen {
         this.modID = modID;
     }
 
-    public abstract <T> void saveValue(String name, T newValue);
-
-    public abstract void save();
-
     public abstract <T> T getConfigValue(AbstractConfiguration<T> configuration);
+
+    public abstract <T, C extends AbstractConfiguration<T>> void setSavedValue(AbstractConfigurationEntry<T, C> entry);
+
+    public abstract void writeSavedValues();
 
     @Override
     protected void init() {
@@ -38,6 +38,14 @@ public abstract class ConfigOptionsScreen extends Screen {
         this.initFooter();
         this.layout.forEachChild(this::addDrawableChild);
         this.refreshWidgetPositions();
+    }
+
+    @Override
+    protected void refreshWidgetPositions() {
+        this.layout.refreshPositions();
+        if (this.configsListWidget != null) {
+            this.configsListWidget.position(this.width, this.layout);
+        }
     }
 
     protected void initHeader() {
@@ -63,23 +71,14 @@ public abstract class ConfigOptionsScreen extends Screen {
 
         directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.children()) {
-                if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry) {
-                    configurationEntry.saveValue();
+                if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry && configurationEntry.shouldSaveValue()) {
+                    setSavedValue(configurationEntry);
                 }
             }
 
-            this.save();
-
+            this.writeSavedValues();
             this.close();
         }).build());
-    }
-
-    @Override
-    protected void refreshWidgetPositions() {
-        this.layout.refreshPositions();
-        if (this.configsListWidget != null) {
-            this.configsListWidget.position(this.width, this.layout);
-        }
     }
 
     public MinecraftClient getClient() {

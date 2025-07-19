@@ -69,7 +69,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     }
 
     @Override
-    public Identifier getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.identifier("integer");
     }
 }

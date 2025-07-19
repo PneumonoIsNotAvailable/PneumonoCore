@@ -8,9 +8,9 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
-import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
@@ -22,12 +22,12 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     ).apply(instance, ConfigResourceCondition::new));
 
     public ConfigResourceCondition(AbstractConfiguration<?> configuration, Operator operator, String value) {
-        this(configuration.getId(), operator, value);
+        this(configuration.info().getId(), operator, value);
     }
 
     @Override
     public ResourceConditionType<?> getType() {
-        return PneumonoCore.RESOURCE_CONDITION_CONFIGURATIONS;
+        return ConfigApiRegistry.RESOURCE_CONDITION_CONFIGURATIONS;
     }
 
     @Override

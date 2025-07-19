@@ -23,7 +23,7 @@ public class StringConfiguration extends AbstractConfiguration<String> {
     }
 
     @Override
-    public Identifier getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.identifier("string");
     }
 }

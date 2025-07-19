@@ -6,13 +6,17 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Saved Value - The value loaded from config files.
+ * Effective Value - The value that is actually used. Can differ from Saved Value due to the Load Type system or server-client config sync
+ */
 public abstract class AbstractConfiguration<T> {
     private boolean registered = false;
     private Identifier id;
     private final ConfigSettings settings;
     private final T defaultValue;
-    private T loadedValue;
-    private T syncedValue;
+    private T savedValue;
+    private T effectiveValue;
 
     /**
      * Creates a new configuration. Register using {@link ConfigApi#register}.<p>
@@ -23,64 +27,44 @@ public abstract class AbstractConfiguration<T> {
     public AbstractConfiguration(T defaultValue, ConfigSettings settings) {
         this.settings = settings;
         this.defaultValue = defaultValue;
-        this.loadedValue = defaultValue;
-        this.syncedValue = defaultValue;
+        this.savedValue = defaultValue;
+        this.effectiveValue = defaultValue;
     }
 
     public abstract Codec<T> getValueCodec();
-    public abstract Identifier getConfigTypeId();
+    protected abstract Identifier getConfigTypeId();
 
     public T getValue() {
         if (!this.registered) throw new IllegalStateException("Cannot get value of unregistered configuration.");
-        return isEnabled() ? this.syncedValue : this.defaultValue;
+
+        boolean enabled = true;
+        if (this.settings.condition != null) {
+            enabled = this.settings.condition.get();
+        }
+        if (enabled && this.settings.parent != null) {
+            enabled = this.settings.parent.test(this.effectiveValue);
+        }
+
+        return enabled ? this.effectiveValue : this.defaultValue;
     }
 
-    public Info getInfo() {
+    public Info info() {
         return new Info();
     }
 
-    protected void setRegistered(Identifier id) {
+    protected void register(Identifier id) {
         this.id = id;
         this.registered = true;
     }
 
-    protected void setLoadedValue(T value) {
-        this.loadedValue = value;
-    }
-
-    protected void setSyncedValue(T value) {
-        this.syncedValue = value;
-    }
-
-    protected T getLoadedValue() {
-        return loadedValue;
-    }
-
-    public boolean isEnabled() {
-        if (this.settings.condition != null) {
-            return this.settings.condition.get();
-        } else {
-            return true;
-        }
-    }
-
-    public Identifier getId() {
-        if (!registered) throw new IllegalStateException("Cannot get id of unregistered configuration.");
-        return this.id;
-    }
-
-    @Deprecated
-    protected void setCategory(String category) {
-        this.settings.category(category);
-    }
-
     public class Info {
         public T getDefaultValue() {
-            return AbstractConfiguration.this.defaultValue;
+            return defaultValue;
         }
 
         public Identifier getId() {
-            return AbstractConfiguration.this.getId();
+            if (!registered) throw new IllegalStateException("Cannot get id of unregistered configuration.");
+            return id;
         }
 
         public String getModID() {
@@ -92,7 +76,7 @@ public abstract class AbstractConfiguration<T> {
         }
 
         public ConfigSettings getSettings() {
-            return AbstractConfiguration.this.settings.copy();
+            return settings.copy();
         }
 
         public boolean isClientSided() {
@@ -122,5 +106,26 @@ public abstract class AbstractConfiguration<T> {
             }
             return true;
         }
+
+        public Identifier getConfigTypeId() {
+            return AbstractConfiguration.this.getConfigTypeId();
+        }
+    }
+
+    protected void setSavedValue(T value) {
+        this.savedValue = value;
+    }
+
+    protected void setEffectiveValue(T value) {
+        this.effectiveValue = value;
+    }
+
+    protected T getSavedValue() {
+        return savedValue;
+    }
+
+    @Deprecated
+    protected void setCategory(String category) {
+        this.settings.category(category);
     }
 }

@@ -1,4 +1,4 @@
-package net.pneumono.pneumonocore.config_api.entries;
+package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -10,12 +10,11 @@ import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 
 import java.util.Objects;
 
 public abstract class AbstractConfigurationEntry<T, C extends AbstractConfiguration<T>> extends AbstractConfigListWidgetEntry {
-    protected final ConfigOptionsScreen parent;
     protected final ConfigsListWidget widget;
     protected final C configuration;
     protected final TextIconButtonWidget infoWidget;
@@ -23,7 +22,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     protected T value;
 
     public AbstractConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, C configuration) {
-        this.parent = parent;
+        super(parent);
         this.widget = widget;
         this.configuration = configuration;
         this.infoWidget = TextIconButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.information"), button -> {}, true)
@@ -33,13 +32,13 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.infoWidget.setTooltip(Tooltip.of(
                 Text.translatable(ConfigApi.toTranslationKey(configuration, "tooltip"))
                         .append(Text.literal("\n\n"))
-                        .append(switch (configuration.getInfo().getLoadType()) {
+                        .append(switch (configuration.info().getLoadType()) {
                             case INSTANT -> Text.translatable("configs_screen.pneumonocore.load_instant");
                             case RELOAD -> Text.translatable("configs_screen.pneumonocore.load_reload");
                             case RESTART -> Text.translatable("configs_screen.pneumonocore.load_restart");
                         })
                         .append(Text.literal("\n\n"))
-                        .append(configuration.getInfo().isClientSided() ?
+                        .append(configuration.info().isClientSided() ?
                                 Text.translatable("configs_screen.pneumonocore.client") :
                                 Text.translatable("configs_screen.pneumonocore.server")
                         )
@@ -52,20 +51,6 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         return configuration;
     }
 
-    @Override
-    public void reset() {
-        setValue(this.configuration.getInfo().getDefaultValue());
-    }
-
-    @Override
-    public boolean shouldDisplay() {
-        AbstractConfiguration<?> configParent = this.configuration.getInfo().getParent();
-        if (configParent == null) return true;
-        AbstractConfigurationEntry<?, ?> configEntry = this.widget.getEntry(configParent.getId());
-        if (configEntry == null) return true;
-        return this.configuration.getInfo().isEnabled(configEntry.value);
-    }
-
     public T getValue() {
         return value;
     }
@@ -75,12 +60,22 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.widget.update();
     }
 
-    public void saveValue() {
-        this.parent.saveValue(this.configuration.getInfo().getName(), this.value);
+    @Override
+    public void reset() {
+        setValue(this.configuration.info().getDefaultValue());
+    }
+
+    @Override
+    public boolean shouldDisplay() {
+        AbstractConfiguration<?> configParent = this.configuration.info().getParent();
+        if (configParent == null) return true;
+        AbstractConfigurationEntry<?, ?> configEntry = this.widget.getEntry(configParent.info().getId());
+        if (configEntry == null) return true;
+        return this.configuration.info().isEnabled(configEntry.value);
     }
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
-        Text configName = getConfigName();
+        Text configName = Text.translatable(ConfigApi.toTranslationKey(this.configuration));
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         context.drawText(textRenderer, configName, x + OFFSET + 27 - textRenderer.getWidth(configName), (y + entryHeight / 2) - 2, Colors.WHITE, true);
 
@@ -89,7 +84,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.infoWidget.render(context, mouseX, mouseY, delta);
     }
 
-    public Text getConfigName() {
-        return Text.translatable(ConfigApi.toTranslationKey(this.configuration));
+    public boolean shouldSaveValue() {
+        return true;
     }
 }

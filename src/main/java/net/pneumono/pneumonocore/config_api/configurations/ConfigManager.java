@@ -9,30 +9,30 @@ import org.jetbrains.annotations.Nullable;
 
 public class ConfigManager {
     public static <T, C extends AbstractConfiguration<T>> void setValue(C configuration, T value, LoadType loadType, @Nullable MinecraftServer server) {
-        LoadType requiredType = configuration.getInfo().getLoadType();
+        LoadType requiredType = configuration.info().getLoadType();
         if (requiredType.canLoad(loadType)) {
-            setLoadedValue(configuration, value);
-            setSyncedValue(configuration, value);
+            setSavedValue(configuration, value);
+            setEffectiveValue(configuration, value);
             if (server != null) {
                 ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
             }
         }
     }
 
-    public static <T, C extends AbstractConfiguration<T>> void setLoadedValue(C configuration, T value) {
-        configuration.setLoadedValue(value);
+    public static <T, C extends AbstractConfiguration<T>> void setSavedValue(C configuration, T value) {
+        configuration.setSavedValue(value);
     }
 
-    public static <T, C extends AbstractConfiguration<T>> void setSyncedValue(C configuration, T value) {
-        configuration.setSyncedValue(value);
+    public static <T, C extends AbstractConfiguration<T>> void setEffectiveValue(C configuration, T value) {
+        configuration.setEffectiveValue(value);
     }
 
-    public static <T, C extends AbstractConfiguration<T>> T getLoadedValue(C configuration) {
-        return configuration.getLoadedValue();
+    public static <T, C extends AbstractConfiguration<T>> T getSavedValue(C configuration) {
+        return configuration.getSavedValue();
     }
 
-    public static void setRegistered(AbstractConfiguration<?> configuration, Identifier id) {
-        configuration.setRegistered(id);
+    public static void register(AbstractConfiguration<?> configuration, Identifier id) {
+        configuration.register(id);
     }
 
     @Deprecated

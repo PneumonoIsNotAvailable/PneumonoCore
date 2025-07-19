@@ -1,15 +1,14 @@
-package net.pneumono.pneumonocore.config_api.entries;
+package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,12 +24,7 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
     }
 
     @Override
-    public List<? extends Selectable> selectableChildren() {
-        return ImmutableList.of();
-    }
-
-    @Override
-    public List<? extends Element> children() {
+    public List<? extends ClickableWidget> getChildren() {
         return ImmutableList.of();
     }
 

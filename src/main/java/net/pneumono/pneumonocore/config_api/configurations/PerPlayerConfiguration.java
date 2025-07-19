@@ -16,7 +16,7 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
     private final Codec<Values<T>> codec;
 
     public PerPlayerConfiguration(AbstractConfiguration<T> configuration) {
-        super(new Values<>(configuration.getInfo().getDefaultValue()), configuration.getInfo().getSettings());
+        super(new Values<>(configuration.info().getDefaultValue()), configuration.info().getSettings());
         this.configuration = configuration;
         this.codec = RecordCodecBuilder.create(builder -> builder.group(
                 configuration.getValueCodec().fieldOf("default_value").forGetter(Values::getDefaultValue),
@@ -37,7 +37,7 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
     }
 
     public Identifier getSubConfigTypeId() {
-        return configuration.getConfigTypeId();
+        return configuration.info().getConfigTypeId();
     }
 
     public T getValue(UUID uuid) {

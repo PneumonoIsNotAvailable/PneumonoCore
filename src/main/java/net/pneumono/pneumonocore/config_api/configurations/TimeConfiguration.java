@@ -47,7 +47,7 @@ public class TimeConfiguration extends AbstractConfiguration<Long> {
     }
 
     @Override
-    public Identifier getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.identifier("time");
     }
 }

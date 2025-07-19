@@ -1,14 +1,13 @@
-package net.pneumono.pneumonocore.config_api.entries;
+package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.StringConfiguration;
 
 import java.util.List;
@@ -35,14 +34,8 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<String,
     }
 
     @Override
-    public List<? extends Selectable> selectableChildren() {
+    public List<? extends ClickableWidget> getChildren() {
         return ImmutableList.of(this.textWidget);
-    }
-
-    @Override
-    public List<? extends Element> children() {
-        return ImmutableList.of(this.textWidget);
-
     }
 
     @Override

@@ -1,13 +1,12 @@
-package net.pneumono.pneumonocore.config_api.entries;
+package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.FloatConfiguration;
-import net.pneumono.pneumonocore.config_api.widgets.FloatConfigSliderWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.FloatConfigSliderWidget;
 
 import java.util.List;
 
@@ -21,8 +20,6 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, F
                 (slider, configValue) -> setValue(configValue),
                 this.value, 0, 0, 110, 20
         );
-
-        this.update();
     }
 
     @Override
@@ -31,12 +28,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, F
     }
 
     @Override
-    public List<? extends Selectable> selectableChildren() {
-        return ImmutableList.of(this.sliderWidget);
-    }
-
-    @Override
-    public List<? extends Element> children() {
+    public List<? extends ClickableWidget> getChildren() {
         return ImmutableList.of(this.sliderWidget);
     }
 

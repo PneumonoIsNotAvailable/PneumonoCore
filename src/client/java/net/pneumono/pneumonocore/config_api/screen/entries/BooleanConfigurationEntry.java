@@ -1,13 +1,12 @@
-package net.pneumono.pneumonocore.config_api.entries;
+package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration;
 
 import java.util.List;
@@ -19,10 +18,8 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry<Boolea
         super(parent, widget, configuration);
 
         this.toggleWidget = ButtonWidget.builder(
-                getConfigName(), (button) -> this.setValue(!this.value)
+                Text.literal(""), (button) -> this.setValue(!this.value)
         ).dimensions(0, 0, 110, 20).build();
-
-        this.update();
     }
 
     @Override
@@ -34,18 +31,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry<Boolea
     }
 
     @Override
-    public void reset() {
-        super.reset();
-
-    }
-
-    @Override
-    public List<? extends Selectable> selectableChildren() {
-        return ImmutableList.of(this.toggleWidget);
-    }
-
-    @Override
-    public List<? extends Element> children() {
+    public List<? extends ClickableWidget> getChildren() {
         return ImmutableList.of(this.toggleWidget);
     }
 

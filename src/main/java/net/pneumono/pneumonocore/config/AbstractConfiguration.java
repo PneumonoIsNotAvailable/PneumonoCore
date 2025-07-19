@@ -23,7 +23,7 @@ public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonoco
     }
 
     public boolean isClientSide() {
-        return this.configuration.getInfo().isClientSided();
+        return this.configuration.info().isClientSided();
     }
 
     public String getModID() {
@@ -51,7 +51,7 @@ public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonoco
     }
 
     public T getDefaultValue() {
-        return this.configuration.getInfo().getDefaultValue();
+        return this.configuration.info().getDefaultValue();
     }
 
     public T getValue() {

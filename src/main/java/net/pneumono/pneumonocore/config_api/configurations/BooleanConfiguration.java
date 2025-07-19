@@ -48,7 +48,7 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     }
 
     @Override
-    public Identifier getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.identifier("boolean");
     }
 }

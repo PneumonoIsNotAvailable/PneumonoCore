@@ -82,10 +82,14 @@ public class ConfigSettings {
             return () -> enabledPredicate.test(configuration.get().getValue());
         }
 
+        public boolean test() {
+            return createCondition().get();
+        }
+
         @SuppressWarnings("unchecked")
-        public boolean test(Object object) {
+        public boolean test(Object parentValue) {
             try {
-                return enabledPredicate.test((T)object);
+                return enabledPredicate.test((T) parentValue);
             } catch (ClassCastException e) {
                 return false;
             }

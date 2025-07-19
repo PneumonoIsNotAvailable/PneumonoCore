@@ -24,45 +24,37 @@ public class ConfigApi {
 
         ConfigFile configFile = CONFIG_FILES.computeIfAbsent(id.getNamespace(), ConfigFile::new);
 
-        if (configFile.hasConfiguration(id.getPath())) {
+        if (configFile.getConfiguration(id.getPath()) != null) {
             LOGGER.error("Config '{}' is a duplicate, and so was not registered.", id);
             return configuration;
         }
 
-        ConfigManager.setRegistered(configuration, id);
+        ConfigManager.register(configuration, id);
         configFile.addConfiguration(configuration);
 
         return configuration;
     }
 
     public static void finishRegistry(String modId) {
-        readFromFile(modId, LoadType.RESTART);
+        reloadValuesFromFile(modId, LoadType.RESTART);
     }
 
-    public static String toTranslationKey(AbstractConfiguration<?> configuration, String suffix) {
-        return configuration.getId().toTranslationKey("configs", suffix);
-    }
-
-    public static String toTranslationKey(AbstractConfiguration<?> configuration) {
-        return configuration.getId().toTranslationKey("configs");
-    }
-
-    public static void readAllFromFiles(LoadType loadType) {
+    public static void reloadValuesFromFiles(LoadType loadType) {
         for (ConfigFile configFile : CONFIG_FILES.values()) {
-            configFile.readFromFile(loadType);
+            configFile.readSavedFromFile(loadType);
         }
     }
 
     /**
      * Reloads the specified config file. <p>
-     * It is recommended to use {@link #sendConfigSyncPacket(ServerPlayerEntity...)} to send a config sync packet to the client to update their configs if called on the logical server.
+     * It is recommended to use {@link #sendConfigSyncPacket} to send a config sync packet to the client to update their configs if called on the logical server.
      *
      * @param modID The mod ID of the config file to reload.
      */
-    public static void readFromFile(String modID, LoadType loadType) {
+    public static void reloadValuesFromFile(String modID, LoadType loadType) {
         ConfigFile configFile = CONFIG_FILES.get(modID);
         if (configFile != null) {
-            configFile.readFromFile(loadType);
+            configFile.readSavedFromFile(loadType);
         }
     }
 
@@ -78,26 +70,6 @@ public class ConfigApi {
         LOGGER.info("Sent config sync packet to {} player(s)", players.size());
     }
 
-    /**
-     * Sends config sync packets to the specified clients. Should only be called on the logical server.
-     *
-     * @param players The players the packets will be sent to.
-     */
-    public static void sendConfigSyncPacket(ServerPlayerEntity... players) {
-        sendConfigSyncPacket(List.of(players));
-    }
-
-    /**
-     * Returns {@code true} if at least one configuration has been registered for that mod ID, and {@code false} if not.
-     */
-    public static boolean hasConfigs(String modID) {
-        ConfigFile modConfigs = CONFIG_FILES.get(modID);
-        if (modConfigs != null) {
-            return !modConfigs.getConfigurations().isEmpty();
-        }
-        return false;
-    }
-
     public static Collection<ConfigFile> getConfigFiles() {
         return CONFIG_FILES.values();
     }
@@ -110,17 +82,18 @@ public class ConfigApi {
      * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
      */
     public static AbstractConfiguration<?> getConfig(Identifier id) {
-        return getConfig(id.getNamespace(), id.getPath());
-    }
-
-    /**
-     * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
-     */
-    public static AbstractConfiguration<?> getConfig(String modID, String name) {
-        ConfigFile modConfigs = CONFIG_FILES.get(modID);
+        ConfigFile modConfigs = getConfigFile(id.getNamespace());
         if (modConfigs != null) {
-            return modConfigs.getConfiguration(name);
+            return modConfigs.getConfiguration(id.getPath());
         }
         return null;
+    }
+
+    public static String toTranslationKey(AbstractConfiguration<?> configuration, String suffix) {
+        return configuration.info().getId().toTranslationKey("configs", suffix);
+    }
+
+    public static String toTranslationKey(AbstractConfiguration<?> configuration) {
+        return configuration.info().getId().toTranslationKey("configs");
     }
 }

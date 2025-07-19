@@ -8,7 +8,6 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.nbt.NbtCompound;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
@@ -43,25 +42,21 @@ public class ConfigFile {
 
     public AbstractConfiguration<?> getConfiguration(String name) {
         for (AbstractConfiguration<?> configuration : this.configurations) {
-            if (configuration.getInfo().getName().equals(name)) return configuration;
+            if (configuration.info().getName().equals(name)) return configuration;
         }
         return null;
-    }
-
-    public boolean hasConfiguration(String name) {
-        return getConfiguration(name) != null;
     }
 
     /**
      * Updates configurations with values from the config file.
      */
-    public void readFromFile(LoadType loadType) {
+    public void readSavedFromFile(LoadType loadType) {
         File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
 
         // Create config file if it does not exist already
         if (!configFile.exists()) {
             ConfigApi.LOGGER.info("Config file for mod '{}' does not exist. Creating new one with default values...", modID);
-            writeToFile();
+            writeSavedToFile();
             return;
         }
 
@@ -87,28 +82,28 @@ public class ConfigFile {
         // Parse config file
         boolean shouldWrite = false;
         for (AbstractConfiguration<?> configuration : this.configurations) {
-            String name = configuration.getInfo().getName();
+            String name = configuration.info().getName();
 
             if (!jsonObject.has(name)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modID, configuration.getId());
+                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modID, configuration.info().getId());
                 shouldWrite = true;
                 continue;
             }
 
             JsonElement element = jsonObject.get(name);
             if (!setConfigValue(configuration, element, loadType)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.getId());
+                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.info().getId());
                 shouldWrite = true;
             }
         }
 
         // Update outdated/incomplete config files
         if (shouldWrite) {
-            writeToFile();
+            writeSavedToFile();
         }
     }
 
-    private static  <T> boolean setConfigValue(AbstractConfiguration<T> config, JsonElement jsonElement, LoadType loadType) {
+    private static <T> boolean setConfigValue(AbstractConfiguration<T> config, JsonElement jsonElement, LoadType loadType) {
         DataResult<Pair<T, JsonElement>> result = config.getValueCodec().decode(JsonOps.INSTANCE, jsonElement);
         if (result.isError()) {
             return false;
@@ -120,17 +115,28 @@ public class ConfigFile {
     /**
      * Updates the config file with values from configurations.
      */
-    public void writeToFile() {
+    public void writeSavedToFile() {
         JsonObject jsonObject = new JsonObject();
         for (AbstractConfiguration<?> config : this.configurations) {
             JsonElement jsonElement = encodeJson(config);
-            jsonObject.add(config.getInfo().getName(), jsonElement);
+            jsonObject.add(config.info().getName(), jsonElement);
         }
 
-        writeToFile(jsonObject);
+        writeObjectToFile(jsonObject);
     }
 
-    public void writeToFile(JsonObject jsonObject) {
+    private static <T> JsonElement encodeJson(AbstractConfiguration<T> config) {
+        DataResult<JsonElement> result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getSavedValue(config));
+        if (result.isError()) {
+            ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.info().getId());
+
+            result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, config.info().getDefaultValue());
+        }
+
+        return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'"));
+    }
+
+    public void writeObjectToFile(JsonObject jsonObject) {
         File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
 
         try {
@@ -140,28 +146,5 @@ public class ConfigFile {
         } catch (IOException e) {
             ConfigApi.LOGGER.error("Could not write configuration file for mod {}.", modID, e);
         }
-    }
-
-    private static <T> JsonElement encodeJson(AbstractConfiguration<T> config) {
-        DataResult<JsonElement> result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getLoadedValue(config));
-        if (result.isError()) {
-            ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.getId());
-
-            result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, config.getInfo().getDefaultValue());
-        }
-
-        return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.getId() + "'"));
-    }
-
-    public NbtCompound toNbt() {
-        NbtCompound compound = new NbtCompound();
-        for (AbstractConfiguration<?> config : this.configurations) {
-            putConfigValue(compound, config);
-        }
-        return compound;
-    }
-
-    private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
-        compound.put(config.getInfo().getName(), config.getValueCodec(), ConfigManager.getLoadedValue(config));
     }
 }

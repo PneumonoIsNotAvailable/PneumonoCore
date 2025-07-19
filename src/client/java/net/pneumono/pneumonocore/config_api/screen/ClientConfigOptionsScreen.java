@@ -9,8 +9,9 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
-import net.pneumono.pneumonocore.config_api.entries.AbstractConfigListWidgetEntry;
-import net.pneumono.pneumonocore.config_api.entries.AbstractConfigurationEntry;
+import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
+import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
 
 public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
     public ClientConfigOptionsScreen(Screen parent, String modID) {
@@ -18,24 +19,27 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
     }
 
     @Override
-    public <T> void saveValue(String name, T newValue) {
-        AbstractConfiguration<?> config = this.configsListWidget.configFile.getConfiguration(name);
-        setValue(config, newValue);
+    public <T> T getConfigValue(AbstractConfiguration<T> configuration) {
+        return ConfigManager.getSavedValue(configuration);
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T> void setValue(AbstractConfiguration<T> config, Object value) {
+    @Override
+    public <T, C extends AbstractConfiguration<T>> void setSavedValue(AbstractConfigurationEntry<T, C> entry) {
+        AbstractConfiguration<T> config = entry.getConfiguration();
+        T value = entry.getValue();
+
         try {
-            if (config.getInfo().isClientSided()) {
-                ConfigManager.setLoadedValue(config, (T) value);
+            ConfigManager.setSavedValue(config, value);
+            if (config.info().isClientSided() && config.info().getLoadType().canLoad(LoadType.INSTANT)) {
+                ConfigManager.setEffectiveValue(config, value);
             }
         } catch (ClassCastException e) {
-            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.getId());
+            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.info().getId());
         }
     }
 
     @Override
-    public void save() {
+    public void writeSavedValues() {
         ConfigFile configFile = this.configsListWidget.configFile;
 
         JsonObject jsonObject = new JsonObject();
@@ -43,26 +47,21 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
             if (entry instanceof AbstractConfigurationEntry<?,?> configEntry) {
                 JsonElement jsonElement = encodeJson(configEntry);
                 if (jsonElement != null) {
-                    jsonObject.add(configEntry.getConfiguration().getInfo().getName(), jsonElement);
+                    jsonObject.add(configEntry.getConfiguration().info().getName(), jsonElement);
                 }
             }
         }
 
-        configFile.writeToFile(jsonObject);
+        configFile.writeObjectToFile(jsonObject);
     }
 
     private static <T, C extends AbstractConfiguration<T>> JsonElement encodeJson(AbstractConfigurationEntry<T, C> entry) {
         DataResult<JsonElement> result = entry.getConfiguration().getValueCodec().encodeStart(JsonOps.INSTANCE, entry.getValue());
         if (result.isError()) {
-            ConfigApi.LOGGER.error("Could not encode value for config '{}'.", entry.getConfiguration().getId());
+            ConfigApi.LOGGER.error("Could not encode value for config '{}'.", entry.getConfiguration().info().getId());
             return null;
         }
 
-        return result.getOrThrow(message -> new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().getId() + "'"));
-    }
-
-    @Override
-    public <T> T getConfigValue(AbstractConfiguration<T> configuration) {
-        return ConfigManager.getLoadedValue(configuration);
+        return result.getOrThrow(message -> new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'"));
     }
 }
