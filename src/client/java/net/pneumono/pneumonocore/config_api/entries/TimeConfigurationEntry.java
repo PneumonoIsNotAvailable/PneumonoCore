@@ -86,6 +86,21 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
     }
 
     @Override
+    public void save() {
+        boolean canParse;
+        try {
+            Long.parseLong(this.textWidget.getText());
+            canParse = true;
+        } catch (NumberFormatException ignored) {
+            canParse = false;
+        }
+
+        if (canParse) {
+            super.save();
+        }
+    }
+
+    @Override
     public List<? extends Selectable> selectableChildren() {
         return ImmutableList.of(this.textWidget, this.cycleWidget);
     }
