@@ -28,13 +28,9 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
         AbstractConfiguration<T> config = entry.getConfiguration();
         T value = entry.getValue();
 
-        try {
-            ConfigManager.setSavedValue(config, value);
-            if (config.info().isClientSided() && config.info().getLoadType().canLoad(LoadType.INSTANT)) {
-                ConfigManager.setEffectiveValue(config, value);
-            }
-        } catch (ClassCastException e) {
-            ConfigApi.LOGGER.warn("Could not save value '{}' for config '{}'", value, config.info().getId());
+        ConfigManager.setSavedValue(config, value);
+        if (config.info().isClientSided() && config.info().getLoadType().canLoad(LoadType.INSTANT)) {
+            ConfigManager.setEffectiveValue(config, value);
         }
     }
 
