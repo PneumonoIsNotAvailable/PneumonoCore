@@ -71,7 +71,7 @@ public abstract class ConfigOptionsScreen extends Screen {
         }).build());
 
         directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
-            for (AbstractConfigListWidgetEntry entry : configsListWidget.children()) {
+            for (AbstractConfigListWidgetEntry entry : configsListWidget.getEntries()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry && configurationEntry.shouldSaveValue()) {
                     setSavedValue(configurationEntry);
                 }
