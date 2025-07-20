@@ -61,7 +61,8 @@ public class ClientConfigCommandRegistry {
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
-                returnConfigs.add(config.info().getModID() + ":" + config.info().getName() + " is set to " + ConfigManager.getSavedValue(config).toString());
+                String valueString = config.info().isClientSided() ? config.getValue().toString() : ConfigManager.getSavedValue(config).toString();
+                returnConfigs.add(config.info().getModID() + ":" + config.info().getName() + " is set to " + valueString);
             }
         }
         return returnConfigs;
@@ -72,7 +73,8 @@ public class ClientConfigCommandRegistry {
         if (modConfigs != null) {
             AbstractConfiguration<?> config = modConfigs.getConfiguration(name);
             if (config != null) {
-                return config.info().getModID() + ":" + config.info().getName() + " is set to " + ConfigManager.getSavedValue(config).toString();
+                String valueString = config.info().isClientSided() ? config.getValue().toString() : ConfigManager.getSavedValue(config).toString();
+                return config.info().getModID() + ":" + config.info().getName() + " is set to " + valueString;
             }
         }
         return modID + ":" + name + " does not exist!";
