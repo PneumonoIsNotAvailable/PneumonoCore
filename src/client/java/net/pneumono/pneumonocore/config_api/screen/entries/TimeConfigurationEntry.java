@@ -43,8 +43,6 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
             this.units = PneumonoCoreUtil.cycleEnum(this.units);
             setValue(this.amount * this.units.getDivision());
         }).dimensions(0, 0, 20, 20).build();
-
-        this.update();
     }
 
     private long getAmount(long value) {
