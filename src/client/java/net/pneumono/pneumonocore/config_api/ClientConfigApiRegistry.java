@@ -65,8 +65,8 @@ public class ClientConfigApiRegistry {
         }
     }
 
-    private static  <T> boolean setReceivedEffectiveValue(AbstractConfiguration<T> config, NbtElement jsonElement) {
-        DataResult<Pair<T, NbtElement>> result = config.getValueCodec().decode(NbtOps.INSTANCE, jsonElement);
+    private static  <T> boolean setReceivedEffectiveValue(AbstractConfiguration<T> config, NbtElement nbtElement) {
+        DataResult<Pair<T, NbtElement>> result = config.getValueCodec().decode(NbtOps.INSTANCE, nbtElement);
         if (result.isError()) {
             return false;
         }
