@@ -26,9 +26,16 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public class PneumonoCoreTranslationBuilder {
     private final FabricLanguageProvider.TranslationBuilder builder;
+    private final String modId;
 
-    public PneumonoCoreTranslationBuilder(FabricLanguageProvider.TranslationBuilder builder) {
+    public PneumonoCoreTranslationBuilder(FabricLanguageProvider.TranslationBuilder builder, String modId) {
         this.builder = builder;
+        this.modId = modId;
+    }
+
+    @Deprecated
+    public PneumonoCoreTranslationBuilder(FabricLanguageProvider.TranslationBuilder builder) {
+        this(builder, null);
     }
 
     public void add(String key, String value) {
@@ -39,12 +46,24 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(item, value);
     }
 
+    public void add(Item item, String value, String suffix) {
+        this.builder.add(item.getTranslationKey() + "." + suffix, value);
+    }
+
     public void add(Block block, String value) {
         this.builder.add(block, value);
     }
 
+    public void add(Block block, String value, String suffix) {
+        this.builder.add(block.getTranslationKey() + "." + suffix, value);
+    }
+
     public void add(EntityType<?> type, String value) {
         this.builder.add(type, value);
+    }
+
+    public void add(EntityType<?> type, String value, String suffix) {
+        this.builder.add(type.getTranslationKey() + "." + suffix, value);
     }
 
     public void add(StatType<?> type, String value) {
@@ -100,6 +119,11 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(id.toTranslationKey("advancements", "description"), description);
     }
 
+    public void addConfigScreenTitle(String title) {
+        this.builder.add("configs." + this.modId + ".screen_title", title);
+    }
+
+    @Deprecated
     public void addConfigScreenTitle(String modId, String title) {
         this.builder.add("configs." + modId + ".screen_title", title);
     }
@@ -130,14 +154,31 @@ public class PneumonoCoreTranslationBuilder {
         this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
 
+    public void addConfigCategory(String category, String name) {
+        this.builder.add("configs.category." + this.modId + "." + category, name);
+    }
+
+    @Deprecated
     public void addConfigCategory(String modId, String category, String name) {
         this.builder.add("configs.category." + modId + "." + category, name);
     }
 
+    public void addModMenuTexts(String name, String summary) {
+        this.addModMenuTexts(name, summary, summary);
+    }
+
+    @Deprecated
     public void addModMenuTranslations(String modId, String name, String summary) {
         this.addModMenuTranslations(modId, name, summary, summary);
     }
 
+    public void addModMenuTexts(String name, String summary, String description) {
+        this.builder.add("modmenu.nameTranslation." + this.modId, name);
+        this.builder.add("modmenu.summaryTranslation." + this.modId, summary);
+        this.builder.add("modmenu.descriptionTranslation." + this.modId, description);
+    }
+
+    @Deprecated
     public void addModMenuTranslations(String modId, String name, String summary, String description) {
         this.builder.add("modmenu.nameTranslation." + modId, name);
         this.builder.add("modmenu.summaryTranslation." + modId, summary);
