@@ -20,15 +20,15 @@ public class ConfigManager {
     }
 
     public static <T, C extends AbstractConfiguration<T>> void setSavedValue(C configuration, T value) {
-        configuration.setSavedValue(value);
+        configuration.getSavedValue().set(value);
     }
 
     public static <T, C extends AbstractConfiguration<T>> void setEffectiveValue(C configuration, T value) {
-        configuration.setEffectiveValue(value);
+        configuration.getEffectiveValue().set(value);
     }
 
     public static <T, C extends AbstractConfiguration<T>> T getSavedValue(C configuration) {
-        return configuration.getSavedValue();
+        return configuration.getSavedValue().get();
     }
 
     public static void register(AbstractConfiguration<?> configuration, Identifier id) {

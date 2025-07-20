@@ -15,8 +15,8 @@ public abstract class AbstractConfiguration<T> {
     private Identifier id;
     private final ConfigSettings settings;
     private final T defaultValue;
-    private T savedValue;
-    private T effectiveValue;
+    private final ConfigValue<T> savedValue;
+    private final ConfigValue<T> effectiveValue;
 
     /**
      * Creates a new configuration. Register using {@link ConfigApi#register}.<p>
@@ -27,8 +27,8 @@ public abstract class AbstractConfiguration<T> {
     public AbstractConfiguration(T defaultValue, ConfigSettings settings) {
         this.settings = settings;
         this.defaultValue = defaultValue;
-        this.savedValue = defaultValue;
-        this.effectiveValue = defaultValue;
+        this.savedValue = new ConfigValue<>(this, defaultValue);
+        this.effectiveValue = new ConfigValue<>(this, defaultValue);
     }
 
     public abstract Codec<T> getValueCodec();
@@ -42,10 +42,10 @@ public abstract class AbstractConfiguration<T> {
             enabled = this.settings.condition.get();
         }
         if (enabled && this.settings.parent != null) {
-            enabled = this.settings.parent.test(this.effectiveValue);
+            enabled = this.settings.parent.test(this.effectiveValue.get());
         }
 
-        return enabled ? this.effectiveValue : this.defaultValue;
+        return enabled ? this.effectiveValue.get() : this.defaultValue;
     }
 
     public Info info() {
@@ -112,16 +112,12 @@ public abstract class AbstractConfiguration<T> {
         }
     }
 
-    protected void setSavedValue(T value) {
-        this.savedValue = value;
+    protected ConfigValue<T> getSavedValue() {
+        return this.savedValue;
     }
 
-    protected void setEffectiveValue(T value) {
-        this.effectiveValue = value;
-    }
-
-    protected T getSavedValue() {
-        return savedValue;
+    protected ConfigValue<T> getEffectiveValue() {
+        return this.effectiveValue;
     }
 
     @Deprecated
