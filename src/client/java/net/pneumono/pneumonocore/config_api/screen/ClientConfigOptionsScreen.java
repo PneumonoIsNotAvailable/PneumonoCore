@@ -37,6 +37,7 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
     @Override
     public void writeSavedValues() {
         ConfigFile configFile = this.configsListWidget.configFile;
+        if (configFile == null) return;
 
         JsonObject jsonObject = new JsonObject();
         for (AbstractConfigListWidgetEntry entry : this.configsListWidget.getEntries()) {

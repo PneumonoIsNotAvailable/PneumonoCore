@@ -28,7 +28,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         this.configFile = ConfigApi.getConfigFile(this.parentScreen.modID);
 
         this.categorizedConfigs = new HashMap<>();
-        List<AbstractConfiguration<?>> configurations = this.configFile.getConfigurations();
+        List<AbstractConfiguration<?>> configurations = this.configFile == null ? new ArrayList<>() : this.configFile.getConfigurations();
         for (AbstractConfiguration<?> configuration : configurations) {
             this.categorizedConfigs.computeIfAbsent(configuration.info().getCategory(), string -> new ArrayList<>()).add(configuration);
         }
