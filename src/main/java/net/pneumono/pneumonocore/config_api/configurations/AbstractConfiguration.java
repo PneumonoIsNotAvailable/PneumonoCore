@@ -101,10 +101,14 @@ public abstract class AbstractConfiguration<T> {
         }
 
         public boolean isEnabled(Object object) {
-            if (this.getSettings().parent != null) {
-                return this.getSettings().parent.test(object);
+            boolean enabled = true;
+            if (this.getSettings().condition != null) {
+                enabled = this.getSettings().condition.get();
             }
-            return true;
+            if (enabled && this.getSettings().parent != null) {
+                enabled = this.getSettings().parent.test(object);
+            }
+            return enabled;
         }
 
         public Identifier getConfigTypeId() {
