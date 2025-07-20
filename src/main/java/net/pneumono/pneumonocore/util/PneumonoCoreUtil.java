@@ -6,7 +6,7 @@ public class PneumonoCoreUtil {
         for (int i = 0; i < enumConstants.length; ++i) {
             T enumConstant = enumConstants[i];
             if (enumConstant == value) {
-                return enumConstants[i + 1 % enumConstants.length];
+                return enumConstants[(i + 1) % enumConstants.length];
             }
         }
         return value;
