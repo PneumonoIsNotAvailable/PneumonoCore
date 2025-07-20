@@ -22,8 +22,6 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry<Intege
                 (slider, configValue) -> setValue(configValue),
                 this.value, minValue, maxValue, 0, 0, 110, 20
         );
-
-        this.update();
     }
 
     @Override

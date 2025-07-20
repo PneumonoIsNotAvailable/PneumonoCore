@@ -23,9 +23,7 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<String,
                 0, 0, 110, 20, null,
                 Text.translatable(ConfigApi.toTranslationKey(this.configuration))
         );
-        this.textWidget.setChangedListener(configValue -> this.value = configValue);
-
-        this.update();
+        this.textWidget.setChangedListener(this::setValue);
     }
 
     @Override

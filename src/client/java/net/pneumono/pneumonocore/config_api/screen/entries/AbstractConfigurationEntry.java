@@ -69,9 +69,9 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     public boolean shouldDisplay() {
         AbstractConfiguration<?> configParent = this.configuration.info().getParent();
         if (configParent == null) return true;
-        AbstractConfigurationEntry<?, ?> configEntry = this.widget.getEntry(configParent.info().getId());
-        if (configEntry == null) return true;
-        return this.configuration.info().isEnabled(configEntry.value);
+        AbstractConfigurationEntry<?, ?> configParentEntry = this.widget.getEntry(configParent.info().getId());
+        if (configParentEntry == null) return true;
+        return this.configuration.info().isEnabled(configParentEntry.value);
     }
 
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {

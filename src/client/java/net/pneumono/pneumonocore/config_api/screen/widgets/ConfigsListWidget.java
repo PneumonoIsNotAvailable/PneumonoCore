@@ -33,7 +33,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         this.categorizedConfigs.put("misc", this.categorizedConfigs.remove("misc"));
 
         this.entries = initEntryList();
-        update();
+        this.update();
     }
 
     public List<AbstractConfigListWidgetEntry> initEntryList() {
@@ -46,9 +46,16 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
 
         for (Map.Entry<String, List<AbstractConfiguration<?>>> categorizedConfig : this.categorizedConfigs.entrySet()) {
             if (this.categorizedConfigs.size() > 1) {
+
+                String translationKey;
+                if (categorizedConfig.getKey().equals("misc")) {
+                    translationKey = "configs.category.pneumonocore.misc";
+                } else {
+                    translationKey = "configs.category." + this.configFile.getModID() + "." + categorizedConfig.getKey();
+                }
                 newEntries.add(new CategoryTitleEntry(
                         this.parentScreen,
-                        "configs.category." + this.configFile.getModID() + "." + categorizedConfig.getKey()
+                        translationKey
                 ));
             }
 
@@ -68,7 +75,6 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     }
 
     public void update() {
-        this.children().forEach(AbstractConfigListWidgetEntry::update);
         this.replaceEntries(this.entries.stream().filter(AbstractConfigListWidgetEntry::shouldDisplay).toList());
     }
 
