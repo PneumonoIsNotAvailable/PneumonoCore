@@ -57,7 +57,8 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
 
     public void setValue(T value) {
         this.value = value;
-        this.widget.update();
+        this.widget.updateEntryList();
+        this.updateWidgets();
     }
 
     @Override

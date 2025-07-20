@@ -54,12 +54,15 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
         try {
             this.amount = Long.parseLong(this.textWidget.getText());
         } catch (NumberFormatException ignored) {}
 
-        this.textWidget.setText(String.valueOf(this.amount));
+        String amountText = String.valueOf(this.amount);
+        if (!Objects.equals(this.textWidget.getText(), amountText)) {
+            this.textWidget.setText(amountText);
+        }
 
         String key = "configs_screen.pneumonocore." + this.units.name().toLowerCase();
         this.cycleWidget.setMessage(Text.translatable(key));

@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidgetEntry> {
+    private static final String MISC = "misc";
+
     protected final ConfigOptionsScreen parentScreen;
     public final ConfigFile configFile;
     private final Map<String, List<AbstractConfiguration<?>>> categorizedConfigs;
@@ -30,10 +32,13 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         for (AbstractConfiguration<?> configuration : configurations) {
             this.categorizedConfigs.computeIfAbsent(configuration.info().getCategory(), string -> new ArrayList<>()).add(configuration);
         }
-        this.categorizedConfigs.put("misc", this.categorizedConfigs.remove("misc"));
+        if (this.categorizedConfigs.containsKey(MISC)) {
+            this.categorizedConfigs.put(MISC, this.categorizedConfigs.remove(MISC));
+        }
 
         this.entries = initEntryList();
-        this.update();
+        this.updateEntryList();
+        this.updateEntryValues();
     }
 
     public List<AbstractConfigListWidgetEntry> initEntryList() {
@@ -48,8 +53,8 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
             if (this.categorizedConfigs.size() > 1) {
 
                 String translationKey;
-                if (categorizedConfig.getKey().equals("misc")) {
-                    translationKey = "configs.category.pneumonocore.misc";
+                if (categorizedConfig.getKey().equals(MISC)) {
+                    translationKey = "configs.category.pneumonocore." + MISC;
                 } else {
                     translationKey = "configs.category." + this.configFile.getModID() + "." + categorizedConfig.getKey();
                 }
@@ -74,8 +79,12 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         return newEntries;
     }
 
-    public void update() {
+    public void updateEntryList() {
         this.replaceEntries(this.entries.stream().filter(AbstractConfigListWidgetEntry::shouldDisplay).toList());
+    }
+
+    public void updateEntryValues() {
+        this.entries.forEach(AbstractConfigListWidgetEntry::updateWidgets);
     }
 
     public List<AbstractConfigListWidgetEntry> getEntries() {

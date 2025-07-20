@@ -25,7 +25,7 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
         this.cycleWidget.setMessage(Text.translatable(ConfigApi.toTranslationKey(this.configuration, this.value.name().toLowerCase())));
     }
 

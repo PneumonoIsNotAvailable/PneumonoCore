@@ -27,8 +27,11 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<String,
     }
 
     @Override
-    public void update() {
-        this.textWidget.setText(this.value);
+    public void updateWidgets() {
+        String valueText = String.valueOf(this.value);
+        if (!Objects.equals(this.textWidget.getText(), valueText)) {
+            this.textWidget.setText(valueText);
+        }
     }
 
     @Override

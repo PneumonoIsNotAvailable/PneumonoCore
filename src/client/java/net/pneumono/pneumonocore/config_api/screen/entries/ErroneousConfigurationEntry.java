@@ -19,7 +19,7 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
 
     }
 

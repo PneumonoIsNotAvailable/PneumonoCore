@@ -30,7 +30,7 @@ public abstract class AbstractConfigListWidgetEntry extends ElementListWidget.En
 
     public abstract List<? extends ClickableWidget> getChildren();
 
-    public abstract void update();
+    public abstract void updateWidgets();
 
     public abstract void reset();
 

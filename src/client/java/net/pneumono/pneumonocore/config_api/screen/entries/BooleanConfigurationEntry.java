@@ -23,7 +23,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry<Boolea
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
         this.toggleWidget.setMessage(Text.translatable(
                 this.value ? "configs_screen.pneumonocore.boolean_enabled" :
                         "configs_screen.pneumonocore.boolean_disabled"

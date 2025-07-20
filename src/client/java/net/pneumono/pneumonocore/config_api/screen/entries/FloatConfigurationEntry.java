@@ -23,7 +23,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, F
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
         this.sliderWidget.setValue(this.value);
     }
 

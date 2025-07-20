@@ -16,7 +16,7 @@ public abstract class NonInteractableEntry extends AbstractConfigListWidgetEntry
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
 
     }
 

@@ -25,7 +25,7 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry<Intege
     }
 
     @Override
-    public void update() {
+    public void updateWidgets() {
         this.sliderWidget.setValue(this.value);
     }
 

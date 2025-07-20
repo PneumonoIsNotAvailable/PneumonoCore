@@ -66,8 +66,8 @@ public abstract class ConfigOptionsScreen extends Screen {
                 }
             }
 
-            this.configsListWidget.update();
-            this.configsListWidget.getEntries().forEach(AbstractConfigListWidgetEntry::update);
+            this.configsListWidget.updateEntryList();
+            this.configsListWidget.updateEntryValues();
         }).build());
 
         directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
