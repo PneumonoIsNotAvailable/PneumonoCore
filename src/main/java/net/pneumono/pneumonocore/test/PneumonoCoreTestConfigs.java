@@ -1,7 +1,10 @@
 package net.pneumono.pneumonocore.test;
 
 import net.pneumono.pneumonocore.PneumonoCore;
-import net.pneumono.pneumonocore.config.*;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.config_api.configurations.*;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
 
 /**
  * This only exists for testing, don't touch anything here as it won't be registered!
@@ -10,35 +13,61 @@ import net.pneumono.pneumonocore.config.*;
 public class PneumonoCoreTestConfigs {
     public static final String MOD_ID = PneumonoCore.MOD_ID;
 
-    public static final BooleanConfiguration BOOLEAN = new BooleanConfiguration(MOD_ID, "test_boolean", ConfigEnv.SERVER, true);
-    public static final EnumConfiguration<TestEnum> ENUM = new EnumConfiguration<>(MOD_ID, "test_enum", ConfigEnv.SERVER, TestEnum.VALUE_1);
-    public static final FloatConfiguration FLOAT = new FloatConfiguration(MOD_ID, "test_float", ConfigEnv.SERVER, 0.5F);
-    public static final IntegerConfiguration INTEGER = new IntegerConfiguration(MOD_ID, "test_integer", ConfigEnv.SERVER, 0, 10, 5);
-    public static final StringConfiguration STRING = new StringConfiguration(MOD_ID, "test_string", ConfigEnv.SERVER, "Testing!");
-    public static final TimeConfiguration TIME = new TimeConfiguration(MOD_ID, "test_time", ConfigEnv.SERVER, TimeUnit.MINUTES.getDivision() * 22L);
-    public static final BooleanConfiguration CLIENT = new BooleanConfiguration(MOD_ID, "test_client", ConfigEnv.CLIENT, true);
+    public static final String CATEGORY_1 = "test_category_1";
+    public static final String CATEGORY_2 = "test_category_2";
+
+    public static final BooleanConfiguration BOOLEAN = register("test_boolean", new BooleanConfiguration(
+            true, new ConfigSettings().category(CATEGORY_1)
+    ));
+    public static final FloatConfiguration CHILD_1 = register("test_child_1", new FloatConfiguration(
+            0.33F, new ConfigSettings().parent(BOOLEAN, value -> value)
+    ));
+    public static final FloatConfiguration CHILD_2 = register("test_child_2", new FloatConfiguration(
+            0.66F, new ConfigSettings().parent(BOOLEAN, value -> value)
+    ));
+    public static final FloatConfiguration CHILD_3 = register("test_child_3", new FloatConfiguration(
+            1F, new ConfigSettings().parent(BOOLEAN, value -> value)
+    ));
+    public static final EnumConfiguration<TestEnum> ENUM = register("test_enum", new EnumConfiguration<>(
+            TestEnum.VALUE_1, new ConfigSettings().category(CATEGORY_1)
+    ));
+    public static final FloatConfiguration FLOAT = register("test_float", new FloatConfiguration(
+            0.5F, new ConfigSettings().category(CATEGORY_1)
+    ));
+    public static final IntegerConfiguration INTEGER = register("test_integer", new IntegerConfiguration(
+            5, 0, 10, new ConfigSettings().category(CATEGORY_2)
+    ));
+    public static final StringConfiguration STRING = register("test_string", new StringConfiguration(
+            "Testing!", new ConfigSettings().category(CATEGORY_2)
+    ));
+    public static final TimeConfiguration TIME = register("test_time", new TimeConfiguration(
+            TimeUnit.MINUTES.getDivision() * 22L, new ConfigSettings()
+    ));
+    public static final BooleanConfiguration CLIENT = register("test_client", new BooleanConfiguration(
+            true, new ConfigSettings().clientSide()
+    ));
+    public static final BooleanConfiguration INSTANT = register("test_instant", new BooleanConfiguration(
+            true, new ConfigSettings().loadType(LoadType.INSTANT)
+    ));
+    public static final BooleanConfiguration RESTART = register("test_restart", new BooleanConfiguration(
+            true, new ConfigSettings().loadType(LoadType.RESTART)
+    ));
+    public static final BooleanConfiguration CLIENT_INSTANT = register("test_client_instant", new BooleanConfiguration(
+            true, new ConfigSettings().clientSide().loadType(LoadType.INSTANT)
+    ));
+    public static final BooleanConfiguration CLIENT_RESTART = register("test_client_restart", new BooleanConfiguration(
+            true, new ConfigSettings().clientSide().loadType(LoadType.RESTART)
+    ));
+    public static final PerPlayerConfiguration<Boolean> PER_PLAYER = register("test_per_player", new PerPlayerConfiguration<>(
+            new BooleanConfiguration(true, new ConfigSettings())
+    ));
+
+    public static <T extends AbstractConfiguration<?>> T register(String name, T config) {
+        return ConfigApi.register(PneumonoCore.identifier(name), config);
+    }
 
     public static void registerTestConfigs() {
-        Configs.register(MOD_ID,
-                BOOLEAN,
-                ENUM,
-                FLOAT,
-                INTEGER,
-                STRING,
-                TIME,
-                CLIENT
-        );
-        Configs.registerCategories(MOD_ID,
-                new ConfigCategory(MOD_ID, "test_category_1",
-                        BOOLEAN,
-                        ENUM,
-                        FLOAT
-                ),
-                new ConfigCategory(MOD_ID, "test_category_2",
-                        INTEGER,
-                        STRING
-                )
-        );
+        ConfigApi.finishRegistry(MOD_ID);
     }
 
     public enum TestEnum {

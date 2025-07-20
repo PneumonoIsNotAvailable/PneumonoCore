@@ -14,8 +14,9 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.config.AbstractConfiguration;
-import net.pneumono.pneumonocore.config.EnumConfiguration;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
+import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -128,17 +129,29 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void addConfig(AbstractConfiguration<?> config, String name, String tooltip) {
-        this.builder.add(config.getTranslationKey(), name);
-        this.builder.add(config.getTooltipTranslationKey(), tooltip);
+        this.builder.add(ConfigApi.toTranslationKey(config), name);
+        this.builder.add(ConfigApi.toTranslationKey(config, "tooltip"), tooltip);
+    }
+
+    @Deprecated
+    public void addConfig(net.pneumono.pneumonocore.config.AbstractConfiguration<?, ?> config, String name, String tooltip) {
+        this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
 
     public <T extends Enum<T>> void addEnumConfig(EnumConfiguration<T> config, String name, String tooltip, String... values) {
         this.addConfig(config, name, tooltip);
-        T[] keys = config.getDefaultValue().getDeclaringClass().getEnumConstants();
+
+        T[] keys = config.info().getDefaultValue().getDeclaringClass().getEnumConstants();
         if (keys.length != values.length) throw new IllegalArgumentException("The number of enum values and translation strings must match!");
+
         for (int i = 0; i < keys.length; ++i) {
-            this.builder.add(config.getTranslationKey(keys[i].toString().toLowerCase()), values[i]);
+            this.builder.add(ConfigApi.toTranslationKey(config, keys[i].toString().toLowerCase()), values[i]);
         }
+    }
+
+    @Deprecated
+    public <T extends Enum<T>> void addEnumConfig(net.pneumono.pneumonocore.config.EnumConfiguration<T> config, String name, String tooltip, String... values) {
+        this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
 
     public void addConfigCategory(String category, String name) {
