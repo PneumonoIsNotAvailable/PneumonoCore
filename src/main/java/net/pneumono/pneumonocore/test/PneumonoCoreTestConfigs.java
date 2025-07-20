@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.test;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.*;
+import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
 
 /**
@@ -44,6 +45,18 @@ public class PneumonoCoreTestConfigs {
     ));
     public static final BooleanConfiguration CLIENT = register("test_client", new BooleanConfiguration(
             true, new ConfigSettings().clientSide()
+    ));
+    public static final BooleanConfiguration INSTANT = register("test_instant", new BooleanConfiguration(
+            true, new ConfigSettings().loadType(LoadType.INSTANT)
+    ));
+    public static final BooleanConfiguration RESTART = register("test_restart", new BooleanConfiguration(
+            true, new ConfigSettings().loadType(LoadType.RESTART)
+    ));
+    public static final BooleanConfiguration CLIENT_INSTANT = register("test_client_instant", new BooleanConfiguration(
+            true, new ConfigSettings().clientSide().loadType(LoadType.INSTANT)
+    ));
+    public static final BooleanConfiguration CLIENT_RESTART = register("test_client_restart", new BooleanConfiguration(
+            true, new ConfigSettings().clientSide().loadType(LoadType.RESTART)
     ));
     public static final PerPlayerConfiguration<Boolean> PER_PLAYER = register("test_per_player", new PerPlayerConfiguration<>(
             new BooleanConfiguration(true, new ConfigSettings())

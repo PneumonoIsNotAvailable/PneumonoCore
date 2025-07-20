@@ -55,6 +55,14 @@
   "configs.pneumonocore.test_time.tooltip": "This is a Time configuration!",
   "configs.pneumonocore.test_client": "Client",
   "configs.pneumonocore.test_client.tooltip": "This is a Client-Side Boolean configuration!",
+  "configs.pneumonocore.test_instant": "Instant",
+  "configs.pneumonocore.test_instant.tooltip": "This is a Client-Side Instant-Update Boolean configuration!",
+  "configs.pneumonocore.test_restart": "Restart",
+  "configs.pneumonocore.test_restart.tooltip": "This is a Client-Side Restart-Update Boolean configuration!",
+  "configs.pneumonocore.test_client_instant": "Client Instant",
+  "configs.pneumonocore.test_client_instant.tooltip": "This is a Client-Side Instant-Update Boolean configuration!",
+  "configs.pneumonocore.test_client_restart": "Client Restart",
+  "configs.pneumonocore.test_client_restart.tooltip": "This is a Client-Side Restart-Update Boolean configuration!",
   "configs.pneumonocore.test_per_player": "Per-Player",
   "configs.pneumonocore.test_per_player.tooltip": "This is a Per-Player Boolean configuration!"
 }
