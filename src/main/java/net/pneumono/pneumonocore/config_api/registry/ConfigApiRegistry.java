@@ -12,7 +12,6 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigSyncS2CPayload;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import net.pneumono.pneumonocore.datagen.ConfigResourceCondition;
-import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 
 import java.util.List;
 
@@ -33,6 +32,6 @@ public class ConfigApiRegistry {
             ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
         });
         ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
-        PneumonoCoreTestConfigs.registerTestConfigs();
+        //PneumonoCoreTestConfigs.registerTestConfigs();
     }
 }
