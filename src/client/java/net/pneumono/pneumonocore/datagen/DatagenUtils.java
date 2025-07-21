@@ -22,9 +22,9 @@ import java.util.Arrays;
 @SuppressWarnings("unused")
 public class DatagenUtils {
     /**
-     * Returns an {@link AdvancementEntry} with the specified ID, for using as a parent for other advancements.
+     * Returns an {@link AdvancementEntry} with the specified ID, for use as a parent for other advancements.
      */
-    public static AdvancementEntry getDummyAdvancement(Identifier id) {
+    public static AdvancementEntry createDummyAdvancement(Identifier id) {
         return Advancement.Builder.create().build(id);
     }
 
