@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.ConfigSettings#category(String)} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.ConfigSettings#category(String) ConfigSettings.category} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")

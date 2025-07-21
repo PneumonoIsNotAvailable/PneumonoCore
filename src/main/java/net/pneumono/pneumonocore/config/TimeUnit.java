@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.enums.TimeUnit} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.enums.TimeUnit TimeUnit} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")

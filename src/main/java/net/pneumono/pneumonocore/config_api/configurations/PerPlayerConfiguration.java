@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Uuids;
 import net.pneumono.pneumonocore.PneumonoCore;
+import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,14 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
     private final AbstractConfiguration<T> configuration;
     private final Codec<Values<T>> codec;
 
+    /**
+     * Creates a new configuration that stores a value for each player.
+     *
+     * <p>You're on your own for this one. God save you.
+     *
+     * <p>Must be registered using {@link ConfigApi#register}, and once all configs for a given Mod ID are registered,
+     * {@link ConfigApi#finishRegistry} must be called.
+     */
     public PerPlayerConfiguration(AbstractConfiguration<T> configuration) {
         super(new Values<>(configuration.info().getDefaultValue()), configuration.info().getSettings());
         this.configuration = configuration;

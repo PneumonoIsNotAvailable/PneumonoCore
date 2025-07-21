@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config;
 import net.minecraft.util.Identifier;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration AbstractConfiguration} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")

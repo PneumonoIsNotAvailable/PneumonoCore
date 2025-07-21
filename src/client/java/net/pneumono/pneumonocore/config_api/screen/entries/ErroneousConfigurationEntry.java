@@ -6,6 +6,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
@@ -13,6 +15,11 @@ import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The entry used in a config screen when no entry type has been registered for a configuration.
+ *
+ * <p>Entry types can be registered via {@link ClientConfigApi#registerConfigEntryType}
+ */
 public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> extends AbstractConfigurationEntry<T, C> {
     public ErroneousConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, C configuration) {
         super(parent, widget, configuration);

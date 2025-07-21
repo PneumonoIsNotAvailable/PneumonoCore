@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.StringConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.StringConfiguration StringConfiguration} instead.
  */
 @Deprecated
 public class StringConfiguration extends AbstractConfiguration<String, net.pneumono.pneumonocore.config_api.configurations.StringConfiguration> {

@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration IntegerConfiguration} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")

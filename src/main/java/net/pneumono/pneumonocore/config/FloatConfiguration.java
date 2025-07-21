@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.FloatConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.FloatConfiguration FloatConfiguration} instead.
  */
 @Deprecated
 public class FloatConfiguration extends AbstractConfiguration<Float, net.pneumono.pneumonocore.config_api.configurations.FloatConfiguration> {

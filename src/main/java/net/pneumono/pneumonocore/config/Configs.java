@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.ConfigApi} instead.
+ * @deprecated Use {@link ConfigApi} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")
@@ -28,6 +28,9 @@ public class Configs {
         }
     }
 
+    /**
+     * @deprecated Use {@link ConfigApi#register} followed by {@link ConfigApi#finishRegistry} instead.
+     */
     @SafeVarargs
     public static <T extends AbstractConfiguration<?, ?>> void register(String modID, T... configurations) {
         for (T configuration : configurations) {
@@ -36,10 +39,16 @@ public class Configs {
         ConfigApi.finishRegistry(modID);
     }
 
+    /**
+     * @deprecated Use {@link ConfigApi#reloadValuesFromFile} instead.
+     */
     public static void reload(String modID) {
         ConfigApi.reloadValuesFromFile(modID, LoadType.RELOAD);
     }
 
+    /**
+     * @deprecated Use {@link ConfigApi#sendConfigSyncPacket} instead.
+     */
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
         ConfigApi.sendConfigSyncPacket(players);
     }

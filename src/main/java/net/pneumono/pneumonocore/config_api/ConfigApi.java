@@ -11,11 +11,23 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+/**
+ * Utility class for everything config-related.
+ *
+ * <p>Once configurations are registered, {@link #finishRegistry} should be called.
+ */
 public class ConfigApi {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
 
     private static final Map<String, ConfigFile> CONFIG_FILES = new HashMap<>();
 
+    /**
+     * Registers a new configuration with the specified ID.
+     *
+     * <p>Configurations cannot be used until they are registered.
+     *
+     * <p>After all configurations are registered, {@link #finishRegistry} must be called.
+     */
     public static <T extends AbstractConfiguration<?>> T register(Identifier id, T configuration) {
         if (id == null || Objects.equals(id.getNamespace(), "") || Objects.equals(id.getPath(), "")) {
             LOGGER.error("Config '{}' used an invalid identifier, and so was not registered.", id);
@@ -46,10 +58,12 @@ public class ConfigApi {
     }
 
     /**
-     * Reloads the specified config file. <p>
-     * It is recommended to use {@link #sendConfigSyncPacket} to send a config sync packet to the client to update their configs if called on the logical server.
+     * Reloads the specified config file.
      *
-     * @param modID The mod ID of the config file to reload.
+     * <p>Configuration values will only be updated when a sufficiently high load type is used
+     * (e.g. a RESTART configuration won't update its value if the specified load type is RELOAD).
+     *
+     * <p>{@link #sendConfigSyncPacket} should be used to update client configs if called on the server.
      */
     public static void reloadValuesFromFile(String modID, LoadType loadType) {
         ConfigFile configFile = CONFIG_FILES.get(modID);
@@ -59,9 +73,7 @@ public class ConfigApi {
     }
 
     /**
-     * Sends config sync packets to the specified clients. Should only be called on the logical server.
-     *
-     * @param players The players the packets will be sent to.
+     * Sends config sync packets to the specified players.
      */
     public static void sendConfigSyncPacket(Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
@@ -78,9 +90,6 @@ public class ConfigApi {
         return CONFIG_FILES.get(modId);
     }
 
-    /**
-     * Returns the configuration with that name under that mod ID, or null if such a configuration does not exist.
-     */
     public static AbstractConfiguration<?> getConfig(Identifier id) {
         ConfigFile modConfigs = getConfigFile(id.getNamespace());
         if (modConfigs != null) {

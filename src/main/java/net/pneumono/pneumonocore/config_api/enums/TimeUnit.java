@@ -1,5 +1,10 @@
 package net.pneumono.pneumonocore.config_api.enums;
 
+import net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration;
+
+/**
+ * For use by {@link TimeConfiguration}
+ */
 public enum TimeUnit {
     TICKS(1),
     SECONDS(20),

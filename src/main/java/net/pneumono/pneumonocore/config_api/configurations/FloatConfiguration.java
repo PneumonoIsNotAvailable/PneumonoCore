@@ -9,11 +9,10 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class FloatConfiguration extends AbstractConfiguration<Float> {
     /**
-     * Creates a new float configuration. Register using {@link ConfigApi#register}.<p>
-     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
-     * Float configurations have a minimum value of 0 and a maximum value of 1. Any values read from files or set as default values that fall outside this range will be set to the nearest valid value (0 or 1)
+     * Creates a new configuration that stores a {@code float} between 0 and 1.
      *
-     * @param defaultValue The default value of the configuration.
+     * <p>Must be registered using {@link ConfigApi#register}, and once all configs for a given Mod ID are registered,
+     * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
     public FloatConfiguration(float defaultValue, ConfigSettings settings) {

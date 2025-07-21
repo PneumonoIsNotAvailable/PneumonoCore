@@ -7,10 +7,10 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class StringConfiguration extends AbstractConfiguration<String> {
     /**
-     * Creates a new string configuration. Register using {@link ConfigApi#register}.<p>
-     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
+     * Creates a new configuration that stores a {@code String}.
      *
-     * @param defaultValue The default value of the configuration.
+     * <p>Must be registered using {@link ConfigApi#register}, and once all configs for a given Mod ID are registered,
+     * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
     public StringConfiguration(String defaultValue, ConfigSettings settings) {

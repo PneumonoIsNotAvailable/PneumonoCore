@@ -1,5 +1,10 @@
 package net.pneumono.pneumonocore.config_api.enums;
 
+import net.pneumono.pneumonocore.config_api.configurations.ConfigSettings;
+
+/**
+ * @see ConfigSettings#loadType(LoadType)
+ */
 public enum LoadType {
     INSTANT(0),
     RELOAD(1),

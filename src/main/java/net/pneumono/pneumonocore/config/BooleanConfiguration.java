@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration BooleanConfiguration} instead.
  */
 @Deprecated
 public class BooleanConfiguration extends AbstractConfiguration<Boolean, net.pneumono.pneumonocore.config_api.configurations.BooleanConfiguration> {

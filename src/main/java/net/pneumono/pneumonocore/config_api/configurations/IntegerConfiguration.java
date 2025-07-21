@@ -12,13 +12,11 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     private final int maxValue;
 
     /**
-     * Creates a new integer configuration. Register using {@link ConfigApi#register}.<p>
-     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
-     * Integer configurations have set minimum and maximum values. Any values read from files or set as default values that fall outside this range will be set to the nearest valid value.
+     * Creates a new configuration that stores an {@code integer}
+     * within a range specified by {@code minValue} and {@code maxValue}.
      *
-     * @param minValue The minimum value the configuration can be set to.
-     * @param maxValue The maximum value the configuration can be set to.
-     * @param defaultValue The default value of the configuration.
+     * <p>Must be registered using {@link ConfigApi#register}, and once all configs for a given Mod ID are registered,
+     * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
     public IntegerConfiguration(int defaultValue, int minValue, int maxValue, ConfigSettings settings) {

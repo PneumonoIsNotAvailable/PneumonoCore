@@ -10,11 +10,12 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     private final Codec<T> valueCodec;
 
     /**
-     * Creates a new enum configuration. Register using {@link ConfigApi#register}.<p>
-     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.<p>
-     * Enum configuration values use the translation keys {@code "configs.<modID>.<configName>.<valueName>"}.
+     * Creates a new configuration that stores a value from an {@code Enum}.
      *
-     * @param defaultValue The default value of the configuration.
+     * <p>Config enum values use the translation key {@code configs.<modId>.<configName>.<valueName>}.
+     *
+     * <p>Must be registered using {@link ConfigApi#register}, and once all configs for a given Mod ID are registered,
+     * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
     public EnumConfiguration(T defaultValue, Codec<T> valueCodec, ConfigSettings settings) {

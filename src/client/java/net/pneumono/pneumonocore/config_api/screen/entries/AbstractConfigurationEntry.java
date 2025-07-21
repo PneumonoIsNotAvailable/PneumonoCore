@@ -75,6 +75,11 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         return this.configuration.info().isEnabled(configParentEntry.value);
     }
 
+    /**
+     * Renders the config name and the information icon that displays the config tooltip.
+     *
+     * <p>Should be called by all subclasses in {@code render()}.
+     */
     public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
         Text configName = Text.translatable(ConfigApi.toTranslationKey(this.configuration));
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
@@ -85,6 +90,12 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.infoWidget.render(context, mouseX, mouseY, delta);
     }
 
+    /**
+     * @return Whether this value should be saved when the Save button is pressed.
+     *
+     * <p>Should return false if the value is invalid.
+     * (e.g. a text field widget for integers where a non-integer value has been entered)
+     */
     public boolean shouldSaveValue() {
         return true;
     }

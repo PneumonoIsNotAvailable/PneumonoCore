@@ -9,11 +9,10 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 
 public class TimeConfiguration extends AbstractConfiguration<Long> {
     /**
-     * Creates a new time configuration. Register using {@link ConfigApi#register}.<p>
-     * Time configurations are used for configuring amounts of time, e.g. the time taken for an item to be used.<p>
-     * Configuration names use the translation key {@code "configs.<modID>.<name>"} in config menus.
+     * Creates a new configuration that stores a {@code long} representing an amount of time.
      *
-     * @param defaultValue The default value of the configuration.
+     * <p>Must be registered using {@link ConfigApi#register}, and once all configs for a given Mod ID are registered,
+     * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
     public TimeConfiguration(long defaultValue, ConfigSettings settings) {

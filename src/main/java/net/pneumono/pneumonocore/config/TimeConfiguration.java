@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration} instead.
+ * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration TimeConfiguration} instead.
  */
 @Deprecated
 public class TimeConfiguration extends AbstractConfiguration<Long, net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration> {

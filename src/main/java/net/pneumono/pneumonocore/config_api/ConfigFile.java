@@ -48,7 +48,9 @@ public class ConfigFile {
     }
 
     /**
-     * Updates configurations with values from the config file.
+     * Updates the saved values of the configurations using values from the config file.
+     *
+     * <p>Also updates the effective values, if the load type is high enough.
      */
     public void readSavedFromFile(LoadType loadType) {
         File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
@@ -113,7 +115,7 @@ public class ConfigFile {
     }
 
     /**
-     * Updates the config file with values from configurations.
+     * Writes the saved values of the configurations to the config file.
      */
     public void writeSavedToFile() {
         JsonObject jsonObject = new JsonObject();
