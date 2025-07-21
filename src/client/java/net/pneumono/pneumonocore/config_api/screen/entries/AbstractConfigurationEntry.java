@@ -61,7 +61,6 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.updateWidgets();
     }
 
-    @Override
     public void reset() {
         setValue(this.configuration.info().getDefaultValue());
     }
@@ -75,19 +74,15 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         return this.configuration.info().isEnabled(configParentEntry.value);
     }
 
-    /**
-     * Renders the config name and the information icon that displays the config tooltip.
-     *
-     * <p>Should be called by all subclasses in {@code render()}.
-     */
-    public void renderNameAndInformation(DrawContext context, int x, int y, int entryHeight, int mouseX, int mouseY, float delta) {
+    @Override
+    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickProgress) {
         Text configName = Text.translatable(ConfigApi.toTranslationKey(this.configuration));
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         context.drawText(textRenderer, configName, x + OFFSET + 27 - textRenderer.getWidth(configName), (y + entryHeight / 2) - 2, Colors.WHITE, true);
 
         this.infoWidget.setX(x + OFFSET + 150);
         this.infoWidget.setY(y);
-        this.infoWidget.render(context, mouseX, mouseY, delta);
+        this.infoWidget.render(context, mouseX, mouseY, tickProgress);
     }
 
     /**

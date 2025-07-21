@@ -24,11 +24,6 @@ public abstract class NonInteractableEntry extends AbstractConfigListWidgetEntry
     }
 
     @Override
-    public void reset() {
-
-    }
-
-    @Override
     public boolean shouldDisplay() {
         return true;
     }

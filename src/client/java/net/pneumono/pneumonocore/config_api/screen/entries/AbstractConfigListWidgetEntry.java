@@ -45,11 +45,6 @@ public abstract class AbstractConfigListWidgetEntry extends ElementListWidget.En
     public abstract void updateWidgets();
 
     /**
-     * Should set all fields that are connected to {@link AbstractConfigurationEntry#value} to their default value.
-     */
-    public abstract void reset();
-
-    /**
      * @return Whether this entry should be visible in the entry list.
      */
     public abstract boolean shouldDisplay();

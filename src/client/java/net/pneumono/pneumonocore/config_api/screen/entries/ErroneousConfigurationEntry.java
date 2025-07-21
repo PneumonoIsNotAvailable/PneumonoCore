@@ -36,7 +36,7 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
 
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
+        super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error");

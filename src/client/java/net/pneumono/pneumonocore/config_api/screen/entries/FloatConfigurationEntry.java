@@ -34,7 +34,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, F
 
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
+        super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
         this.sliderWidget.setX(x + OFFSET + 35);
         this.sliderWidget.setY(y);

@@ -35,7 +35,7 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
     }
 
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        renderNameAndInformation(context, x, y, entryHeight, mouseX, mouseY, tickDelta);
+        super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
         this.cycleWidget.setX(x + OFFSET + 35);
         this.cycleWidget.setY(y);
