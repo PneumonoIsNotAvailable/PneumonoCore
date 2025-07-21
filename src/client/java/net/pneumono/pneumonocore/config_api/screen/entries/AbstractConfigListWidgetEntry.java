@@ -4,7 +4,6 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
