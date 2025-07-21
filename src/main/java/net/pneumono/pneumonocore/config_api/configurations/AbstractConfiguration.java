@@ -123,7 +123,7 @@ public abstract class AbstractConfiguration<T> {
             return id;
         }
 
-        public String getModID() {
+        public String getModId() {
             return this.getId().getNamespace();
         }
 

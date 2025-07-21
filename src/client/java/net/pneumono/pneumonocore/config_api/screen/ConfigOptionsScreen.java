@@ -14,15 +14,15 @@ import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfiguration
 
 public abstract class ConfigOptionsScreen extends Screen {
     public final Screen parent;
-    public final String modID;
+    public final String modId;
     public final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
 
     public ConfigsListWidget configsListWidget;
 
-    public ConfigOptionsScreen(Screen parent, String modID) {
-        super(Text.translatable("configs." + modID + ".screen_title"));
+    public ConfigOptionsScreen(Screen parent, String modId) {
+        super(Text.translatable("configs." + modId + ".screen_title"));
         this.parent = parent;
-        this.modID = modID;
+        this.modId = modId;
     }
 
     public abstract <T> T getConfigValue(AbstractConfiguration<T> configuration);

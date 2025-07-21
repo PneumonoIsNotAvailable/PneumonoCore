@@ -11,9 +11,9 @@ public class PneumonoCoreModMenu implements ModMenuApi {
     }
 
     /**
-     * Returns a config screen factory for the mod with that {@code modID}.
+     * Returns a config screen factory for the mod with that {@code modId}.
      */
-    public static ConfigScreenFactory<?> getModConfigScreenFactory(String modID) {
-        return parent -> new ClientConfigOptionsScreen(parent, modID);
+    public static ConfigScreenFactory<?> getModConfigScreenFactory(String modId) {
+        return parent -> new ClientConfigOptionsScreen(parent, modId);
     }
 }

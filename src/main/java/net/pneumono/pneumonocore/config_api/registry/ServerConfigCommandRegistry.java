@@ -27,7 +27,7 @@ public class ServerConfigCommandRegistry {
                 .requires(source -> source.hasPermissionLevel(4))
                 .then(literal("get")
                     .then(argument("modid", StringArgumentType.string())
-                        .suggests(new ModIDSuggestionProvider())
+                        .suggests(new ModIdSuggestionProvider())
                         .then(argument("config", StringArgumentType.string())
                             .suggests(new ConfigSuggestionProvider())
                             .executes(context -> {
@@ -58,34 +58,34 @@ public class ServerConfigCommandRegistry {
         );
     }
 
-    public static List<String> getAllConfigValueStrings(String modID) {
+    public static List<String> getAllConfigValueStrings(String modId) {
         List<String> returnConfigs = new ArrayList<>();
-        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modId);
         if (modConfigs != null) {
             for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
-                returnConfigs.add(config.info().getModID() + ":" + config.info().getName() + " is set to " + config.getValue().toString());
+                returnConfigs.add(config.info().getModId() + ":" + config.info().getName() + " is set to " + config.getValue().toString());
             }
         }
         return returnConfigs;
     }
 
-    public static String getConfigValueString(String modID, String name) {
-        ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
+    public static String getConfigValueString(String modId, String name) {
+        ConfigFile modConfigs = ConfigApi.getConfigFile(modId);
         if (modConfigs != null) {
             AbstractConfiguration<?> config = modConfigs.getConfiguration(name);
             if (config != null) {
-                return config.info().getModID() + ":" + config.info().getName() + " is set to " + config.getValue().toString();
+                return config.info().getModId() + ":" + config.info().getName() + " is set to " + config.getValue().toString();
             }
         }
-        return modID + ":" + name + " does not exist!";
+        return modId + ":" + name + " does not exist!";
     }
 
-    public static class ModIDSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
+    public static class ModIdSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
         @Override
         public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
             for (ConfigFile modConfigs : ConfigApi.getConfigFiles()) {
-                if (modConfigs.getModID().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                    builder.suggest(modConfigs.getModID());
+                if (modConfigs.getModId().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                    builder.suggest(modConfigs.getModId());
                 }
             }
 

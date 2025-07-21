@@ -14,8 +14,8 @@ import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfiguration
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 
 public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
-    public ClientConfigOptionsScreen(Screen parent, String modID) {
-        super(parent, modID);
+    public ClientConfigOptionsScreen(Screen parent, String modId) {
+        super(parent, modId);
     }
 
     @Override

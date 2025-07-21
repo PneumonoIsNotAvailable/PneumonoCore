@@ -21,15 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigFile {
-    private final String modID;
+    private final String modId;
     private final List<AbstractConfiguration<?>> configurations = new ArrayList<>();
 
-    protected ConfigFile(String modID) {
-        this.modID = modID;
+    protected ConfigFile(String modId) {
+        this.modId = modId;
     }
 
-    public String getModID() {
-        return modID;
+    public String getModId() {
+        return modId;
     }
 
     public void addConfiguration(AbstractConfiguration<?> configuration) {
@@ -53,11 +53,11 @@ public class ConfigFile {
      * <p>Also updates the effective values, if the load type is high enough.
      */
     public void readSavedFromFile(LoadType loadType) {
-        File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
+        File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modId + ".json");
 
         // Create config file if it does not exist already
         if (!configFile.exists()) {
-            ConfigApi.LOGGER.info("Config file for mod '{}' does not exist. Creating new one with default values...", modID);
+            ConfigApi.LOGGER.info("Config file for mod '{}' does not exist. Creating new one with default values...", modId);
             writeSavedToFile();
             return;
         }
@@ -69,15 +69,15 @@ public class ConfigFile {
             jsonObject = new GsonBuilder().setPrettyPrinting().create().fromJson(reader, JsonObject.class);
             reader.close();
         } catch (IOException e) {
-            ConfigApi.LOGGER.error("Could not read config file for mod '{}'. Default config values will be used instead.", this.modID, e);
+            ConfigApi.LOGGER.error("Could not read config file for mod '{}'. Default config values will be used instead.", this.modId, e);
             return;
         } catch (JsonSyntaxException e) {
-            ConfigApi.LOGGER.error("Config file for mod '{}' did not use valid syntax. Default config values will be used instead.", this.modID, e);
+            ConfigApi.LOGGER.error("Config file for mod '{}' did not use valid syntax. Default config values will be used instead.", this.modId, e);
             return;
         }
 
         if (jsonObject == null) {
-            ConfigApi.LOGGER.error("An error occurred reading config file for mod '{}'. Default config values will be used instead.", this.modID);
+            ConfigApi.LOGGER.error("An error occurred reading config file for mod '{}'. Default config values will be used instead.", this.modId);
             return;
         }
 
@@ -87,14 +87,14 @@ public class ConfigFile {
             String name = configuration.info().getName();
 
             if (!jsonObject.has(name)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modID, configuration.info().getId());
+                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modId, configuration.info().getId());
                 shouldWrite = true;
                 continue;
             }
 
             JsonElement element = jsonObject.get(name);
             if (!setConfigValue(configuration, element, loadType)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modID, element, configuration.info().getId());
+                ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modId, element, configuration.info().getId());
                 shouldWrite = true;
             }
         }
@@ -139,14 +139,14 @@ public class ConfigFile {
     }
 
     public void writeObjectToFile(JsonObject jsonObject) {
-        File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modID + ".json");
+        File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modId + ".json");
 
         try {
             Writer writer = Files.newBufferedWriter(configFile.toPath());
             (new GsonBuilder().setPrettyPrinting().create()).toJson(jsonObject, writer);
             writer.close();
         } catch (IOException e) {
-            ConfigApi.LOGGER.error("Could not write configuration file for mod {}.", modID, e);
+            ConfigApi.LOGGER.error("Could not write configuration file for mod {}.", modId, e);
         }
     }
 }

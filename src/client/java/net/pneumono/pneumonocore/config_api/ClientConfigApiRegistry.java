@@ -51,7 +51,7 @@ public class ClientConfigApiRegistry {
         ConfigApi.LOGGER.info("Received config sync packet");
 
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtCompound compound = payload.storedValues().getCompound(configFile.getModID()).orElse(null);
+            NbtCompound compound = payload.storedValues().getCompound(configFile.getModId()).orElse(null);
             if (compound == null) continue;
 
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {

@@ -87,7 +87,7 @@ public class Configs {
 
         return categories.entrySet().stream()
                 .map(entry -> new ConfigCategory(
-                        configFile.getModID(),
+                        configFile.getModId(),
                         entry.getKey(),
                         entry.getValue().stream()
                                 .map(config -> config.info().getId())
@@ -102,7 +102,7 @@ public class Configs {
         }
 
         public WrappedConfiguration(C configuration) {
-            super(configuration.info().getModID(), configuration.info().getName(), configuration);
+            super(configuration.info().getModId(), configuration.info().getName(), configuration);
         }
     }
 }

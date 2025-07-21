@@ -25,7 +25,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
         super(parentScreen.getClient(), parentScreen.width, parentScreen.layout.getContentHeight(), parentScreen.layout.getHeaderHeight(), 20);
         this.parentScreen = parentScreen;
-        this.configFile = ConfigApi.getConfigFile(this.parentScreen.modID);
+        this.configFile = ConfigApi.getConfigFile(this.parentScreen.modId);
 
         this.categorizedConfigs = new HashMap<>();
         List<AbstractConfiguration<?>> configurations = this.configFile == null ? new ArrayList<>() : this.configFile.getConfigurations();
@@ -56,7 +56,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
                 if (categorizedConfig.getKey().equals(MISC)) {
                     translationKey = "configs.category.pneumonocore." + MISC;
                 } else {
-                    translationKey = "configs.category." + this.configFile.getModID() + "." + categorizedConfig.getKey();
+                    translationKey = "configs.category." + this.configFile.getModId() + "." + categorizedConfig.getKey();
                 }
                 newEntries.add(new CategoryTitleEntry(
                         this.parentScreen,

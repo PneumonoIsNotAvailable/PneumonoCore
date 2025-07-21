@@ -35,7 +35,7 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
             for (AbstractConfiguration<?> config : configFile.getConfigurations()) {
                 putConfigValue(fileNbt, config);
             }
-            compound.put(configFile.getModID(), fileNbt);
+            compound.put(configFile.getModId(), fileNbt);
         }
         return compound;
     }

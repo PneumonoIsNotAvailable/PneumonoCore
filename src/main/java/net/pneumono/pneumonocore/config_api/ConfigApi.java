@@ -65,8 +65,8 @@ public class ConfigApi {
      *
      * <p>{@link #sendConfigSyncPacket} should be used to update client configs if called on the server.
      */
-    public static void reloadValuesFromFile(String modID, LoadType loadType) {
-        ConfigFile configFile = CONFIG_FILES.get(modID);
+    public static void reloadValuesFromFile(String modId, LoadType loadType) {
+        ConfigFile configFile = CONFIG_FILES.get(modId);
         if (configFile != null) {
             configFile.readSavedFromFile(loadType);
         }
