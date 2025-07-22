@@ -1,0 +1,30 @@
+{
+  "configs.pneumonocore.screen_title": "PneumonoCore settinz",
+  "configs.category.pneumonocore.misc": "othr stuffz",
+
+  "configs_screen.pneumonocore.reset_all": "reset al",
+  "configs_screen.pneumonocore.server_configs": "Servr",
+  "configs_screen.pneumonocore.client_configs": "Cliant",
+
+  "configs_screen.pneumonocore.no_configs": "No settinz here!!!",
+  "configs_screen.pneumonocore.information": "knowinz",
+  "configs_screen.pneumonocore.server": "Servr settin",
+  "configs_screen.pneumonocore.client": "Cliant settin",
+  "configs_screen.pneumonocore.load_instant": "Updat NOW",
+  "configs_screen.pneumonocore.load_reload": "Updat if u /reload",
+  "configs_screen.pneumonocore.load_restart": "Updat if u cloz and opn gaym",
+
+  "configs_screen.pneumonocore.entry_type_error": "NOT WORKIN!!",
+  "configs_screen.pneumonocore.boolean_enabled": "ON",
+  "configs_screen.pneumonocore.boolean_disabled": "OFF",
+  "configs_screen.pneumonocore.days": "D",
+  "configs_screen.pneumonocore.days.full": "Daiz",
+  "configs_screen.pneumonocore.hours": "H",
+  "configs_screen.pneumonocore.hours.full": "Owrs",
+  "configs_screen.pneumonocore.minutes": "M",
+  "configs_screen.pneumonocore.minutes.full": "Mints",
+  "configs_screen.pneumonocore.seconds": "S",
+  "configs_screen.pneumonocore.seconds.full": "Secnds",
+  "configs_screen.pneumonocore.ticks": "T",
+  "configs_screen.pneumonocore.ticks.full": "Tiks"
+}
