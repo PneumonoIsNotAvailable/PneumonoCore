@@ -6,7 +6,7 @@ import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PneumonoCore implements ModInitializer {
+public final class PneumonoCore implements ModInitializer {
 	public static final String MOD_ID = "pneumonocore";
 	public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCore");
 

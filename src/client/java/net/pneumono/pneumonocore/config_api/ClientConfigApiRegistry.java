@@ -10,7 +10,7 @@ import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
 
-public class ClientConfigApiRegistry {
+public final class ClientConfigApiRegistry {
     public static void register() {
         ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, (payload, context) -> ClientConfigApiRegistry.receiveSyncPacket(payload));
 

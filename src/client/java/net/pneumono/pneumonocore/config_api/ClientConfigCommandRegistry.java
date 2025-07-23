@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
-public class ClientConfigCommandRegistry {
+public final class ClientConfigCommandRegistry {
     public static void registerClientConfigCommand() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
             dispatcher.register(literal("clientconfig")

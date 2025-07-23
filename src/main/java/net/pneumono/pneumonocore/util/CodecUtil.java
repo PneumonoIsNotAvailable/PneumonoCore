@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CodecUtil {
+public final class CodecUtil {
     /**
      * Creates a codec for an enum.
      *

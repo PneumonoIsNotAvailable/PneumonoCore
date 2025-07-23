@@ -10,7 +10,7 @@ import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
  * This only exists for testing, don't touch anything here as it won't be registered!
  */
 @SuppressWarnings("unused")
-public class PneumonoCoreTestConfigs {
+public final class PneumonoCoreTestConfigs {
     public static final String MOD_ID = PneumonoCore.MOD_ID;
 
     public static final String CATEGORY_1 = "test_category_1";

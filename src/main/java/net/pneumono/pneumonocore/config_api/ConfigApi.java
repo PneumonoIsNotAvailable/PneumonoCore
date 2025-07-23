@@ -16,7 +16,7 @@ import java.util.*;
  *
  * <p>Once configurations are registered, {@link #finishRegistry} should be called.
  */
-public class ConfigApi {
+public final class ConfigApi {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
 
     private static final Map<String, ConfigFile> CONFIG_FILES = new HashMap<>();

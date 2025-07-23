@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 import java.util.Arrays;
 
 @SuppressWarnings("unused")
-public class DatagenUtils {
+public final class DatagenUtils {
     /**
      * Returns an {@link AdvancementEntry} with the specified ID, for use as a parent for other advancements.
      */

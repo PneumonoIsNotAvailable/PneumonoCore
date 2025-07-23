@@ -10,7 +10,7 @@ import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClientConfigApi {
+public final class ClientConfigApi {
     private static final Map<Identifier, EntryFactory> CONFIG_ENTRY_TYPES = new HashMap<>();
 
     /**
