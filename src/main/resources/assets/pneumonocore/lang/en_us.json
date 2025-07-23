@@ -64,5 +64,7 @@
   "configs.pneumonocore.test_client_restart": "Client Restart",
   "configs.pneumonocore.test_client_restart.tooltip": "This is a Client-Side Restart-Update Boolean configuration!",
   "configs.pneumonocore.test_per_player": "Per-Player",
-  "configs.pneumonocore.test_per_player.tooltip": "This is a Per-Player Boolean configuration!"
+  "configs.pneumonocore.test_per_player.tooltip": "This is a Per-Player Boolean configuration!",
+  "configs.pneumonocore.test_alias": "Alias",
+  "configs.pneumonocore.test_alias.tooltip": "This is an Integer configuration with an alias!"
 }

@@ -85,14 +85,25 @@ public class ConfigFile {
         boolean shouldWrite = false;
         for (AbstractConfiguration<?> configuration : this.configurations) {
             String name = configuration.info().getName();
+            JsonElement element = jsonObject.get(name);
 
-            if (!jsonObject.has(name)) {
-                ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'.", this.modId, configuration.info().getId());
+            if (element == null) {
                 shouldWrite = true;
-                continue;
+
+                for (String alias : configuration.info().getAliases()) {
+                    element = jsonObject.get(alias);
+                    if (element != null) {
+                        ConfigApi.LOGGER.info("Config file for mod '{}' contains a value for an alias of config '{}'.", this.modId, configuration.info().getId());
+                        break;
+                    }
+                }
+
+                if (element == null) {
+                    ConfigApi.LOGGER.warn("Config file for mod '{}' does not contain a value for config '{}'. The default config value will be used instead.", this.modId, configuration.info().getId());
+                    continue;
+                }
             }
 
-            JsonElement element = jsonObject.get(name);
             if (!setConfigValue(configuration, element, loadType)) {
                 ConfigApi.LOGGER.warn("Config file for mod '{}' contains invalid value '{}' for config '{}'. The default config value will be used instead.", this.modId, element, configuration.info().getId());
                 shouldWrite = true;

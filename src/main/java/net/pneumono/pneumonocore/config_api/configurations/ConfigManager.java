@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public class ConfigManager {
     public static <T, C extends AbstractConfiguration<T>> void setValue(C configuration, T value, LoadType loadType, @Nullable MinecraftServer server) {
         LoadType requiredType = configuration.info().getLoadType();
-        if (requiredType.canLoad(loadType)) {
+        if (loadType.canLoad(requiredType)) {
             setSavedValue(configuration, value);
             setEffectiveValue(configuration, value);
             if (server != null) {

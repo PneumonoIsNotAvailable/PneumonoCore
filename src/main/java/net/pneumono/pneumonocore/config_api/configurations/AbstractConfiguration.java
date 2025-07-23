@@ -161,6 +161,10 @@ public abstract class AbstractConfiguration<T> {
             }
         }
 
+        public String[] getAliases() {
+            return this.getSettings().aliases;
+        }
+
         /**
          * A configuration is "enabled" if it passes its condition, and if its parent has the correct value.
          *

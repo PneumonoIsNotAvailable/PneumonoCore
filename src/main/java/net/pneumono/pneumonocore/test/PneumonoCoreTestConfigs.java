@@ -61,6 +61,9 @@ public class PneumonoCoreTestConfigs {
     public static final PerPlayerConfiguration<Boolean> PER_PLAYER = register("test_per_player", new PerPlayerConfiguration<>(
             new BooleanConfiguration(true, new ConfigSettings())
     ));
+    public static final IntegerConfiguration ALIAS = register("test_alias", new IntegerConfiguration(
+            5, 0, 10, new ConfigSettings().aliases("test_alias_old")
+    ));
 
     public static <T extends AbstractConfiguration<?>> T register(String name, T config) {
         return ConfigApi.register(PneumonoCore.identifier(name), config);

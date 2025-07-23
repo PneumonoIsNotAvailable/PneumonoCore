@@ -21,6 +21,7 @@ public class ConfigSettings {
     protected Supplier<Boolean> condition = null;
     @Nullable
     protected Parent<?> parent = null;
+    protected String[] aliases = new String[0];
 
     public ConfigSettings copy() {
         return new ConfigSettings()
@@ -28,7 +29,8 @@ public class ConfigSettings {
                 .category(category)
                 .loadType(loadType)
                 .condition(condition)
-                .parent(parent);
+                .parent(parent)
+                .aliases(aliases);
     }
 
     /**
@@ -122,6 +124,11 @@ public class ConfigSettings {
      */
     public <T> ConfigSettings parent(AbstractConfiguration<T> configuration, Predicate<T> predicate) {
         return parent(new Parent<>(configuration, predicate));
+    }
+
+    public ConfigSettings aliases(String... aliases) {
+        this.aliases = aliases;
+        return this;
     }
 
     public record Parent<T>(Supplier<AbstractConfiguration<T>> configuration, Predicate<T> enabledPredicate) {
