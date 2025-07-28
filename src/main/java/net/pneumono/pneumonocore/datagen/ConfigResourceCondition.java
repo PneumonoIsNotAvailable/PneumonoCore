@@ -65,6 +65,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         LESS_OR_EQUAL,
         GREATER_OR_EQUAL;
 
+        @SuppressWarnings("deprecation")
         public static final EnumCodec<Operator> CODEC = StringIdentifiable.createCodec(Operator::values);
 
         @Override

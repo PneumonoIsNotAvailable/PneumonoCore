@@ -51,8 +51,8 @@ public final class ClientConfigApiRegistry {
         ConfigApi.LOGGER.info("Received config sync packet");
 
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtCompound compound = payload.storedValues().getCompound(configFile.getModId()).orElse(null);
-            if (compound == null) continue;
+            NbtCompound compound = payload.storedValues().getCompound(configFile.getModId())/*? if >=1.21.8 {*//*.orElse(null)*//*?}*/;
+            if (compound == null || compound.isEmpty()) continue;
 
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
                 NbtElement element = compound.get(configuration.info().getName());

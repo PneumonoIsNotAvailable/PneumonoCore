@@ -7,15 +7,16 @@ import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.component.ComponentPredicateTypes;
-import net.minecraft.predicate.component.ComponentsPredicate;
-import net.minecraft.predicate.item.EnchantmentPredicate;
-import net.minecraft.predicate.item.EnchantmentsPredicate;
-import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.predicate.item.*;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+
+//? if >=1.21.8 {
+/*import net.minecraft.predicate.component.ComponentPredicateTypes;
+import net.minecraft.predicate.component.ComponentsPredicate;
+*///?}
 
 import java.util.Arrays;
 
@@ -42,7 +43,8 @@ public final class DatagenUtils {
 
     @SafeVarargs
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
-        return InventoryChangedCriterion.Conditions.items(
+        //? if >=1.21.8 {
+        /*return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().components(
                         ComponentsPredicate.Builder.create().partial(
                                 ComponentPredicateTypes.ENCHANTMENTS,
@@ -54,5 +56,17 @@ public final class DatagenUtils {
                         ).build()
                 )
         );
+        *///?} else {
+        return InventoryChangedCriterion.Conditions.items(
+                ItemPredicate.Builder.create().subPredicate(
+                        ItemSubPredicateTypes.ENCHANTMENTS,
+                        EnchantmentsPredicate.enchantments(
+                                Arrays.stream(enchantments).map(
+                                        enchantment -> new EnchantmentPredicate(lookup.getOrThrow(enchantment), NumberRange.IntRange.atLeast(1))
+                                ).toList()
+                        )
+                )
+        );
+        //?}
     }
 }
