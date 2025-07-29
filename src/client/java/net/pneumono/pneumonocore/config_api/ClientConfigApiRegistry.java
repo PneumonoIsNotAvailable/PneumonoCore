@@ -9,12 +9,17 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtSizeTracker;
 import net.minecraft.network.PacketByteBuf;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
+
+//? if >=1.20.4 {
+import net.minecraft.nbt.NbtSizeTracker;
+//?} else {
+/*import net.minecraft.nbt.NbtTagSizeTracker;
+*///?}
 
 public final class ClientConfigApiRegistry {
     public static void register() {
@@ -80,7 +85,7 @@ public final class ClientConfigApiRegistry {
         ConfigApi.LOGGER.info("Received config sync packet");
 
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtElement payloadElement = buf.readNbt(NbtSizeTracker.of(PacketByteBuf.MAX_READ_NBT_SIZE));
+            NbtElement payloadElement = buf.readNbt(/^? if >=1.20.4 {^/NbtSizeTracker.of/^?} else {^//^new NbtTagSizeTracker^//^?}^/(PacketByteBuf.MAX_READ_NBT_SIZE));
             if (!(payloadElement instanceof NbtCompound payload) || payload.isEmpty()) continue;
             NbtCompound compound = payload.getCompound(configFile.getModId());
             if (compound == null || compound.isEmpty()) continue;
