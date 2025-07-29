@@ -19,10 +19,14 @@ repositories {
 	maven {
 		url "https://maven.terraformersmc.com/"
 	}
+
+	maven {
+		url "https://maven.nucleoid.xyz/"
+	}
 }
 
 loom {
-    splitEnvironmentSourceSets()
+	splitEnvironmentSourceSets()
 
 	mods {
 		"pneumonocore" {
@@ -31,26 +35,34 @@ loom {
 		}
 	}
 
+	runConfigs.all {
+		ideConfigGenerated true
+		runDir "../../run"
+	}
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	minecraft "com.mojang:minecraft:${stonecutter.current.project}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// ModMenu - removed until it updates to 1.21.3
+	// ModMenu
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {
 	inputs.property "version", project.version
+	inputs.property "supported_versions", project.property("supported_versions")
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand(
+				"version": inputs.properties.version,
+				"supported_versions": inputs.properties.supported_versions
+		)
 	}
 }
 
@@ -69,8 +81,10 @@ java {
 }
 
 jar {
+	inputs.property "archivesName", project.base.archivesName
+
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }
 

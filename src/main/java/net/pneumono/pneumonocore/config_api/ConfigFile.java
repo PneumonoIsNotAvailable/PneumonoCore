@@ -118,10 +118,10 @@ public class ConfigFile {
 
     private static <T> boolean setConfigValue(AbstractConfiguration<T> config, JsonElement jsonElement, LoadType loadType) {
         DataResult<Pair<T, JsonElement>> result = config.getValueCodec().decode(JsonOps.INSTANCE, jsonElement);
-        if (result.isError()) {
+        if (result.result().isEmpty()) {
             return false;
         }
-        ConfigManager.setValue(config, result.getOrThrow().getFirst(), loadType, null);
+        ConfigManager.setValue(config, result.result().orElseThrow().getFirst(), loadType, null);
         return true;
     }
 
@@ -140,13 +140,13 @@ public class ConfigFile {
 
     private static <T> JsonElement encodeJson(AbstractConfiguration<T> config) {
         DataResult<JsonElement> result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getSavedValue(config));
-        if (result.isError()) {
+        if (result.result().isEmpty()) {
             ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.info().getId());
 
             result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, config.info().getDefaultValue());
         }
 
-        return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'"));
+        return result.result().orElseThrow(() -> new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'"));
     }
 
     public void writeObjectToFile(JsonObject jsonObject) {

@@ -3,7 +3,6 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.PneumonoCore;
@@ -11,6 +10,12 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
+
+//? if >=1.20.4 {
+import net.minecraft.client.gui.widget.TextIconButtonWidget;
+//?} else {
+/*import net.pneumono.pneumonocore.config_api.screen.widgets.TextIconButtonWidget;
+*///?}
 
 import java.util.Objects;
 
@@ -26,7 +31,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.widget = widget;
         this.configuration = configuration;
         this.infoWidget = TextIconButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.information"), button -> {}, true)
-                .texture(PneumonoCore.identifier( "icon/information"), 15, 15)
+                .texture(PneumonoCore.identifier("icon/information"), 15, 15)
                 .width(20)
                 .build();
         this.infoWidget.setTooltip(Tooltip.of(

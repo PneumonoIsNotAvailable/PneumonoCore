@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config_api.screen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -11,6 +11,12 @@ import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
+
+//? if >=1.20.4 {
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+//?} else {
+/*import net.pneumono.pneumonocore.config_api.screen.widgets.DirectionalLayoutWidget;
+*///?}
 
 public abstract class ConfigOptionsScreen extends Screen {
     public final Screen parent;
@@ -37,23 +43,35 @@ public abstract class ConfigOptionsScreen extends Screen {
         this.initBody();
         this.initFooter();
         this.layout.forEachChild(this::addDrawableChild);
+        //? if <=1.20.1 {
+        /*this.addDrawableChild(this.configsListWidget);
+        *///?}
         this.refreshWidgetPositions();
     }
 
-    @Override
     protected void refreshWidgetPositions() {
         this.layout.refreshPositions();
+        //? if >=1.21.1 {
         if (this.configsListWidget != null) {
             this.configsListWidget.position(this.width, this.layout);
         }
+        //?}
     }
 
     protected void initHeader() {
+        //? if >=1.21.1 {
         this.layout.addHeader(this.title, this.textRenderer);
+        //?} else {
+        /*this.layout.addHeader(new TextWidget(this.title, this.textRenderer));
+        *///?}
     }
 
     protected void initBody() {
+        //? if >=1.20.4 {
         this.configsListWidget = this.layout.addBody(new ConfigsListWidget(this));
+        //?} else {
+        /*this.configsListWidget = new ConfigsListWidget(this);
+        *///?}
     }
 
     protected void initFooter() {

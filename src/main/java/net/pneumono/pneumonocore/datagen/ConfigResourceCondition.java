@@ -1,11 +1,13 @@
 package net.pneumono.pneumonocore.datagen;
 
+//? if >=1.20.6 {
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.minecraft.registry.RegistryOps;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
@@ -31,7 +33,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     }
 
     @Override
-    public boolean test(@Nullable RegistryOps.RegistryInfoGetter registryInfo) {
+    public boolean test(/*? if >=1.21.4 {*/@Nullable RegistryOps.RegistryInfoGetter registryInfo/*?} else {*//*@Nullable RegistryWrapper.WrapperLookup wrapperLookup*//*?}*/) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;
@@ -65,6 +67,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         LESS_OR_EQUAL,
         GREATER_OR_EQUAL;
 
+        @SuppressWarnings("deprecation")
         public static final EnumCodec<Operator> CODEC = StringIdentifiable.createCodec(Operator::values);
 
         @Override
@@ -73,3 +76,4 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         }
     }
 }
+//?}

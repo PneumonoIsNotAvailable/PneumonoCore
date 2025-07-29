@@ -35,11 +35,9 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.14",
-		"minecraft": ">=1.21.6 <=1.21.8",
-		"java": ">=21",
+		"minecraft": "${supported_versions}",
 		"fabric-api": "*"
 	},
-	"suggests": {},
 	"custom": {
 		"modmenu": {
 			"badges": [

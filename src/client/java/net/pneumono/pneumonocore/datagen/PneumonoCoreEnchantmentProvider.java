@@ -1,5 +1,6 @@
 package net.pneumono.pneumonocore.datagen;
 
+//? if >=1.21.1 {
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
@@ -29,7 +30,11 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
+        //? if >=1.21.4 {
         RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+        //?} else {
+        /*RegistryWrapper.Impl<Item> itemLookup = registries.getWrapperOrThrow(RegistryKeys.ITEM);
+        *///?}
 
         for (Map.Entry<RegistryKey<Enchantment>, Enchantment.Builder> entry : getEnchantmentBuilders(itemLookup).entrySet()) {
             entries.add(entry.getKey(), entry.getValue().build(entry.getKey().getValue()));
@@ -49,3 +54,4 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
         return "Enchantments";
     }
 }
+//?}
