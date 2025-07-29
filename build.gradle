@@ -55,7 +55,7 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", "${project.version}+${stonecutter.current.project}"
+	inputs.property "version", project.version
 	inputs.property "supported_versions", project.property("supported_versions")
 
 	filesMatching("fabric.mod.json") {
