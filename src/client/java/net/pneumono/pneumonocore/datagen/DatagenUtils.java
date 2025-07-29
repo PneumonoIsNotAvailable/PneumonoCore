@@ -14,9 +14,9 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 //? if >=1.21.8 {
-/*import net.minecraft.predicate.component.ComponentPredicateTypes;
+import net.minecraft.predicate.component.ComponentPredicateTypes;
 import net.minecraft.predicate.component.ComponentsPredicate;
-*///?}
+//?}
 
 import java.util.Arrays;
 
@@ -34,7 +34,7 @@ public final class DatagenUtils {
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> itemTagCriterion(RegistryEntryLookup<Item> lookup, TagKey<Item> tag) {
-        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(lookup, tag));
+        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create()/*? if >=1.21.4 {*/.tag(lookup, tag)/*?} else {*//*.tag(tag)*//*?}*/);
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> countCriterion(NumberRange.IntRange range) {
@@ -44,7 +44,7 @@ public final class DatagenUtils {
     @SafeVarargs
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
         //? if >=1.21.8 {
-        /*return InventoryChangedCriterion.Conditions.items(
+        return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().components(
                         ComponentsPredicate.Builder.create().partial(
                                 ComponentPredicateTypes.ENCHANTMENTS,
@@ -56,8 +56,8 @@ public final class DatagenUtils {
                         ).build()
                 )
         );
-        *///?} else {
-        return InventoryChangedCriterion.Conditions.items(
+        //?} else {
+        /*return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(
                         ItemSubPredicateTypes.ENCHANTMENTS,
                         EnchantmentsPredicate.enchantments(
@@ -67,6 +67,6 @@ public final class DatagenUtils {
                         )
                 )
         );
-        //?}
+        *///?}
     }
 }

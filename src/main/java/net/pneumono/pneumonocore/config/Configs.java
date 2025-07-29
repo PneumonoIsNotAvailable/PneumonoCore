@@ -19,6 +19,7 @@ import java.util.*;
 public class Configs {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");
 
+    @Deprecated
     public static void registerCategories(String modID, ConfigCategory... categories) {
         for (ConfigCategory category : categories) for (Identifier id : category.configurations()) {
             net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration = ConfigApi.getConfig(id);
@@ -31,6 +32,7 @@ public class Configs {
     /**
      * @deprecated Use {@link ConfigApi#register} followed by {@link ConfigApi#finishRegistry} instead.
      */
+    @Deprecated
     @SafeVarargs
     public static <T extends AbstractConfiguration<?, ?>> void register(String modID, T... configurations) {
         for (T configuration : configurations) {
@@ -42,6 +44,7 @@ public class Configs {
     /**
      * @deprecated Use {@link ConfigApi#reloadValuesFromFile} instead.
      */
+    @Deprecated
     public static void reload(String modID) {
         ConfigApi.reloadValuesFromFile(modID, LoadType.RELOAD);
     }
@@ -49,19 +52,23 @@ public class Configs {
     /**
      * @deprecated Use {@link ConfigApi#sendConfigSyncPacket} instead.
      */
+    @Deprecated
     public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
         ConfigApi.sendConfigSyncPacket(players);
     }
 
+    @Deprecated
     public static boolean hasConfigs(String modID) {
         ConfigFile configFile = ConfigApi.getConfigFile(modID);
         return configFile != null && !configFile.getConfigurations().isEmpty();
     }
 
+    @Deprecated
     public static AbstractConfiguration<?, ?> getConfig(Identifier id) {
         return new WrappedConfiguration<>(ConfigApi.getConfig(id));
     }
 
+    @Deprecated
     public static AbstractConfiguration<?, ?> getConfig(String modID, String name) {
         ConfigFile modConfigs = ConfigApi.getConfigFile(modID);
         if (modConfigs != null) {
@@ -74,6 +81,7 @@ public class Configs {
         return null;
     }
 
+    @Deprecated
     public static ConfigCategory[] getCategories(String modID) {
         ConfigFile configFile = ConfigApi.getConfigFile(modID);
 

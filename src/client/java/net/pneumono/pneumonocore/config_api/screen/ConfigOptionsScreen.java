@@ -40,7 +40,6 @@ public abstract class ConfigOptionsScreen extends Screen {
         this.refreshWidgetPositions();
     }
 
-    @Override
     protected void refreshWidgetPositions() {
         this.layout.refreshPositions();
         if (this.configsListWidget != null) {
