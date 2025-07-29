@@ -43,9 +43,9 @@ public class TextIconButtonWidget extends TexturedButtonWidget {
         }
 
         public Builder texture(Identifier texture, int width, int height) {
-            this.texture = texture;
-            this.textureWidth = width;
-            this.textureHeight = height;
+            this.texture = texture.withPrefixedPath("textures/gui/sprites/").withSuffixedPath("_button.png");
+            this.textureWidth = 20;
+            this.textureHeight = 40;
             return this;
         }
 

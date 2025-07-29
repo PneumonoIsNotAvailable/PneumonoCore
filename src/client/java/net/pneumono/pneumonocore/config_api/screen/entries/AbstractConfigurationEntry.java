@@ -31,7 +31,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.widget = widget;
         this.configuration = configuration;
         this.infoWidget = TextIconButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.information"), button -> {}, true)
-                .texture(PneumonoCore.identifier( "icon/information"), 15, 15)
+                .texture(PneumonoCore.identifier("icon/information"), 15, 15)
                 .width(20)
                 .build();
         this.infoWidget.setTooltip(Tooltip.of(
