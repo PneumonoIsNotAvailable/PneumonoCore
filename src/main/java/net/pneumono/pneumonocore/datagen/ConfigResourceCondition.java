@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.datagen;
 
 //? if >=1.20.6 {
-import com.mojang.serialization.Codec;
+/*import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
@@ -33,7 +33,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     }
 
     @Override
-    public boolean test(/*? if >=1.21.4 {*//*@Nullable RegistryOps.RegistryInfoGetter registryInfo*//*?} else {*/@Nullable RegistryWrapper.WrapperLookup wrapperLookup/*?}*/) {
+    public boolean test(/^? if >=1.21.4 {^//^@Nullable RegistryOps.RegistryInfoGetter registryInfo^//^?} else {^/@Nullable RegistryWrapper.WrapperLookup wrapperLookup/^?}^/) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;
@@ -76,4 +76,4 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         }
     }
 }
-//?}
+*///?}

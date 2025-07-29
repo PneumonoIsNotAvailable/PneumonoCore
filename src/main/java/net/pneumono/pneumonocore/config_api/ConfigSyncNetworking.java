@@ -10,7 +10,7 @@ import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration
 import java.util.Collection;
 
 //? if <=1.20.4 {
-/*public final class ConfigSyncNetworking {
+public final class ConfigSyncNetworking {
     public static PacketByteBuf write(Collection<ConfigFile> configFiles) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeNbt(toNbt(configFiles));
@@ -35,4 +35,4 @@ import java.util.Collection;
         compound.put(config.info().getName(), element);
     }
 }
-*///?}
+//?}

@@ -79,10 +79,10 @@ public final class ConfigApi {
     public static void sendConfigSyncPacket(Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
             //? if >=1.20.6 {
-            ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
-            //?} else {
-            /*ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, ConfigSyncNetworking.write(CONFIG_FILES.values()));
-            *///?}
+            /*ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
+            *///?} else {
+            ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, ConfigSyncNetworking.write(CONFIG_FILES.values()));
+            //?}
         }
         LOGGER.info("Sent config sync packet to {} player(s)", players.size());
     }

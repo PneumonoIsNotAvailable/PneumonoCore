@@ -94,7 +94,7 @@ public final class DatagenUtils {
         //?}
     }
     *///?} else if >=1.20.6 {
-    public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
+    /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(
                         ItemSubPredicateTypes.ENCHANTMENTS,
@@ -106,8 +106,8 @@ public final class DatagenUtils {
                 )
         );
     }
-    //?} else if >=1.20.4 {
-    /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
+    *///?} else if >=1.20.4 {
+    public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         ItemPredicate.Builder builder = ItemPredicate.Builder.create();
 
         for (Enchantment enchantment : enchantments) {
@@ -116,7 +116,7 @@ public final class DatagenUtils {
 
         return InventoryChangedCriterion.Conditions.items(builder);
     }
-    *///?} else {
+    //?} else {
     /*public static CriterionConditions enchantmentCriterion(Enchantment... enchantments) {
         ItemPredicate.Builder builder = ItemPredicate.Builder.create();
 
