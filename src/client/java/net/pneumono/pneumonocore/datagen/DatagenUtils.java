@@ -40,7 +40,7 @@ public final class DatagenUtils {
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> itemTagCriterion(RegistryEntryLookup<Item> lookup, TagKey<Item> tag) {
-        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create()/*? if >=1.21.4 {*/.tag(lookup, tag)/*?} else {*//*.tag(tag)*//*?}*/);
+        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create()/*? if >=1.21.4 {*//*.tag(lookup, tag)*//*?} else {*/.tag(tag)/*?}*/);
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> countCriterion(NumberRange.IntRange range) {

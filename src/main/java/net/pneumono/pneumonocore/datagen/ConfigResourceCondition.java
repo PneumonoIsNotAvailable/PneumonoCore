@@ -33,7 +33,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     }
 
     @Override
-    public boolean test(/*? if >=1.21.4 {*/@Nullable RegistryOps.RegistryInfoGetter registryInfo/*?} else {*//*@Nullable RegistryWrapper.WrapperLookup wrapperLookup*//*?}*/) {
+    public boolean test(/*? if >=1.21.4 {*//*@Nullable RegistryOps.RegistryInfoGetter registryInfo*//*?} else {*/@Nullable RegistryWrapper.WrapperLookup wrapperLookup/*?}*/) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;

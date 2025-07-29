@@ -85,10 +85,10 @@ public class PneumonoCoreTranslationBuilder {
         //? if >=1.21.8 {
         /*this.builder.add(sound, value);
         *///?} else if >=1.21.4 {
-        this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
-        //?} else {
-        /*this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
-        *///?}
+        /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
+        *///?} else {
+        this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
+        //?}
     }
 
     public void add(Path existingLangFile) throws IOException {
