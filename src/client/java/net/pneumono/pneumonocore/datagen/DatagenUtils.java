@@ -41,6 +41,7 @@ public final class DatagenUtils {
         return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().count(range));
     }
 
+    //? if >=1.21.1 {
     @SafeVarargs
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
         //? if >=1.21.8 {
@@ -69,4 +70,18 @@ public final class DatagenUtils {
         );
         *///?}
     }
+    //?} else {
+    /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
+        return InventoryChangedCriterion.Conditions.items(
+                ItemPredicate.Builder.create().subPredicate(
+                        ItemSubPredicateTypes.ENCHANTMENTS,
+                        EnchantmentsPredicate.enchantments(
+                                Arrays.stream(enchantments).map(
+                                        enchantment -> new EnchantmentPredicate(enchantment, NumberRange.IntRange.atLeast(1))
+                                ).toList()
+                        )
+                )
+        );
+    }
+    *///?}
 }

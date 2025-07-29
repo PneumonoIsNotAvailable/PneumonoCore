@@ -53,9 +53,15 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         this.output = output;
     }
 
+    //? if >=1.21.4 {
     public static ShapedStackRecipeJsonBuilder create(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemStack output) {
         return new ShapedStackRecipeJsonBuilder(registryLookup, category, output);
     }
+    //?} else {
+    /*public static ShapedStackRecipeJsonBuilder create(RecipeCategory category, ItemStack output) {
+        return new ShapedStackRecipeJsonBuilder(null, category, output);
+    }
+    *///?}
 
     public ShapedStackRecipeJsonBuilder input(Character c, TagKey<Item> tag) {
         //? if >=1.21.8 {
