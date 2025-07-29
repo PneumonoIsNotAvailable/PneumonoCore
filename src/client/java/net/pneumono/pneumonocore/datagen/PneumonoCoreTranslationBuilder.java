@@ -76,7 +76,9 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(TagKey<?> key, String value) {
+        //? if >=1.20.6 {
         this.builder.add(key, value);
+        //?}
     }
 
     public void add(SoundEvent sound, String value) {
@@ -107,9 +109,15 @@ public class PneumonoCoreTranslationBuilder {
     }
     *///?}
 
+    //? if >=1.20.6 {
     public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
         this.builder.add(entry, value);
     }
+    //?} else {
+    /*public void addEntityAttribute(EntityAttribute attribute, String value) {
+        this.builder.add(attribute, value);
+    }
+    *///?}
 
     public void add(Identifier key, String value) {
         this.builder.add(key, value);

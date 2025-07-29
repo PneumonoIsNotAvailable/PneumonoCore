@@ -1,5 +1,6 @@
 package net.pneumono.pneumonocore.config_api;
 
+//? if >=1.20.6 {
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
@@ -51,3 +52,4 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
         *///?}
     }
 }
+//?}

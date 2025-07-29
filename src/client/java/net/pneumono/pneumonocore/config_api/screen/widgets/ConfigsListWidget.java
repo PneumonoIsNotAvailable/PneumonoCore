@@ -1,6 +1,7 @@
 package net.pneumono.pneumonocore.config_api.screen.widgets;
 
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
@@ -23,7 +24,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     private final List<AbstractConfigListWidgetEntry> entries;
 
     public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
-        super(parentScreen.getClient(), parentScreen.width, parentScreen.layout.getContentHeight(), parentScreen.layout.getHeaderHeight(), 20);
+        super(parentScreen.getClient(), parentScreen.width, parentScreen.height - parentScreen.layout.getHeaderHeight() - parentScreen.layout.getFooterHeight(), parentScreen.layout.getHeaderHeight(), 20);
         this.parentScreen = parentScreen;
         this.configFile = ConfigApi.getConfigFile(this.parentScreen.modId);
 

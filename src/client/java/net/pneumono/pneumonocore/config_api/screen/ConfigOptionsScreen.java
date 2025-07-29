@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -42,13 +43,19 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     protected void refreshWidgetPositions() {
         this.layout.refreshPositions();
+        //? if >=1.21.1 {
         if (this.configsListWidget != null) {
             this.configsListWidget.position(this.width, this.layout);
         }
+        //?}
     }
 
     protected void initHeader() {
+        //? if >=1.21.1 {
         this.layout.addHeader(this.title, this.textRenderer);
+        //?} else {
+        /*this.layout.addHeader(new TextWidget(this.title, this.textRenderer));
+        *///?}
     }
 
     protected void initBody() {

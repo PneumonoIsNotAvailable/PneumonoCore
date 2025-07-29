@@ -70,7 +70,7 @@ public final class DatagenUtils {
         );
         *///?}
     }
-    //?} else {
+    //?} else if >=1.20.6 {
     /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(
@@ -82,6 +82,16 @@ public final class DatagenUtils {
                         )
                 )
         );
+    }
+    *///?} else {
+    /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
+        ItemPredicate.Builder builder = ItemPredicate.Builder.create();
+
+        for (Enchantment enchantment : enchantments) {
+            builder.enchantment(new EnchantmentPredicate(enchantment, NumberRange.IntRange.atLeast(1)));
+        }
+
+        return InventoryChangedCriterion.Conditions.items(builder);
     }
     *///?}
 }

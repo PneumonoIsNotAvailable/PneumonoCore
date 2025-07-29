@@ -1,5 +1,6 @@
 package net.pneumono.pneumonocore.datagen;
 
+//? if >=1.20.6 {
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -75,3 +76,4 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         }
     }
 }
+//?}
