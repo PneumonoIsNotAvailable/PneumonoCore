@@ -24,10 +24,10 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
 
     public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
         //? if >= 1.20.4 {
-        /*super(parentScreen.getClient(), parentScreen.width, parentScreen.height - parentScreen.layout.getHeaderHeight() - parentScreen.layout.getFooterHeight(), parentScreen.layout.getHeaderHeight(), 20);
-        *///?} else {
-        super(parentScreen.getClient(), parentScreen.width, parentScreen.height - parentScreen.layout.getHeaderHeight() - parentScreen.layout.getFooterHeight(), parentScreen.layout.getHeaderHeight(), parentScreen.height - 32, 20);
-        //?}
+        super(parentScreen.getClient(), parentScreen.width, parentScreen.height - parentScreen.layout.getHeaderHeight() - parentScreen.layout.getFooterHeight(), parentScreen.layout.getHeaderHeight(), 20);
+        //?} else {
+        /*super(parentScreen.getClient(), parentScreen.width, parentScreen.height - parentScreen.layout.getHeaderHeight() - parentScreen.layout.getFooterHeight(), parentScreen.layout.getHeaderHeight(), parentScreen.height - 32, 20);
+        *///?}
         this.parentScreen = parentScreen;
         this.configFile = ConfigApi.getConfigFile(this.parentScreen.modId);
 

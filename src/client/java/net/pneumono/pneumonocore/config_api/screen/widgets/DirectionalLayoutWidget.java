@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.screen.widgets;
 
 //? if <=1.20.1 {
-import net.fabricmc.api.EnvType;
+/*import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.LayoutWidget;
@@ -121,4 +121,4 @@ public class DirectionalLayoutWidget implements LayoutWidget {
         }
     }
 }
-//?}
+*///?}

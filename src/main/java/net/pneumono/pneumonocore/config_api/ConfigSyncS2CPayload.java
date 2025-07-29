@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api;
 
 //? if >=1.20.6 {
-/*import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryByteBuf;
@@ -45,11 +45,11 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
 
     private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
         //? if >=1.21.8 {
-        /^compound.put(config.info().getName(), config.getValueCodec(), config.getValue());
-        ^///?} else {
-        NbtElement element = config.getValueCodec().encodeStart(NbtOps.INSTANCE, config.getValue()).getOrThrow();
+        compound.put(config.info().getName(), config.getValueCodec(), config.getValue());
+        //?} else {
+        /*NbtElement element = config.getValueCodec().encodeStart(NbtOps.INSTANCE, config.getValue()).getOrThrow();
         compound.put(config.info().getName(), element);
-        //?}
+        *///?}
     }
 }
-*///?}
+//?}

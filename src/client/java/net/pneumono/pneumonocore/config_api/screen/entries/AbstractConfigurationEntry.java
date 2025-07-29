@@ -12,10 +12,10 @@ import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 
 //? if >=1.20.4 {
-/*import net.minecraft.client.gui.widget.TextIconButtonWidget;
-*///?} else {
-import net.pneumono.pneumonocore.config_api.screen.widgets.TextIconButtonWidget;
-//?}
+import net.minecraft.client.gui.widget.TextIconButtonWidget;
+//?} else {
+/*import net.pneumono.pneumonocore.config_api.screen.widgets.TextIconButtonWidget;
+*///?}
 
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.util;
 
 //? if >=1.21.4 {
-/*import net.minecraft.client.item.ItemModelManager;
+import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
@@ -39,4 +39,4 @@ public final class CustomArmPoses {
         void pose(BipedEntityModel<?> model, BipedEntityRenderState state);
     }
 }
-*///?}
+//?}

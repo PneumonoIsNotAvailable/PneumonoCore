@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.mixin.client;
 
 //? if >=1.21.4 {
-/*import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.pneumono.pneumonocore.util.CustomArmPoses;
 import net.pneumono.pneumonocore.util.ExpandedEntityRenderState;
@@ -50,4 +50,4 @@ public class BipedEntityModelMixin {
         }
     }
 }
-*///?}
+//?}
