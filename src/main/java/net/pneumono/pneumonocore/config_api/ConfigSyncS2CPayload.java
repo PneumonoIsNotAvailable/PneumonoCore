@@ -45,11 +45,11 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
 
     private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
         //? if >=1.21.8 {
-        compound.put(config.info().getName(), config.getValueCodec(), config.getValue());
-        //?} else {
-        /*NbtElement element = config.getValueCodec().encodeStart(NbtOps.INSTANCE, config.getValue()).getOrThrow();
+        /*compound.put(config.info().getName(), config.getValueCodec(), config.getValue());
+        *///?} else {
+        NbtElement element = config.getValueCodec().encodeStart(NbtOps.INSTANCE, config.getValue()).getOrThrow();
         compound.put(config.info().getName(), element);
-        *///?}
+        //?}
     }
 }
 //?}

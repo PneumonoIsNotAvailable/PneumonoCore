@@ -67,10 +67,10 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 
     public ShapedStackRecipeJsonBuilder input(Character c, TagKey<Item> tag) {
         //? if >=1.21.8 {
-        return this.input(c, Ingredient.ofTag(this.registryLookup.getOrThrow(tag)));
-        //?} else if >=1.21.4 {
-        /*return this.input(c, Ingredient.fromTag(this.registryLookup.getOrThrow(tag)));
-        *///?} else {
+        /*return this.input(c, Ingredient.ofTag(this.registryLookup.getOrThrow(tag)));
+        *///?} else if >=1.21.4 {
+        return this.input(c, Ingredient.fromTag(this.registryLookup.getOrThrow(tag)));
+        //?} else {
         /*return this.input(c, Ingredient.fromTag(tag));
         *///?}
     }

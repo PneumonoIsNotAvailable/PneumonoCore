@@ -13,9 +13,9 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 //? if >=1.21.8 {
-import net.minecraft.predicate.component.ComponentPredicateTypes;
+/*import net.minecraft.predicate.component.ComponentPredicateTypes;
 import net.minecraft.predicate.component.ComponentsPredicate;
-//?}
+*///?}
 
 //? if >=1.20.4 {
 import net.minecraft.advancement.AdvancementEntry;
@@ -68,7 +68,7 @@ public final class DatagenUtils {
     @SafeVarargs
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
         //? if >=1.21.8 {
-        return InventoryChangedCriterion.Conditions.items(
+        /*return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().components(
                         ComponentsPredicate.Builder.create().partial(
                                 ComponentPredicateTypes.ENCHANTMENTS,
@@ -80,8 +80,8 @@ public final class DatagenUtils {
                         ).build()
                 )
         );
-        //?} else {
-        /*return InventoryChangedCriterion.Conditions.items(
+        *///?} else {
+        return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(
                         ItemSubPredicateTypes.ENCHANTMENTS,
                         EnchantmentsPredicate.enchantments(
@@ -91,7 +91,7 @@ public final class DatagenUtils {
                         )
                 )
         );
-        *///?}
+        //?}
     }
     //?} else if >=1.20.6 {
     /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
