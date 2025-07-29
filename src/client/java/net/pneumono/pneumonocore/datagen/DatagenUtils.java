@@ -65,10 +65,10 @@ public final class DatagenUtils {
     *///?}
 
     //? if >=1.21.1 {
-    @SafeVarargs
+    /*@SafeVarargs
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
         //? if >=1.21.8 {
-        /*return InventoryChangedCriterion.Conditions.items(
+        /^return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().components(
                         ComponentsPredicate.Builder.create().partial(
                                 ComponentPredicateTypes.ENCHANTMENTS,
@@ -80,7 +80,7 @@ public final class DatagenUtils {
                         ).build()
                 )
         );
-        *///?} else {
+        ^///?} else {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(
                         ItemSubPredicateTypes.ENCHANTMENTS,
@@ -93,8 +93,8 @@ public final class DatagenUtils {
         );
         //?}
     }
-    //?} else if >=1.20.6 {
-    /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
+    *///?} else if >=1.20.6 {
+    public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(
                         ItemSubPredicateTypes.ENCHANTMENTS,
@@ -106,7 +106,7 @@ public final class DatagenUtils {
                 )
         );
     }
-    *///?} else if >=1.20.4 {
+    //?} else if >=1.20.4 {
     /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         ItemPredicate.Builder builder = ItemPredicate.Builder.create();
 

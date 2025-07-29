@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.datagen;
 
 //? if >=1.21.1 {
-import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+/*import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.enchantment.Enchantment;
@@ -11,13 +11,13 @@ import net.minecraft.registry.*;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-/**
+/^*
  * Provider for datagen of enchantments.
  *
  * <p>Subclasses must extend {@link #getEnchantmentBuilders}.
  *
  * <p>This may also need to be bootstrapped, by calling {@link #bootstrap} in {@link DataGeneratorEntrypoint#buildRegistry}
- */
+ ^/
 @SuppressWarnings("unused")
 public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegistryProvider {
     public PneumonoCoreEnchantmentProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
@@ -31,8 +31,8 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
         //? if >=1.21.4 {
-        /*RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
-        *///?} else {
+        /^RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+        ^///?} else {
         RegistryWrapper.Impl<Item> itemLookup = registries.getWrapperOrThrow(RegistryKeys.ITEM);
         //?}
 
@@ -54,4 +54,4 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
         return "Enchantments";
     }
 }
-//?}
+*///?}

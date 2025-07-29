@@ -52,18 +52,18 @@ public abstract class ConfigOptionsScreen extends Screen {
     protected void refreshWidgetPositions() {
         this.layout.refreshPositions();
         //? if >=1.21.1 {
-        if (this.configsListWidget != null) {
+        /*if (this.configsListWidget != null) {
             this.configsListWidget.position(this.width, this.layout);
         }
-        //?}
+        *///?}
     }
 
     protected void initHeader() {
         //? if >=1.21.1 {
-        this.layout.addHeader(this.title, this.textRenderer);
-        //?} else {
-        /*this.layout.addHeader(new TextWidget(this.title, this.textRenderer));
-        *///?}
+        /*this.layout.addHeader(this.title, this.textRenderer);
+        *///?} else {
+        this.layout.addHeader(new TextWidget(this.title, this.textRenderer));
+        //?}
     }
 
     protected void initBody() {

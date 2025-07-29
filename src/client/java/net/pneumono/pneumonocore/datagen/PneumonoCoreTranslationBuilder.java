@@ -100,14 +100,14 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     //? if >=1.21.1 {
-    public void addEnchantment(RegistryKey<Enchantment> key, String value) {
+    /*public void addEnchantment(RegistryKey<Enchantment> key, String value) {
         this.builder.addEnchantment(key, value);
     }
-    //?} else {
-    /*public void addEnchantment(Enchantment enchantment, String value) {
+    *///?} else {
+    public void addEnchantment(Enchantment enchantment, String value) {
         this.builder.add(enchantment, value);
     }
-    *///?}
+    //?}
 
     //? if >=1.20.6 {
     public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
