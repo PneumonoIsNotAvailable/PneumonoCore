@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.datagen;
 
 //? if >=1.20.4 {
-import com.google.common.collect.Lists;
+/*import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.advancement.Advancement;
@@ -27,9 +27,9 @@ import java.util.*;
 import java.util.function.Consumer;
 
 //? if >=1.21.4 {
-/*import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
+/^import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
-*///?} else {
+^///?} else {
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.recipe.RawShapedRecipe;
@@ -56,10 +56,10 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     }
 
     //? if >=1.21.4 {
-    /*public static ShapedStackRecipeJsonBuilder create(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemStack output) {
+    /^public static ShapedStackRecipeJsonBuilder create(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemStack output) {
         return new ShapedStackRecipeJsonBuilder(registryLookup, category, output);
     }
-    *///?} else {
+    ^///?} else {
     public static ShapedStackRecipeJsonBuilder create(RecipeCategory category, ItemStack output) {
         return new ShapedStackRecipeJsonBuilder(null, category, output);
     }
@@ -67,18 +67,18 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 
     public ShapedStackRecipeJsonBuilder input(Character c, TagKey<Item> tag) {
         //? if >=1.21.8 {
-        /*return this.input(c, Ingredient.ofTag(this.registryLookup.getOrThrow(tag)));
-        *///?} else if >=1.21.4 {
-        /*return this.input(c, Ingredient.fromTag(this.registryLookup.getOrThrow(tag)));
-        *///?} else {
+        /^return this.input(c, Ingredient.ofTag(this.registryLookup.getOrThrow(tag)));
+        ^///?} else if >=1.21.4 {
+        /^return this.input(c, Ingredient.fromTag(this.registryLookup.getOrThrow(tag)));
+        ^///?} else {
         return this.input(c, Ingredient.fromTag(tag));
         //?}
     }
 
     public ShapedStackRecipeJsonBuilder input(Character c, ItemConvertible item) {
         //? if >=1.21.4 {
-        /*return this.input(c, Ingredient.ofItem(item));
-         *///?} else {
+        /^return this.input(c, Ingredient.ofItem(item));
+         ^///?} else {
         return this.input(c, Ingredient.ofItems(item));
         //?}
     }
@@ -124,7 +124,7 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     }
 
     @Override
-    public void offerTo(RecipeExporter exporter, /*? if >=1.21.4 {*//*RegistryKey<Recipe<?>>*//*?} else {*/Identifier/*?}*/ recipeKey) {
+    public void offerTo(RecipeExporter exporter, /^? if >=1.21.4 {^//^RegistryKey<Recipe<?>>^//^?} else {^/Identifier/^?}^/ recipeKey) {
         RawShapedRecipe rawShapedRecipe = this.validate(recipeKey);
         Advancement.Builder builder = exporter.getAdvancementBuilder()
                 .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
@@ -139,15 +139,15 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 this.output,
                 this.showNotification
         );
-        exporter.accept(recipeKey, shapedRecipe, builder.build(recipeKey/*? if >=1.21.4 {*//*.getValue()*//*?}*/.withPrefixedPath("recipes/" + this.category.getName() + "/")));
+        exporter.accept(recipeKey, shapedRecipe, builder.build(recipeKey/^? if >=1.21.4 {^//^.getValue()^//^?}^/.withPrefixedPath("recipes/" + this.category.getName() + "/")));
     }
 
-    private RawShapedRecipe validate(/*? if >=1.21.4 {*//*RegistryKey<Recipe<?>>*//*?} else {*/Identifier/*?}*/ recipeKey) {
+    private RawShapedRecipe validate(/^? if >=1.21.4 {^//^RegistryKey<Recipe<?>>^//^?} else {^/Identifier/^?}^/ recipeKey) {
         if (this.criteria.isEmpty()) {
-            throw new IllegalStateException("No way of obtaining recipe " + recipeKey/*? if >=1.21.4 {*//*.getValue()*//*?}*/);
+            throw new IllegalStateException("No way of obtaining recipe " + recipeKey/^? if >=1.21.4 {^//^.getValue()^//^?}^/);
         } else {
             return RawShapedRecipe.create(this.inputs, this.pattern);
         }
     }
 }
-//?}
+*///?}

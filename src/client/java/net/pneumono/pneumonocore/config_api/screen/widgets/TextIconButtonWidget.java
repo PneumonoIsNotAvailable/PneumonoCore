@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.screen.widgets;
 
 //? if <=1.20.1 {
-/*import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -67,4 +67,4 @@ public class TextIconButtonWidget extends TexturedButtonWidget {
         }
     }
 }
-*///?}
+//?}

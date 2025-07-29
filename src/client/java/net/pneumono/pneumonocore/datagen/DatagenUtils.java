@@ -18,19 +18,19 @@ import net.minecraft.predicate.component.ComponentsPredicate;
 *///?}
 
 //? if >=1.20.4 {
-import net.minecraft.advancement.AdvancementEntry;
-//?} else {
-/*import net.minecraft.advancement.criterion.CriterionConditions;
-*///?}
+/*import net.minecraft.advancement.AdvancementEntry;
+*///?} else {
+import net.minecraft.advancement.criterion.CriterionConditions;
+//?}
 
 import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public final class DatagenUtils {
     //? if >=1.20.4 {
-    /**
+    /*/^*
      * Returns an {@link AdvancementEntry} with the specified ID, for use as a parent for other advancements.
-     */
+     ^/
     public static AdvancementEntry createDummyAdvancement(Identifier id) {
         return Advancement.Builder.create().build(id);
     }
@@ -40,14 +40,14 @@ public final class DatagenUtils {
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> itemTagCriterion(RegistryEntryLookup<Item> lookup, TagKey<Item> tag) {
-        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create()/*? if >=1.21.4 {*//*.tag(lookup, tag)*//*?} else {*/.tag(tag)/*?}*/);
+        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create()/^? if >=1.21.4 {^//^.tag(lookup, tag)^//^?} else {^/.tag(tag)/^?}^/);
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> countCriterion(NumberRange.IntRange range) {
         return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().count(range));
     }
-    //?} else {
-    /*public static Advancement createDummyAdvancement(Identifier id) {
+    *///?} else {
+    public static Advancement createDummyAdvancement(Identifier id) {
         return Advancement.Builder.create().build(id);
     }
 
@@ -62,7 +62,7 @@ public final class DatagenUtils {
     public static CriterionConditions countCriterion(NumberRange.IntRange range) {
         return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().count(range).build());
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
     /*@SafeVarargs
@@ -107,7 +107,7 @@ public final class DatagenUtils {
         );
     }
     *///?} else if >=1.20.4 {
-    public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
+    /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         ItemPredicate.Builder builder = ItemPredicate.Builder.create();
 
         for (Enchantment enchantment : enchantments) {
@@ -116,8 +116,8 @@ public final class DatagenUtils {
 
         return InventoryChangedCriterion.Conditions.items(builder);
     }
-    //?} else {
-    /*public static CriterionConditions enchantmentCriterion(Enchantment... enchantments) {
+    *///?} else {
+    public static CriterionConditions enchantmentCriterion(Enchantment... enchantments) {
         ItemPredicate.Builder builder = ItemPredicate.Builder.create();
 
         for (Enchantment enchantment : enchantments) {
@@ -126,5 +126,5 @@ public final class DatagenUtils {
 
         return InventoryChangedCriterion.Conditions.items(builder.build());
     }
-    *///?}
+    //?}
 }
