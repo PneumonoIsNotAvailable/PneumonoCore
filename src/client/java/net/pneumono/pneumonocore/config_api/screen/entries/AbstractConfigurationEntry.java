@@ -76,7 +76,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     }
 
     public int getWidgetStartX() {
-        return this.getWidgetEndX() - 110;
+        return this.getRowEndXOffset() - 136;
     }
 
     public int getWidgetEndX() {
