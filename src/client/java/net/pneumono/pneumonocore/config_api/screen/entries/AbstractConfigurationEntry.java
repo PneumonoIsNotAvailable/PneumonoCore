@@ -6,6 +6,7 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
@@ -91,6 +92,30 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         Text configName = Text.translatable(ConfigApi.toTranslationKey(this.configuration));
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         context.drawTextWithShadow(textRenderer, configName, x, (y + entryHeight / 2) - 2, Colors.WHITE);
+
+        if (mouseX >= x && mouseX <= x + 135 && mouseY >= y && mouseY <= y + entryHeight) {
+            context.drawOrderedTooltip(
+                    textRenderer,
+
+                    textRenderer.wrapLines(
+                            Text.translatable(ConfigApi.toTranslationKey(configuration, "tooltip"))
+                                    .append("\n\n")
+                                    .append(Text.translatable(configuration.info().isClientSided() ?
+                                            "configs_screen.pneumonocore.client" :
+                                            "configs_screen.pneumonocore.server"
+                                    ).formatted(Formatting.GRAY))
+                                    .append("\n")
+                                    .append(Text.translatable(switch (configuration.info().getLoadType()) {
+                                        case INSTANT -> "configs_screen.pneumonocore.load_instant";
+                                        case RELOAD -> "configs_screen.pneumonocore.load_reload";
+                                        case RESTART -> "configs_screen.pneumonocore.load_restart";
+                                    }).formatted(Formatting.GRAY)),
+                            250
+                    ),
+
+                    mouseX, mouseY
+            );
+        }
 
         this.infoWidget.setX(x + getRowEndXOffset() - this.infoWidget.getWidth());
         this.infoWidget.setY(y);
