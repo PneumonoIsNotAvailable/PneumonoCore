@@ -8,9 +8,19 @@
 		"Pneumono_"
 	],
 	"contact": {
-		"homepage": "https://github.com/PneumonoIsNotAvailable/PneumonoCore",
+		"homepage": "https://modrinth.com/project/ZLKQjA7t",
 		"sources": "https://github.com/PneumonoIsNotAvailable/PneumonoCore",
 		"issues": "https://github.com/PneumonoIsNotAvailable/PneumonoCore/issues"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.modrinth": "https://modrinth.com/project/ZLKQjA7t"
+			},
+			"badges": [
+				"library"
+			]
+		}
 	},
 	"license": "MIT",
 	"icon": "assets/pneumonocore/icon.png",
