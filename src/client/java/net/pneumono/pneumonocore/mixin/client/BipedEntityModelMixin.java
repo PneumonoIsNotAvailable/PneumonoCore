@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BipedEntityModel.class)
-public class BipedEntityModelMixin {
+public abstract class BipedEntityModelMixin {
     @Inject(
             method = "positionLeftArm",
             at = @At("HEAD"),
