@@ -26,13 +26,15 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         super(parent);
         this.widget = widget;
         this.configuration = configuration;
-        this.resetWidget = TextIconButtonWidget.builder(
-                Text.translatable("configs_screen.pneumonocore.reset"),
-                button -> this.reset(),
-                true
-        )
+        this.resetWidget = addChild(
+                TextIconButtonWidget.builder(
+                        Text.translatable("configs_screen.pneumonocore.reset"),
+                        button -> this.reset(),
+                        true
+                )
                 .texture(PneumonoCore.identifier("icon/reset"), 15, 15)
-                .width(20).build();
+                .width(20).build()
+        );
 
         this.resetWidget.setTooltip(Tooltip.of(
                 Text.translatable("configs_screen.pneumonocore.reset")

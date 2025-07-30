@@ -1,10 +1,8 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
@@ -14,7 +12,6 @@ import net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration;
 import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
 import net.pneumono.pneumonocore.util.PneumonoCoreUtil;
 
-import java.util.List;
 import java.util.Objects;
 
 public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, TimeConfiguration> {
@@ -29,17 +26,17 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
         this.amount = getAmount(this.value);
         this.units = TimeUnit.fromValue(this.value);
 
-        this.cycleWidget = ButtonWidget.builder(Text.literal(""), (button) -> {
+        this.cycleWidget = addChild(ButtonWidget.builder(Text.literal(""), (button) -> {
             this.units = PneumonoCoreUtil.cycleEnum(this.units);
             setValue(this.amount * this.units.getDivision());
-        }).dimensions(0, 0, 20, 20).build();
+        }).dimensions(0, 0, 20, 20).build());
 
-        this.textWidget = new TextFieldWidget(
+        this.textWidget = addChild(new TextFieldWidget(
                 Objects.requireNonNull(parent.getClient()).textRenderer,
                 0, 0,
                 getTotalWidgetWidth() - this.cycleWidget.getWidth() - 5, 20,
                 null, Text.translatable(ConfigApi.toTranslationKey(this.configuration))
-        );
+        ));
         this.textWidget.setText(String.valueOf(this.amount));
         this.textWidget.setChangedListener((text) -> {
             try {
@@ -79,11 +76,6 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
         this.amount = getAmount(configuration.info().getDefaultValue());
         this.units = TimeUnit.fromValue(configuration.info().getDefaultValue());
         super.reset();
-    }
-
-    @Override
-    public List<? extends ClickableWidget> getChildren() {
-        return ImmutableList.of(this.textWidget, this.cycleWidget);
     }
 
     @Override

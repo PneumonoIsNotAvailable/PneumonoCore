@@ -1,14 +1,10 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.IntegerConfigSliderWidget;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration;
-
-import java.util.List;
 
 public class IntegerConfigurationEntry extends AbstractConfigurationEntry<Integer, IntegerConfiguration> {
     private final IntegerConfigSliderWidget sliderWidget;
@@ -18,20 +14,15 @@ public class IntegerConfigurationEntry extends AbstractConfigurationEntry<Intege
         int minValue = configuration.getMinValue();
         int maxValue = configuration.getMaxValue();
 
-        this.sliderWidget = new IntegerConfigSliderWidget(
+        this.sliderWidget = addChild(new IntegerConfigSliderWidget(
                 (slider, configValue) -> setValue(configValue),
                 this.value, minValue, maxValue, 0, 0, getTotalWidgetWidth(), 20
-        );
+        ));
     }
 
     @Override
     public void updateWidgets() {
         this.sliderWidget.setValue(this.value);
-    }
-
-    @Override
-    public List<? extends ClickableWidget> getChildren() {
-        return ImmutableList.of(this.sliderWidget);
     }
 
     @Override

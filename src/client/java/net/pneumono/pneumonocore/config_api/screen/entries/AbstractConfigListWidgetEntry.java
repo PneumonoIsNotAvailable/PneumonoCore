@@ -7,6 +7,7 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public abstract class AbstractConfigListWidgetEntry extends ElementListWidget.Entry<AbstractConfigListWidgetEntry> {
     protected final ConfigOptionsScreen parent;
+    private final List<ClickableWidget> children = new ArrayList<>();
 
     public AbstractConfigListWidgetEntry(ConfigOptionsScreen parent) {
         this.parent = parent;
@@ -25,20 +27,20 @@ public abstract class AbstractConfigListWidgetEntry extends ElementListWidget.En
         return this.parent.configsListWidget.getRowWidth() - 2;
     }
 
+    public <T extends ClickableWidget> T addChild(T widget) {
+        this.children.add(widget);
+        return widget;
+    }
+
     @Override
     public List<? extends Selectable> selectableChildren() {
-        return getChildren();
+        return this.children;
     }
 
     @Override
     public List<? extends Element> children() {
-        return getChildren();
+        return this.children;
     }
-
-    /**
-     * @return A list of this entry's widgets.
-     */
-    public abstract List<? extends ClickableWidget> getChildren();
 
     /**
      * Should set all widgets to the value from {@link AbstractConfigurationEntry#value}, if it extends that class.

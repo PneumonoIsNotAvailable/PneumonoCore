@@ -1,8 +1,6 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
@@ -10,7 +8,6 @@ import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.StringConfiguration;
 
-import java.util.List;
 import java.util.Objects;
 
 public class StringConfigurationEntry extends AbstractConfigurationEntry<String, StringConfiguration> {
@@ -18,11 +15,11 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<String,
 
     public StringConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, StringConfiguration configuration) {
         super(parent, widget, configuration);
-        this.textWidget = new TextFieldWidget(
+        this.textWidget = addChild(new TextFieldWidget(
                 Objects.requireNonNull(parent.getClient()).textRenderer,
                 0, 0, getTotalWidgetWidth(), 20, null,
                 Text.translatable(ConfigApi.toTranslationKey(this.configuration))
-        );
+        ));
         this.textWidget.setChangedListener(this::setValue);
     }
 
@@ -32,11 +29,6 @@ public class StringConfigurationEntry extends AbstractConfigurationEntry<String,
         if (!Objects.equals(this.textWidget.getText(), valueText)) {
             this.textWidget.setText(valueText);
         }
-    }
-
-    @Override
-    public List<? extends ClickableWidget> getChildren() {
-        return ImmutableList.of(this.textWidget);
     }
 
     @Override
