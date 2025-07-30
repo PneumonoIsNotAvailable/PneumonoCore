@@ -18,7 +18,7 @@ import java.util.Objects;
 public abstract class AbstractConfigurationEntry<T, C extends AbstractConfiguration<T>> extends AbstractConfigListWidgetEntry {
     protected final ConfigsListWidget widget;
     protected final C configuration;
-    protected final TextIconButtonWidget infoWidget;
+    protected final TextIconButtonWidget resetWidget;
 
     protected T value;
 
@@ -26,23 +26,16 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         super(parent);
         this.widget = widget;
         this.configuration = configuration;
-        this.infoWidget = TextIconButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.information"), button -> {}, true)
-                .texture(PneumonoCore.identifier("icon/information"), 15, 15)
-                .width(20)
-                .build();
-        this.infoWidget.setTooltip(Tooltip.of(
-                Text.translatable(ConfigApi.toTranslationKey(configuration, "tooltip"))
-                        .append(Text.literal("\n\n"))
-                        .append(switch (configuration.info().getLoadType()) {
-                            case INSTANT -> Text.translatable("configs_screen.pneumonocore.load_instant");
-                            case RELOAD -> Text.translatable("configs_screen.pneumonocore.load_reload");
-                            case RESTART -> Text.translatable("configs_screen.pneumonocore.load_restart");
-                        })
-                        .append(Text.literal("\n\n"))
-                        .append(configuration.info().isClientSided() ?
-                                Text.translatable("configs_screen.pneumonocore.client") :
-                                Text.translatable("configs_screen.pneumonocore.server")
-                        )
+        this.resetWidget = TextIconButtonWidget.builder(
+                Text.translatable("configs_screen.pneumonocore.reset"),
+                button -> this.reset(),
+                true
+        )
+                .texture(PneumonoCore.identifier("icon/reset"), 15, 15)
+                .width(20).build();
+
+        this.resetWidget.setTooltip(Tooltip.of(
+                Text.translatable("configs_screen.pneumonocore.reset")
         ));
 
         this.value = this.parent.getConfigValue(this.configuration);
@@ -80,7 +73,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     }
 
     public int getWidgetEndX() {
-        return this.getRowEndXOffset() - this.infoWidget.getWidth() - 6;
+        return this.getRowEndXOffset() - this.resetWidget.getWidth() - 6;
     }
 
     public int getTotalWidgetWidth() {
@@ -117,9 +110,9 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
             );
         }
 
-        this.infoWidget.setX(x + getRowEndXOffset() - this.infoWidget.getWidth());
-        this.infoWidget.setY(y);
-        this.infoWidget.render(context, mouseX, mouseY, tickProgress);
+        this.resetWidget.setX(x + getRowEndXOffset() - this.resetWidget.getWidth());
+        this.resetWidget.setY(y);
+        this.resetWidget.render(context, mouseX, mouseY, tickProgress);
     }
 
     /**
