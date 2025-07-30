@@ -53,6 +53,7 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     protected void initBody() {
         this.configsListWidget = this.layout.addBody(new ConfigsListWidget(this));
+        this.configsListWidget.init();
     }
 
     protected void initFooter() {

@@ -15,13 +15,14 @@ import java.util.List;
  * <p>Entry types can be registered via {@link ClientConfigApi#registerConfigEntryType}
  */
 public abstract class AbstractConfigListWidgetEntry extends ElementListWidget.Entry<AbstractConfigListWidgetEntry> {
-    // Exists so that if I need to adjust the positions of everything in the future, I can just change this.
-    protected static final int OFFSET = 100;
-
     protected final ConfigOptionsScreen parent;
 
     public AbstractConfigListWidgetEntry(ConfigOptionsScreen parent) {
         this.parent = parent;
+    }
+
+    public int getRowEndXOffset() {
+        return this.parent.configsListWidget.getRowWidth() - 2;
     }
 
     @Override

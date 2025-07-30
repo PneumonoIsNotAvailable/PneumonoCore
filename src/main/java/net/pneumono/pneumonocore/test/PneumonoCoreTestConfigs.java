@@ -64,6 +64,15 @@ public final class PneumonoCoreTestConfigs {
     public static final IntegerConfiguration ALIAS = register("test_alias", new IntegerConfiguration(
             5, 0, 10, new ConfigSettings().aliases("test_alias_old")
     ));
+    public static final IntegerConfiguration BLOAT_1 = register("bloat_1", new IntegerConfiguration(
+            5, 0, 10, new ConfigSettings()
+    ));
+    public static final IntegerConfiguration BLOAT_2 = register("bloat_2", new IntegerConfiguration(
+            5, 0, 10, new ConfigSettings()
+    ));
+    public static final IntegerConfiguration BLOAT_3 = register("bloat_3", new IntegerConfiguration(
+            5, 0, 10, new ConfigSettings()
+    ));
 
     public static <T extends AbstractConfiguration<?>> T register(String name, T config) {
         return ConfigApi.register(PneumonoCore.identifier(name), config);

@@ -18,7 +18,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, F
 
         this.sliderWidget = new FloatConfigSliderWidget(
                 (slider, configValue) -> setValue(configValue),
-                this.value, 0, 0, 110, 20
+                this.value, 0, 0, getTotalWidgetWidth(), 20
         );
     }
 
@@ -36,7 +36,7 @@ public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, F
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
-        this.sliderWidget.setX(x + OFFSET + 35);
+        this.sliderWidget.setX(x + getWidgetStartX());
         this.sliderWidget.setY(y);
         this.sliderWidget.render(context, mouseX, mouseY, tickDelta);
     }

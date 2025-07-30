@@ -66,5 +66,11 @@
   "configs.pneumonocore.test_per_player": "Per-Player",
   "configs.pneumonocore.test_per_player.tooltip": "This is a Per-Player Boolean configuration!",
   "configs.pneumonocore.test_alias": "Alias",
-  "configs.pneumonocore.test_alias.tooltip": "This is an Integer configuration with an alias!"
+  "configs.pneumonocore.test_alias.tooltip": "This is an Integer configuration with an alias!",
+  "configs.pneumonocore.bloat_1": "Bloat 1",
+  "configs.pneumonocore.bloat_1.tooltip": "This is an Integer configuration that exists to make the config list long enough to see the scroll bar!",
+  "configs.pneumonocore.bloat_2": "Bloat 2",
+  "configs.pneumonocore.bloat_2.tooltip": "This is an Integer configuration that exists to make the config list long enough to see the scroll bar!",
+  "configs.pneumonocore.bloat_3": "Bloat 3",
+  "configs.pneumonocore.bloat_3.tooltip": "This is an Integer configuration that exists to make the config list long enough to see the scroll bar!"
 }

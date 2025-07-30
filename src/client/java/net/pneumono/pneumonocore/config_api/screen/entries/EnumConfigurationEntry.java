@@ -21,7 +21,7 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
 
         this.cycleWidget = ButtonWidget.builder(
                 Text.literal(""), (button) -> this.setValue(PneumonoCoreUtil.cycleEnum(this.value))
-        ).dimensions(0, 0, 110, 20).build();
+        ).dimensions(0, 0, getTotalWidgetWidth(), 20).build();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
-        this.cycleWidget.setX(x + OFFSET + 35);
+        this.cycleWidget.setX(x + getWidgetStartX());
         this.cycleWidget.setY(y);
         this.cycleWidget.render(context, mouseX, mouseY, tickDelta);
     }

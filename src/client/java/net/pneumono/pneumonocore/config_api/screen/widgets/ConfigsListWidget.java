@@ -20,7 +20,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     protected final ConfigOptionsScreen parentScreen;
     public final ConfigFile configFile;
     private final Map<String, List<AbstractConfiguration<?>>> categorizedConfigs;
-    private final List<AbstractConfigListWidgetEntry> entries;
+    private List<AbstractConfigListWidgetEntry> entries;
 
     public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
         super(parentScreen.getClient(), parentScreen.width, parentScreen.layout.getContentHeight(), parentScreen.layout.getHeaderHeight(), 20);
@@ -35,7 +35,9 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         if (this.categorizedConfigs.containsKey(MISC)) {
             this.categorizedConfigs.put(MISC, this.categorizedConfigs.remove(MISC));
         }
+    }
 
+    public void init() {
         this.entries = initEntryList();
         this.updateEntryList();
         this.updateEntryValues();
@@ -103,6 +105,6 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
 
     @Override
     public int getRowWidth() {
-        return 267;
+        return 340;
     }
 }

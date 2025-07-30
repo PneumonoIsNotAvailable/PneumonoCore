@@ -29,7 +29,17 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
         this.amount = getAmount(this.value);
         this.units = TimeUnit.fromValue(this.value);
 
-        this.textWidget = new TextFieldWidget(Objects.requireNonNull(parent.getClient()).textRenderer, 0, 0, 85, 20, null, Text.translatable(ConfigApi.toTranslationKey(this.configuration)));
+        this.cycleWidget = ButtonWidget.builder(Text.literal(""), (button) -> {
+            this.units = PneumonoCoreUtil.cycleEnum(this.units);
+            setValue(this.amount * this.units.getDivision());
+        }).dimensions(0, 0, 20, 20).build();
+
+        this.textWidget = new TextFieldWidget(
+                Objects.requireNonNull(parent.getClient()).textRenderer,
+                0, 0,
+                getTotalWidgetWidth() - this.cycleWidget.getWidth() - 5, 20,
+                null, Text.translatable(ConfigApi.toTranslationKey(this.configuration))
+        );
         this.textWidget.setText(String.valueOf(this.amount));
         this.textWidget.setChangedListener((text) -> {
             try {
@@ -38,11 +48,6 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
                 // If the value in the text widget isn't valid, it just doesn't save it
             }
         });
-
-        this.cycleWidget = ButtonWidget.builder(Text.literal(""), (button) -> {
-            this.units = PneumonoCoreUtil.cycleEnum(this.units);
-            setValue(this.amount * this.units.getDivision());
-        }).dimensions(0, 0, 20, 20).build();
     }
 
     private long getAmount(long value) {
@@ -85,11 +90,11 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
-        this.textWidget.setX(x + OFFSET + 35);
+        this.textWidget.setX(x + getWidgetStartX());
         this.textWidget.setY(y);
         this.textWidget.render(context, mouseX, mouseY, tickDelta);
 
-        this.cycleWidget.setX(x + OFFSET + 125);
+        this.cycleWidget.setX(x + getWidgetEndX() - this.cycleWidget.getWidth());
         this.cycleWidget.setY(y);
         this.cycleWidget.render(context, mouseX, mouseY, tickDelta);
     }

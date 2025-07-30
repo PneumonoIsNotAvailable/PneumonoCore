@@ -40,9 +40,8 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
 
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error");
-        int width = textRenderer.getWidth(text);
-        int textX = x + OFFSET + 90 - (width / 2);
+        int textX = x + getWidgetStartX() + (getTotalWidgetWidth() / 2);
         int textY = (y + entryHeight / 2) - 2;
-        context.drawText(textRenderer, text, textX, textY, Colors.LIGHT_RED, true);
+        context.drawCenteredTextWithShadow(textRenderer, text, textX, textY, Colors.LIGHT_RED);
     }
 }

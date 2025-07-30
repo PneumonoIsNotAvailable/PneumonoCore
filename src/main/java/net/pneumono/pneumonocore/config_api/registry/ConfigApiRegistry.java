@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.pneumono.pneumonocore.datagen.ConfigResourceCondition;
 import net.pneumono.pneumonocore.config_api.ConfigSyncS2CPayload;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 
 import java.util.List;
 
@@ -33,6 +34,6 @@ public class ConfigApiRegistry {
             ConfigApi.reloadValuesFromFiles(LoadType.RELOAD);
             ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
         });
-        //PneumonoCoreTestConfigs.registerTestConfigs();
+        PneumonoCoreTestConfigs.registerTestConfigs();
     }
 }

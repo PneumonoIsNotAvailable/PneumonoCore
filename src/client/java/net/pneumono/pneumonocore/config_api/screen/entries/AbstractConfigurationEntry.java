@@ -74,13 +74,25 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         return this.configuration.info().isEnabled(configParentEntry.value);
     }
 
+    public int getWidgetStartX() {
+        return this.getWidgetEndX() - 110;
+    }
+
+    public int getWidgetEndX() {
+        return this.getRowEndXOffset() - this.infoWidget.getWidth() - 6;
+    }
+
+    public int getTotalWidgetWidth() {
+        return this.getWidgetEndX() - this.getWidgetStartX();
+    }
+
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickProgress) {
         Text configName = Text.translatable(ConfigApi.toTranslationKey(this.configuration));
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
-        context.drawText(textRenderer, configName, x + OFFSET + 27 - textRenderer.getWidth(configName), (y + entryHeight / 2) - 2, Colors.WHITE, true);
+        context.drawTextWithShadow(textRenderer, configName, x, (y + entryHeight / 2) - 2, Colors.WHITE);
 
-        this.infoWidget.setX(x + OFFSET + 150);
+        this.infoWidget.setX(x + getRowEndXOffset() - this.infoWidget.getWidth());
         this.infoWidget.setY(y);
         this.infoWidget.render(context, mouseX, mouseY, tickProgress);
     }

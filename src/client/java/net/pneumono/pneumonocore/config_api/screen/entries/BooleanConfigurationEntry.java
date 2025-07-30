@@ -19,7 +19,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry<Boolea
 
         this.toggleWidget = ButtonWidget.builder(
                 Text.literal(""), (button) -> this.setValue(!this.value)
-        ).dimensions(0, 0, 110, 20).build();
+        ).dimensions(0, 0, getTotalWidgetWidth(), 20).build();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class BooleanConfigurationEntry extends AbstractConfigurationEntry<Boolea
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
 
-        this.toggleWidget.setX(x + OFFSET + 35);
+        this.toggleWidget.setX(x + getWidgetStartX());
         this.toggleWidget.setY(y);
         this.toggleWidget.render(context, mouseX, mouseY, tickDelta);
     }
