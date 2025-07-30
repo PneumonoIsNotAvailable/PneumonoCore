@@ -16,6 +16,6 @@ public class NoConfigsEntry extends NonInteractableEntry {
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
-        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"), x + OFFSET + 31, (y + entryHeight / 2) - 2, /*? if >=1.20.4 {*/Colors.LIGHT_RED/*?} else {*//*Colors.RED*//*?}*/);
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"), x + OFFSET + 31, (y + entryHeight / 2) - 2, Colors.LIGHT_RED);
     }
 }

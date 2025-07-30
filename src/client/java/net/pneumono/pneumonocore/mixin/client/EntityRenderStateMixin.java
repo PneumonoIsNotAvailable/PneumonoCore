@@ -1,6 +1,5 @@
 package net.pneumono.pneumonocore.mixin.client;
 
-//? if >=1.21.4 {
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
 import net.minecraft.entity.LivingEntity;
@@ -73,4 +72,3 @@ public abstract class EntityRenderStateMixin implements ExpandedEntityRenderStat
         return this.rightArmPose;
     }
 }
-//?}

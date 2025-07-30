@@ -1,6 +1,5 @@
 package net.pneumono.pneumonocore.util;
 
-//? if >=1.21.4 {
 import net.minecraft.util.Identifier;
 
 public interface ExpandedEntityRenderState {
@@ -12,4 +11,3 @@ public interface ExpandedEntityRenderState {
 
     Identifier pneumonoCore$getRightArm();
 }
-//?}

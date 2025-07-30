@@ -34,16 +34,11 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
-	runConfigs.all {
-		ideConfigGenerated true
-		runDir "../../run"
-	}
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${stonecutter.current.project}"
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
@@ -56,12 +51,10 @@ dependencies {
 
 processResources {
 	inputs.property "version", project.version
-	inputs.property "supported_versions", project.property("supported_versions")
 
 	filesMatching("fabric.mod.json") {
 		expand(
 				"version": inputs.properties.version,
-				"supported_versions": inputs.properties.supported_versions
 		)
 	}
 }

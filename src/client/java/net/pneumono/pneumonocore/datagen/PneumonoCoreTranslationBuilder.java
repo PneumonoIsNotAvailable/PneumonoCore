@@ -14,7 +14,6 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
@@ -76,19 +75,11 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(TagKey<?> key, String value) {
-        //? if >=1.20.6 {
         this.builder.add(key, value);
-        //?}
     }
 
     public void add(SoundEvent sound, String value) {
-        //? if >=1.21.8 {
         this.builder.add(sound, value);
-        //?} else if >=1.21.4 {
-        /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
-        *///?} else {
-        /*this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
-        *///?}
     }
 
     public void add(Path existingLangFile) throws IOException {
@@ -99,25 +90,13 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(key, value);
     }
 
-    //? if >=1.21.1 {
     public void addEnchantment(RegistryKey<Enchantment> key, String value) {
         this.builder.addEnchantment(key, value);
     }
-    //?} else {
-    /*public void addEnchantment(Enchantment enchantment, String value) {
-        this.builder.add(enchantment, value);
-    }
-    *///?}
 
-    //? if >=1.20.6 {
     public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
         this.builder.add(entry, value);
     }
-    //?} else {
-    /*public void addEntityAttribute(EntityAttribute attribute, String value) {
-        this.builder.add(attribute, value);
-    }
-    *///?}
 
     public void add(Identifier key, String value) {
         this.builder.add(key, value);
