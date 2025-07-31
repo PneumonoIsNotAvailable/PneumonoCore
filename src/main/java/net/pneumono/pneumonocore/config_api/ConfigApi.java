@@ -1,11 +1,14 @@
 package net.pneumono.pneumonocore.config_api;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +80,9 @@ public final class ConfigApi {
      */
     public static void sendConfigSyncPacket(Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
-            ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeNbt(ConfigSyncS2CPayload.toNbt(CONFIG_FILES.values()));
+            ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, buf);
         }
         LOGGER.info("Sent config sync packet to {} player(s)", players.size());
     }

@@ -34,6 +34,6 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
         Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error");
         int textX = x + getWidgetStartX() + (getTotalWidgetWidth() / 2);
         int textY = (y + entryHeight / 2) - 2;
-        context.drawCenteredTextWithShadow(textRenderer, text, textX, textY, Colors.LIGHT_RED);
+        context.drawCenteredTextWithShadow(textRenderer, text, textX, textY, Colors.RED);
     }
 }

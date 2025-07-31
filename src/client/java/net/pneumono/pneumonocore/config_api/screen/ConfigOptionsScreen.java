@@ -1,10 +1,9 @@
 package net.pneumono.pneumonocore.config_api.screen;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
@@ -17,7 +16,6 @@ import java.util.Objects;
 public abstract class ConfigOptionsScreen extends Screen {
     public final Screen parent;
     public final String modId;
-    public final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
 
     public ConfigsListWidget configsListWidget;
 
@@ -35,33 +33,10 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     @Override
     protected void init() {
-        this.initHeader();
-        this.initBody();
-        this.initFooter();
-        this.layout.forEachChild(this::addDrawableChild);
-        this.refreshWidgetPositions();
-    }
-
-    protected void refreshWidgetPositions() {
-        this.layout.refreshPositions();
-        if (this.configsListWidget != null) {
-            this.configsListWidget.position(this.width, this.layout);
-        }
-    }
-
-    protected void initHeader() {
-        this.layout.addHeader(this.title, this.textRenderer);
-    }
-
-    protected void initBody() {
-        this.configsListWidget = this.layout.addBody(new ConfigsListWidget(this));
+        this.configsListWidget = this.addDrawableChild(new ConfigsListWidget(this));
         this.configsListWidget.init();
-    }
 
-    protected void initFooter() {
-        DirectionalLayoutWidget directionalLayoutWidget = this.layout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
-
-        directionalLayoutWidget.add(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), button -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.children()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry) {
                     configurationEntry.reset();
@@ -70,9 +45,9 @@ public abstract class ConfigOptionsScreen extends Screen {
 
             this.configsListWidget.updateEntryList();
             this.configsListWidget.updateEntryValues();
-        }).build());
+        }).dimensions((this.width / 2) - 155, this.height - 29, 150, 20).build());
 
-        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.getEntries()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry && configurationEntry.shouldSaveValue()) {
                     setSavedValue(configurationEntry);
@@ -81,7 +56,15 @@ public abstract class ConfigOptionsScreen extends Screen {
 
             this.writeSavedValues();
             Objects.requireNonNull(this.client).setScreen(this.parent);
-        }).build());
+        }).dimensions((this.width / 2) + 5, this.height - 29, 150, 20).build());
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+        this.configsListWidget.render(context, mouseX, mouseY, delta);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 10, 16777215);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     public MinecraftClient getClient() {

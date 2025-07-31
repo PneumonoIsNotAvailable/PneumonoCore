@@ -23,7 +23,14 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     private List<AbstractConfigListWidgetEntry> entries;
 
     public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
-        super(parentScreen.getClient(), parentScreen.width, parentScreen.layout.getContentHeight(), parentScreen.layout.getHeaderHeight(), 20);
+        super(
+                parentScreen.getClient(),
+                parentScreen.width,
+                parentScreen.height,
+                20,
+                parentScreen.height - 32,
+                20
+        );
         this.parentScreen = parentScreen;
         this.configFile = ConfigApi.getConfigFile(this.parentScreen.modId);
 
@@ -81,6 +88,11 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         return newEntries;
     }
 
+    @Override
+    protected int getScrollbarPositionX() {
+        return super.getScrollbarPositionX() + 52;
+    }
+
     public void updateEntryList() {
         this.replaceEntries(this.entries.stream().filter(AbstractConfigListWidgetEntry::shouldDisplay).toList());
     }
@@ -105,6 +117,6 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
 
     @Override
     public int getRowWidth() {
-        return 340;
+        return super.getRowWidth() + 120;
     }
 }

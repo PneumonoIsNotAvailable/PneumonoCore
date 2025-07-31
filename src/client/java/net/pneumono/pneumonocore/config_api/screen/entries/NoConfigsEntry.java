@@ -20,7 +20,7 @@ public class NoConfigsEntry extends NonInteractableEntry {
                 textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"),
                 x + (getRowEndXOffset() / 2),
                 (y + entryHeight / 2) - 2,
-                Colors.LIGHT_RED
+                Colors.RED
         );
     }
 }

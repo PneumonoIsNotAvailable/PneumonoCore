@@ -3,16 +3,21 @@ package net.pneumono.pneumonocore.config_api;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.PacketByteBuf;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.*;
+import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
 
 public final class ClientConfigApiRegistry {
     public static void register() {
-        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, ClientConfigApiRegistry::receiveSyncPacket);
+        ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
 
         ClientConfigCommandRegistry.registerClientConfigCommand();
 
@@ -59,11 +64,14 @@ public final class ClientConfigApiRegistry {
         ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier(name), selector);
     }
 
-    public static void receiveSyncPacket(ConfigSyncS2CPayload payload, ClientPlayNetworking.Context context) {
+    public static void receiveSyncPacket(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         ConfigApi.LOGGER.info("Received config sync packet");
 
+        NbtCompound bufCompound = buf.readNbt();
+        if (bufCompound == null || bufCompound.isEmpty()) return;
+
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtCompound compound = payload.storedValues().getCompound(configFile.getModId());
+            NbtCompound compound = bufCompound.getCompound(configFile.getModId());
             if (compound == null || compound.isEmpty()) continue;
 
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
@@ -79,11 +87,11 @@ public final class ClientConfigApiRegistry {
 
     private static  <T> boolean setReceivedEffectiveValue(AbstractConfiguration<T> config, NbtElement nbtElement) {
         DataResult<Pair<T, NbtElement>> result = config.getValueCodec().decode(NbtOps.INSTANCE, nbtElement);
-        if (result.isError()) {
+        if (result.result().isEmpty()) {
             return false;
         }
 
-        ConfigManager.setEffectiveValue(config, result.getOrThrow().getFirst());
+        ConfigManager.setEffectiveValue(config, result.result().orElseThrow().getFirst());
         return true;
     }
 }

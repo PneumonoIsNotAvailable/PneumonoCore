@@ -54,11 +54,11 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
 
     private static <T, C extends AbstractConfiguration<T>> JsonElement encodeJson(AbstractConfigurationEntry<T, C> entry) {
         DataResult<JsonElement> result = entry.getConfiguration().getValueCodec().encodeStart(JsonOps.INSTANCE, entry.getValue());
-        if (result.isError()) {
+        if (result.result().isEmpty()) {
             ConfigApi.LOGGER.error("Could not encode value for config '{}'.", entry.getConfiguration().info().getId());
             return null;
         }
 
-        return result.getOrThrow(message -> new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'"));
+        return result.result().orElseThrow(() -> new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'"));
     }
 }

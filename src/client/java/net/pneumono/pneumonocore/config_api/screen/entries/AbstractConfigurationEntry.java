@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public abstract class AbstractConfigurationEntry<T, C extends AbstractConfiguration<T>> extends AbstractConfigListWidgetEntry {
     protected final ConfigsListWidget widget;
     protected final C configuration;
-    protected final TextIconButtonWidget resetWidget;
+    protected final TexturedButtonWidget resetWidget;
 
     protected T value;
 
@@ -27,13 +27,16 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.widget = widget;
         this.configuration = configuration;
         this.resetWidget = addChild(
-                TextIconButtonWidget.builder(
-                        Text.translatable("configs_screen.pneumonocore.reset"),
-                        button -> this.reset(),
-                        true
+                new TexturedButtonWidget(
+                        0, 0,
+                        20, 20,
+                        0, 0,
+                        20,
+                        PneumonoCore.identifier("textures/gui/sprites/icon/reset_button.png"),
+                        20,
+                        40,
+                        button -> this.reset()
                 )
-                .texture(PneumonoCore.identifier("icon/reset"), 15, 15)
-                .width(20).build()
         );
 
         this.resetWidget.setTooltip(Tooltip.of(

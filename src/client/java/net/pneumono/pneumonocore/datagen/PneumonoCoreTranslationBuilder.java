@@ -9,8 +9,6 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
 import net.minecraft.util.Identifier;
@@ -75,10 +73,6 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(effect, value);
     }
 
-    public void add(TagKey<?> key, String value) {
-        this.builder.add(key, value);
-    }
-
     public void add(SoundEvent sound, String value) {
         this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
     }
@@ -91,12 +85,12 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(key, value);
     }
 
-    public void addEnchantment(RegistryKey<Enchantment> key, String value) {
-        this.builder.addEnchantment(key, value);
+    public void addEnchantment(Enchantment key, String value) {
+        this.builder.add(key, value);
     }
 
-    public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
-        this.builder.add(entry, value);
+    public void addEntityAttribute(EntityAttribute attribute, String value) {
+        this.builder.add(attribute, value);
     }
 
     public void add(Identifier key, String value) {

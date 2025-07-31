@@ -44,7 +44,7 @@ public final class CodecUtil {
 
         public EnumCodec(E[] values, Function<String, E> idToConstant) {
             this.codec = Codecs.orCompressed(
-                    Codec.stringResolver(Enum::name, idToConstant),
+                    Codecs.idChecked(Enum::name, idToConstant),
                     Codecs.rawIdChecked(Enum::ordinal, ordinal -> ordinal >= 0 && ordinal < values.length ? values[ordinal] : null, -1)
             );
         }
