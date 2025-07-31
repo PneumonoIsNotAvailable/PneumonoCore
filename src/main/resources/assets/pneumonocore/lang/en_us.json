@@ -8,6 +8,7 @@
 
   "configs_screen.pneumonocore.no_configs": "This mod has no configs!",
   "configs_screen.pneumonocore.reset": "Reset",
+  "configs_screen.pneumonocore.invalid": "Invalid value!",
   "configs_screen.pneumonocore.server": "Server Configuration",
   "configs_screen.pneumonocore.client": "Client Configuration",
   "configs_screen.pneumonocore.load_instant": "Updates instantly",
