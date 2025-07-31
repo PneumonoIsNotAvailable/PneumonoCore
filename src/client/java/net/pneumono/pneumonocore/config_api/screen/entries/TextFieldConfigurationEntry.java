@@ -32,7 +32,7 @@ public abstract class TextFieldConfigurationEntry<T, C extends AbstractConfigura
         ));
         this.textWidget.setText(stringFromValue(textGetValue()));
         this.textWidget.setRenderTextProvider((string, firstCharIndex) -> OrderedText.styledForwardsVisitedString(
-                string, isTextValid(string) ? Style.EMPTY : Style.EMPTY.withFormatting(Formatting.RED)
+                string, isTextValid(this.textWidget.getText()) ? Style.EMPTY : Style.EMPTY.withFormatting(Formatting.RED)
         ));
         this.textWidget.setChangedListener(string -> {
             V value = this.valueFromString(string);
@@ -62,8 +62,9 @@ public abstract class TextFieldConfigurationEntry<T, C extends AbstractConfigura
 
     @Override
     public void updateWidgets() {
-        String valueText = stringFromValue(textGetValue());
-        if (!Objects.equals(this.textWidget.getText(), valueText)) {
+        V value = textGetValue();
+        String valueText = stringFromValue(value);
+        if (!Objects.equals(this.textWidget.getText(), valueText) && !Objects.equals(valueFromString(this.textWidget.getText()), value)) {
             this.textWidget.setText(valueText);
         }
     }
