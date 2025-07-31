@@ -19,22 +19,22 @@ public final class PneumonoCoreTestConfigs {
     public static final BooleanConfiguration BOOLEAN = register("test_boolean", new BooleanConfiguration(
             true, new ConfigSettings().category(CATEGORY_1)
     ));
-    public static final FloatConfiguration CHILD_1 = register("test_child_1", new FloatConfiguration(
+    public static final BoundedFloatConfiguration CHILD_1 = register("test_child_1", new BoundedFloatConfiguration(
             0.33F, new ConfigSettings().parent(BOOLEAN, value -> value)
     ));
-    public static final FloatConfiguration CHILD_2 = register("test_child_2", new FloatConfiguration(
+    public static final BoundedFloatConfiguration CHILD_2 = register("test_child_2", new BoundedFloatConfiguration(
             0.66F, new ConfigSettings().parent(BOOLEAN, value -> value)
     ));
-    public static final FloatConfiguration CHILD_3 = register("test_child_3", new FloatConfiguration(
+    public static final BoundedFloatConfiguration CHILD_3 = register("test_child_3", new BoundedFloatConfiguration(
             1F, new ConfigSettings().parent(BOOLEAN, value -> value)
     ));
     public static final EnumConfiguration<TestEnum> ENUM = register("test_enum", new EnumConfiguration<>(
             TestEnum.VALUE_1, new ConfigSettings().category(CATEGORY_1)
     ));
-    public static final FloatConfiguration FLOAT = register("test_float", new FloatConfiguration(
+    public static final BoundedFloatConfiguration FLOAT = register("test_float", new BoundedFloatConfiguration(
             0.5F, new ConfigSettings().category(CATEGORY_1)
     ));
-    public static final IntegerConfiguration INTEGER = register("test_integer", new IntegerConfiguration(
+    public static final BoundedIntegerConfiguration INTEGER = register("test_integer", new BoundedIntegerConfiguration(
             5, 0, 10, new ConfigSettings().category(CATEGORY_2)
     ));
     public static final StringConfiguration STRING = register("test_string", new StringConfiguration(
@@ -61,16 +61,16 @@ public final class PneumonoCoreTestConfigs {
     public static final PerPlayerConfiguration<Boolean> PER_PLAYER = register("test_per_player", new PerPlayerConfiguration<>(
             new BooleanConfiguration(true, new ConfigSettings())
     ));
-    public static final IntegerConfiguration ALIAS = register("test_alias", new IntegerConfiguration(
+    public static final BoundedIntegerConfiguration ALIAS = register("test_alias", new BoundedIntegerConfiguration(
             5, 0, 10, new ConfigSettings().aliases("test_alias_old")
     ));
-    public static final IntegerConfiguration BLOAT_1 = register("bloat_1", new IntegerConfiguration(
+    public static final BoundedIntegerConfiguration BLOAT_1 = register("bloat_1", new BoundedIntegerConfiguration(
             5, 0, 10, new ConfigSettings()
     ));
-    public static final IntegerConfiguration BLOAT_2 = register("bloat_2", new IntegerConfiguration(
+    public static final BoundedIntegerConfiguration BLOAT_2 = register("bloat_2", new BoundedIntegerConfiguration(
             5, 0, 10, new ConfigSettings()
     ));
-    public static final IntegerConfiguration BLOAT_3 = register("bloat_3", new IntegerConfiguration(
+    public static final BoundedIntegerConfiguration BLOAT_3 = register("bloat_3", new BoundedIntegerConfiguration(
             5, 0, 10, new ConfigSettings()
     ));
 

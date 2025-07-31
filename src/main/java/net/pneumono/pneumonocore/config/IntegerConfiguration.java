@@ -1,13 +1,15 @@
 package net.pneumono.pneumonocore.config;
 
+import net.pneumono.pneumonocore.config_api.configurations.BoundedIntegerConfiguration;
+
 /**
- * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration IntegerConfiguration} instead.
+ * @deprecated Use {@link BoundedIntegerConfiguration} instead.
  */
 @Deprecated
 @SuppressWarnings("unused")
-public class IntegerConfiguration extends AbstractConfiguration<Integer, net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration> {
+public class IntegerConfiguration extends AbstractConfiguration<Integer, BoundedIntegerConfiguration> {
     public IntegerConfiguration(String modId, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {
-        super(modId, name, new net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration(defaultValue, minValue, maxValue, environment.toSettings()));
+        super(modId, name, new BoundedIntegerConfiguration(defaultValue, minValue, maxValue, environment.toSettings()));
     }
 
     public int getMinValue() {

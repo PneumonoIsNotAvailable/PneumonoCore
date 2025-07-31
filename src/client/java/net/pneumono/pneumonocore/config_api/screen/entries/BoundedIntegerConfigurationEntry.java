@@ -4,12 +4,12 @@ import net.minecraft.client.gui.DrawContext;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.IntegerConfigSliderWidget;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
-import net.pneumono.pneumonocore.config_api.configurations.IntegerConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.BoundedIntegerConfiguration;
 
-public class IntegerConfigurationEntry extends AbstractConfigurationEntry<Integer, IntegerConfiguration> {
+public class BoundedIntegerConfigurationEntry extends AbstractConfigurationEntry<Integer, BoundedIntegerConfiguration> {
     private final IntegerConfigSliderWidget sliderWidget;
 
-    public IntegerConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, IntegerConfiguration configuration) {
+    public BoundedIntegerConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, BoundedIntegerConfiguration configuration) {
         super(parent, widget, configuration);
         int minValue = configuration.getMinValue();
         int maxValue = configuration.getMaxValue();

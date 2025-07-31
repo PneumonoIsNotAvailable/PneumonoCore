@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
-public class IntegerConfiguration extends AbstractConfiguration<Integer> {
+public class BoundedIntegerConfiguration extends AbstractConfiguration<Integer> {
     private final int minValue;
     private final int maxValue;
 
@@ -19,7 +19,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
      * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
-    public IntegerConfiguration(int defaultValue, int minValue, int maxValue, ConfigSettings settings) {
+    public BoundedIntegerConfiguration(int defaultValue, int minValue, int maxValue, ConfigSettings settings) {
         super(validateDefaultValue(defaultValue, minValue, maxValue), settings);
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -68,6 +68,6 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
 
     @Override
     protected Identifier getConfigTypeId() {
-        return PneumonoCore.identifier("integer");
+        return PneumonoCore.identifier("bounded_integer");
     }
 }

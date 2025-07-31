@@ -3,13 +3,13 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 import net.minecraft.client.gui.DrawContext;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
-import net.pneumono.pneumonocore.config_api.configurations.FloatConfiguration;
+import net.pneumono.pneumonocore.config_api.configurations.BoundedFloatConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.widgets.FloatConfigSliderWidget;
 
-public class FloatConfigurationEntry extends AbstractConfigurationEntry<Float, FloatConfiguration> {
+public class BoundedFloatConfigurationEntry extends AbstractConfigurationEntry<Float, BoundedFloatConfiguration> {
     private final FloatConfigSliderWidget sliderWidget;
 
-    public FloatConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, FloatConfiguration configuration) {
+    public BoundedFloatConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, BoundedFloatConfiguration configuration) {
         super(parent, widget, configuration);
 
         this.sliderWidget = addChild(new FloatConfigSliderWidget(

@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
-public class FloatConfiguration extends AbstractConfiguration<Float> {
+public class BoundedFloatConfiguration extends AbstractConfiguration<Float> {
     /**
      * Creates a new configuration that stores a {@code float} between 0 and 1.
      *
@@ -15,7 +15,7 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
      * {@link ConfigApi#finishRegistry} must be called.
      */
     @SuppressWarnings("unused")
-    public FloatConfiguration(float defaultValue, ConfigSettings settings) {
+    public BoundedFloatConfiguration(float defaultValue, ConfigSettings settings) {
         super(validateDefaultValue(defaultValue), settings);
     }
 
@@ -54,6 +54,6 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
 
     @Override
     protected Identifier getConfigTypeId() {
-        return PneumonoCore.identifier("float");
+        return PneumonoCore.identifier("bounded_float");
     }
 }
