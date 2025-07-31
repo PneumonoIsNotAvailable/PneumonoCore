@@ -73,5 +73,9 @@
   "configs.pneumonocore.bloat_2": "Bloat 2",
   "configs.pneumonocore.bloat_2.tooltip": "This is an Integer configuration that exists to make the config list long enough to see the scroll bar!",
   "configs.pneumonocore.bloat_3": "Bloat 3",
-  "configs.pneumonocore.bloat_3.tooltip": "This is an Integer configuration that exists to make the config list long enough to see the scroll bar!"
+  "configs.pneumonocore.bloat_3.tooltip": "This is an Integer configuration that exists to make the config list long enough to see the scroll bar!",
+  "configs.pneumonocore.test_unbounded_int": "Unbounded Integer",
+  "configs.pneumonocore.test_unbounded_int.tooltip": "This is a Unbounded Integer configuration!",
+  "configs.pneumonocore.test_unbounded_float": "Unbounded Float",
+  "configs.pneumonocore.test_unbounded_float.tooltip": "This is a Unbounded Float configuration!"
 }

@@ -25,9 +25,17 @@ public final class ClientConfigApiRegistry {
                 configuration instanceof EnumConfiguration<?> enumConfiguration ?
                         new EnumConfigurationEntry<>(parent, widget, enumConfiguration) : null
         );
+        registerConfigEntryType("integer", (parent, widget, configuration) ->
+                configuration instanceof IntegerConfiguration integerConfiguration ?
+                        new IntegerConfigurationEntry(parent, widget, integerConfiguration) : null
+        );
         registerConfigEntryType("bounded_integer", (parent, widget, configuration) ->
                 configuration instanceof BoundedIntegerConfiguration boundedIntegerConfiguration ?
                         new BoundedIntegerConfigurationEntry(parent, widget, boundedIntegerConfiguration) : null
+        );
+        registerConfigEntryType("float", (parent, widget, configuration) ->
+                configuration instanceof FloatConfiguration floatConfiguration ?
+                        new FloatConfigurationEntry(parent, widget, floatConfiguration) : null
         );
         registerConfigEntryType("bounded_float", (parent, widget, configuration) ->
                 configuration instanceof BoundedFloatConfiguration boundedFloatConfiguration ?

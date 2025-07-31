@@ -73,6 +73,12 @@ public final class PneumonoCoreTestConfigs {
     public static final BoundedIntegerConfiguration BLOAT_3 = register("bloat_3", new BoundedIntegerConfiguration(
             5, 0, 10, new ConfigSettings()
     ));
+    public static final IntegerConfiguration UNBOUNDED_INT = register("test_unbounded_int", new IntegerConfiguration(
+            5, new ConfigSettings()
+    ));
+    public static final FloatConfiguration UNBOUNDED_FLOAT = register("test_unbounded_float", new FloatConfiguration(
+            5F, new ConfigSettings()
+    ));
 
     public static <T extends AbstractConfiguration<?>> T register(String name, T config) {
         return ConfigApi.register(PneumonoCore.identifier(name), config);
