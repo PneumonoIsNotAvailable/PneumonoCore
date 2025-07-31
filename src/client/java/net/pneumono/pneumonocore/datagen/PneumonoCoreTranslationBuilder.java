@@ -14,6 +14,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
@@ -79,7 +80,7 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(SoundEvent sound, String value) {
-        this.builder.add(sound, value);
+        this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
     }
 
     public void add(Path existingLangFile) throws IOException {

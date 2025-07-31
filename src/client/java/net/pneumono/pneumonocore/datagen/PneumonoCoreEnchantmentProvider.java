@@ -29,7 +29,7 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
-        RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+        RegistryWrapper.Impl<Item> itemLookup = registries.getWrapperOrThrow(RegistryKeys.ITEM);
 
         for (Map.Entry<RegistryKey<Enchantment>, Enchantment.Builder> entry : getEnchantmentBuilders(itemLookup).entrySet()) {
             entries.add(entry.getKey(), entry.getValue().build(entry.getKey().getValue()));

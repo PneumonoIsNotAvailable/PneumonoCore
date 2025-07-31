@@ -1,6 +1,9 @@
 package net.pneumono.pneumonocore.config_api;
 
+import com.mojang.serialization.DataResult;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -41,6 +44,7 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
     }
 
     private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
-        compound.put(config.info().getName(), config.getValueCodec(), config.getValue());
+        DataResult<NbtElement> result = config.getValueCodec().encodeStart(NbtOps.INSTANCE, config.getValue());
+        compound.put(config.info().getName(), result.isSuccess() ? result.getOrThrow() : new NbtCompound());
     }
 }
