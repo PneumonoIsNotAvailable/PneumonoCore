@@ -4,7 +4,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
@@ -37,14 +40,28 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
                 getTotalWidgetWidth() - this.cycleWidget.getWidth() - 5, 20,
                 null, Text.translatable(ConfigApi.toTranslationKey(this.configuration))
         ));
+        this.textWidget.setRenderTextProvider(this::getOrderedText);
         this.textWidget.setText(String.valueOf(this.amount));
         this.textWidget.setChangedListener((text) -> {
-            try {
+            if (isTextValid(text)) {
                 setValue(Long.parseLong(text) * this.units.getDivision());
-            } catch (NumberFormatException ignored) {
-                // If the value in the text widget isn't valid, it just doesn't save it
             }
         });
+    }
+
+    public OrderedText getOrderedText(String string, int firstCharacterIndex) {
+        return OrderedText.styledForwardsVisitedString(
+                string, isTextValid(string) ? Style.EMPTY : Style.EMPTY.withFormatting(Formatting.RED)
+        );
+    }
+
+    public boolean isTextValid(String string) {
+        try {
+            Long.parseLong(string);
+            return true;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
     }
 
     private long getAmount(long value) {
@@ -93,11 +110,6 @@ public class TimeConfigurationEntry extends AbstractConfigurationEntry<Long, Tim
 
     @Override
     public boolean shouldSaveValue() {
-        try {
-            Long.parseLong(this.textWidget.getText());
-            return true;
-        } catch (NumberFormatException ignored) {
-            return false;
-        }
+        return isTextValid(this.textWidget.getText());
     }
 }
