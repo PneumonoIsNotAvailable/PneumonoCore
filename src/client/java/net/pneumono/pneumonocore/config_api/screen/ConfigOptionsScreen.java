@@ -12,6 +12,8 @@ import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 
+import java.util.Objects;
+
 public abstract class ConfigOptionsScreen extends Screen {
     public final Screen parent;
     public final String modId;
@@ -78,7 +80,7 @@ public abstract class ConfigOptionsScreen extends Screen {
             }
 
             this.writeSavedValues();
-            this.close();
+            Objects.requireNonNull(this.client).setScreen(this.parent);
         }).build());
     }
 
