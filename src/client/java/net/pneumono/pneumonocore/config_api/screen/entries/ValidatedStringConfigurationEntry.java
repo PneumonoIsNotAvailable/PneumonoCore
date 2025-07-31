@@ -1,12 +1,12 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
+import net.pneumono.pneumonocore.config_api.configurations.ValidatedStringConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
-import net.pneumono.pneumonocore.config_api.configurations.StringConfiguration;
 import org.jetbrains.annotations.Nullable;
 
-public class StringConfigurationEntry extends SimpleTextFieldConfigurationEntry<String, StringConfiguration> {
-    public StringConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, StringConfiguration configuration) {
+public class ValidatedStringConfigurationEntry extends SimpleTextFieldConfigurationEntry<String, ValidatedStringConfiguration> {
+    public ValidatedStringConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, ValidatedStringConfiguration configuration) {
         super(parent, widget, configuration);
     }
 
@@ -17,6 +17,6 @@ public class StringConfigurationEntry extends SimpleTextFieldConfigurationEntry<
 
     @Override
     public @Nullable String valueFromString(String string) {
-        return string;
+        return this.configuration.test(string) ? string : null;
     }
 }

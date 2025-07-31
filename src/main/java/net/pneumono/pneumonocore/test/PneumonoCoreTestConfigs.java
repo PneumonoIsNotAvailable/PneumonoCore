@@ -79,6 +79,9 @@ public final class PneumonoCoreTestConfigs {
     public static final FloatConfiguration UNBOUNDED_FLOAT = register("test_unbounded_float", new FloatConfiguration(
             5F, new ConfigSettings()
     ));
+    public static final ValidatedStringConfiguration VALIDATED = register("test_validated", new ValidatedStringConfiguration(
+            "validated!", string -> string.equals(string.toLowerCase()), new ConfigSettings()
+    ));
 
     public static <T extends AbstractConfiguration<?>> T register(String name, T config) {
         return ConfigApi.register(PneumonoCore.identifier(name), config);

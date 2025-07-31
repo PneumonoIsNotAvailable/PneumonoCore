@@ -45,6 +45,10 @@ public final class ClientConfigApiRegistry {
                 configuration instanceof StringConfiguration stringConfiguration ?
                         new StringConfigurationEntry(parent, widget, stringConfiguration) : null
         );
+        registerConfigEntryType("validated_string", (parent, widget, configuration) ->
+                configuration instanceof ValidatedStringConfiguration validatedStringConfiguration ?
+                        new ValidatedStringConfigurationEntry(parent, widget, validatedStringConfiguration) : null
+        );
         registerConfigEntryType("time", (parent, widget, configuration) ->
                 configuration instanceof TimeConfiguration timeConfiguration ?
                         new TimeConfigurationEntry(parent, widget, timeConfiguration) : null
