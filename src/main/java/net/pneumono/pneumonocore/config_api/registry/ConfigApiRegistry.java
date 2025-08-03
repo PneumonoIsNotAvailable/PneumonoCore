@@ -7,7 +7,6 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
-import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 
 import java.util.List;
 
@@ -21,6 +20,6 @@ public class ConfigApiRegistry {
             ConfigApi.reloadValuesFromFiles(LoadType.RELOAD);
             ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
         });
-        PneumonoCoreTestConfigs.registerTestConfigs();
+        //PneumonoCoreTestConfigs.registerTestConfigs();
     }
 }
