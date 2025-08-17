@@ -29,7 +29,7 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
         T value = entry.getValue();
 
         ConfigManager.setSavedValue(config, value);
-        if (config.info().isClientSided() && config.info().getLoadType().canLoad(LoadType.INSTANT)) {
+        if (config.info().isClientSided() && LoadType.INSTANT.canLoad(config.info().getLoadType())) {
             ConfigManager.setEffectiveValue(config, value);
         }
     }
