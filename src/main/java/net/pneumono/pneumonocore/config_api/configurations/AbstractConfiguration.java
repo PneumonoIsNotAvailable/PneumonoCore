@@ -95,7 +95,7 @@ public abstract class AbstractConfiguration<T> {
             enabled = this.settings.condition.get();
         }
         if (enabled && this.settings.parent != null) {
-            enabled = this.settings.parent.test(this.effectiveValue.get());
+            enabled = this.settings.parent.test();
         }
 
         return enabled ? this.effectiveValue.get() : this.defaultValue;

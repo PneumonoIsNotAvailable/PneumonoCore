@@ -140,12 +140,13 @@ public class ConfigSettings {
             this(() -> configuration, object -> true);
         }
 
+        @Deprecated
         public Supplier<Boolean> createCondition() {
-            return () -> enabledPredicate.test(configuration.get().getValue());
+            return this::test;
         }
 
         public boolean test() {
-            return createCondition().get();
+            return test(configuration.get().getEffectiveValue());
         }
 
         @SuppressWarnings("unchecked")
