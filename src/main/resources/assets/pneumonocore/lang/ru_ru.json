@@ -1,0 +1,31 @@
+{
+  "configs.pneumonocore.screen_title": "Настройки PneumonoCore",
+  "configs.category.pneumonocore.misc": "Разнообразие",
+
+  "configs_screen.pneumonocore.reset_all": "Сброс настроек",
+  "configs_screen.pneumonocore.server_configs": "Сервер",
+  "configs_screen.pneumonocore.client_configs": "Клиент",
+
+  "configs_screen.pneumonocore.no_configs": "Этот мод не имеет настроек!",
+  "configs_screen.pneumonocore.reset": "Сброс",
+  "configs_screen.pneumonocore.invalid": "Неверное значение!",
+  "configs_screen.pneumonocore.server": "Конфигурация сервера",
+  "configs_screen.pneumonocore.client": "Конфигурация клиента",
+  "configs_screen.pneumonocore.load_instant": "Обновлять немедленно",
+  "configs_screen.pneumonocore.load_reload": "Обновлять, когда используется /reload",
+  "configs_screen.pneumonocore.load_restart": "Обновлять, когда игра перезапускается",
+
+  "configs_screen.pneumonocore.entry_type_error": "Не поддерживается!",
+  "configs_screen.pneumonocore.boolean_enabled": "ВКЛ",
+  "configs_screen.pneumonocore.boolean_disabled": "ВЫКЛ",
+  "configs_screen.pneumonocore.days": "Д",
+  "configs_screen.pneumonocore.days.full": "Дней",
+  "configs_screen.pneumonocore.hours": "Ч",
+  "configs_screen.pneumonocore.hours.full": "Часов",
+  "configs_screen.pneumonocore.minutes": "М",
+  "configs_screen.pneumonocore.minutes.full": "Минут",
+  "configs_screen.pneumonocore.seconds": "С",
+  "configs_screen.pneumonocore.seconds.full": "Секунд",
+  "configs_screen.pneumonocore.ticks": "Т",
+  "configs_screen.pneumonocore.ticks.full": "Тиков"
+}
