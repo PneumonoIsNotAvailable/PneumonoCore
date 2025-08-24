@@ -27,5 +27,5 @@
   "configs_screen.pneumonocore.seconds": "С",
   "configs_screen.pneumonocore.seconds.full": "Секунд",
   "configs_screen.pneumonocore.ticks": "Т",
-  "configs_screen.pneumonocore.ticks.full": "Тиков"
+  "configs_screen.pneumonocore.ticks.full": "Тактов"
 }
