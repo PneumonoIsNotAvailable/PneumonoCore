@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtOps;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
+import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
 public final class ClientConfigApiRegistry {
     public static void register() {
@@ -63,7 +64,7 @@ public final class ClientConfigApiRegistry {
         ConfigApi.LOGGER.info("Received config sync packet");
 
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtCompound compound = payload.storedValues().getCompound(configFile.getModId()).orElse(null);
+            NbtCompound compound = MultiVersionUtil.getCompound(payload.storedValues(), configFile.getModId());
             if (compound == null || compound.isEmpty()) continue;
 
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {

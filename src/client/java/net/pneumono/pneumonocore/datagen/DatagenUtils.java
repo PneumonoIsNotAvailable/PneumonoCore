@@ -7,15 +7,11 @@ import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.component.ComponentPredicateTypes;
-import net.minecraft.predicate.component.ComponentsPredicate;
 import net.minecraft.predicate.item.*;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-
-import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public final class DatagenUtils {
@@ -39,18 +35,8 @@ public final class DatagenUtils {
     }
 
     @SafeVarargs
+    @Deprecated
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
-        return InventoryChangedCriterion.Conditions.items(
-                ItemPredicate.Builder.create().components(
-                        ComponentsPredicate.Builder.create().partial(
-                                ComponentPredicateTypes.ENCHANTMENTS,
-                                EnchantmentsPredicate.enchantments(
-                                        Arrays.stream(enchantments).map(
-                                                enchantment -> new EnchantmentPredicate(lookup.getOrThrow(enchantment), NumberRange.IntRange.atLeast(1))
-                                        ).toList()
-                                )
-                        ).build()
-                )
-        );
+        return null;
     }
 }

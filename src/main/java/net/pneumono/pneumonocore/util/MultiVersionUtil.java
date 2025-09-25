@@ -1,0 +1,36 @@
+package net.pneumono.pneumonocore.util;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DynamicOps;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryOps;
+import org.jetbrains.annotations.Nullable;
+
+public class MultiVersionUtil {
+    public static <T> void putObjectWithCodec(DynamicRegistryManager registryManager, NbtCompound compound, String key, Codec<T> codec, T object) {
+        putObjectWithCodec(RegistryOps.of(NbtOps.INSTANCE, registryManager), compound, key, codec, object);
+    }
+
+    public static <T> void putObjectWithCodec(NbtCompound compound, String key, Codec<T> codec, T object) {
+        putObjectWithCodec(NbtOps.INSTANCE, compound, key, codec, object);
+    }
+
+    public static <T> void putObjectWithCodec(DynamicOps<NbtElement> ops, NbtCompound compound, String key, Codec<T> codec, T object) {
+        //? if >=1.21.5 {
+        compound.put(key, codec, ops, object);
+        //?} else {
+        /*compound.put(key, codec.encodeStart(ops, object).getOrThrow());
+        *///?}
+    }
+
+    public static @Nullable NbtCompound getCompound(NbtCompound compound, String key) {
+        //? if >=1.21.5 {
+        return compound.getCompound(key).orElse(null);
+        //?} else {
+        /*return compound.getCompound(key);
+        *///?}
+    }
+}

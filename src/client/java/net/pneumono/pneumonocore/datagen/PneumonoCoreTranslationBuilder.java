@@ -23,6 +23,10 @@ import java.nio.file.Path;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+//? if <1.21.5 {
+/*import net.minecraft.util.Util;
+*///?}
+
 @SuppressWarnings("unused")
 public class PneumonoCoreTranslationBuilder {
     private final FabricLanguageProvider.TranslationBuilder builder;
@@ -79,7 +83,11 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(SoundEvent sound, String value) {
+        //? if >=1.21.5 {
         this.builder.add(sound, value);
+        //?} else {
+        /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
+        *///?}
     }
 
     public void add(Path existingLangFile) throws IOException {

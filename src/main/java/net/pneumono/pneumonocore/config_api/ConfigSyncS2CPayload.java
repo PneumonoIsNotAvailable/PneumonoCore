@@ -7,6 +7,7 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
+import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
 import java.util.Collection;
 
@@ -41,6 +42,6 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) implements CustomPa
     }
 
     private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
-        compound.put(config.info().getName(), config.getValueCodec(), config.getValue());
+        MultiVersionUtil.putObjectWithCodec(compound, config.info().getName(), config.getValueCodec(), config.getValue());
     }
 }
