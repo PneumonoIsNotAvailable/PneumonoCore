@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
-import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
 import net.minecraft.item.Item;
@@ -24,7 +23,7 @@ import java.util.*;
 //? if >=1.21.4 {
 import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
-//?} else {
+//?} else if >=1.20.2 {
 /*import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
 *///?}
@@ -38,17 +37,23 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RawShapedRecipe;
 //?}
 
+//? if >=1.20.2 {
+import net.minecraft.advancement.AdvancementRequirements;
+//?}
+
 // Mostly boilerplate from ShapedRecipeJsonBuilder
 // Allows using ItemStacks as results
 // Do not use <1.20.4
 @SuppressWarnings("unused")
-public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
+public class ShapedStackRecipeJsonBuilder /*? if >=1.20.2 {*/implements CraftingRecipeJsonBuilder/*?}*/ {
     private final RegistryEntryLookup<Item> registryLookup;
     private final RecipeCategory category;
     private final ItemStack output;
     private final List<String> pattern = Lists.newArrayList();
     private final Map<Character, Ingredient> inputs = Maps.newLinkedHashMap();
+    //? if >=1.20.2 {
     private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
+    //?}
     @Nullable
     private String group;
     private boolean showNotification = true;
@@ -101,10 +106,12 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         }
     }
 
+    //? if >=1.20.2 {
     public ShapedStackRecipeJsonBuilder criterion(String string, AdvancementCriterion<?> advancementCriterion) {
         this.criteria.put(string, advancementCriterion);
         return this;
     }
+    //?}
 
     public ShapedStackRecipeJsonBuilder group(@Nullable String string) {
         this.group = string;
@@ -116,14 +123,18 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         return this;
     }
 
+    //? if >=1.20.2 {
     @Override
+    //?}
     public Item getOutputItem() {
         return this.output.getItem();
     }
 
+    //? if >=1.20.2 {
     @Override
+    //?}
     public void offerTo(
-            RecipeExporter exporter,
+            /*? if >=1.20.2 {*/RecipeExporter exporter,/*?}*/
             /*? if >=1.21.3 {*/RegistryKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
     ) {
         //? if >=1.20.4 {

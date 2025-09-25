@@ -80,7 +80,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         LESS_OR_EQUAL,
         GREATER_OR_EQUAL;
 
-        public static final EnumCodec<Operator> CODEC = StringIdentifiable.createCodec(Operator::values);
+        public static final /*? if >=1.20.2 {*/EnumCodec<Operator>/*?} else {*//*Codec<Operator>*//*?}*/ CODEC = StringIdentifiable.createCodec(Operator::values);
 
         @Override
         public String asString() {

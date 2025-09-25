@@ -3,7 +3,6 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
@@ -13,12 +12,18 @@ import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 
+//? if >=1.20.2 {
+import net.minecraft.client.gui.widget.TextIconButtonWidget;
+//?} else {
+/*import net.minecraft.client.gui.widget.TexturedButtonWidget;
+*///?}
+
 import java.util.Objects;
 
 public abstract class AbstractConfigurationEntry<T, C extends AbstractConfiguration<T>> extends AbstractConfigListWidgetEntry {
     protected final ConfigsListWidget widget;
     protected final C configuration;
-    protected final TextIconButtonWidget resetWidget;
+    protected final /*? if >=1.20.2 {*/TextIconButtonWidget/*?} else {*/ /*TexturedButtonWidget*//*?}*/ resetWidget;
 
     protected T value;
 
@@ -27,6 +32,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
         this.widget = widget;
         this.configuration = configuration;
         this.resetWidget = addChild(
+                //? if >=1.20.2 {
                 TextIconButtonWidget.builder(
                         Text.translatable("configs_screen.pneumonocore.reset"),
                         button -> this.reset(),
@@ -34,6 +40,18 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
                 )
                 .texture(PneumonoCore.identifier("icon/reset"), 15, 15)
                 .width(20).build()
+                //?} else {
+                /*new TexturedButtonWidget(
+                        0, 0,
+                        20, 20,
+                        0, 0,
+                        20,
+                        PneumonoCore.identifier("textures/gui/sprites/icon/reset.png"),
+                        20,
+                        40,
+                        button -> this.reset()
+                )
+                *///?}
         );
 
         this.resetWidget.setTooltip(Tooltip.of(
