@@ -12,6 +12,7 @@ import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
 public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
     public ClientConfigOptionsScreen(Screen parent, String modId) {
@@ -54,11 +55,15 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
 
     private static <T, C extends AbstractConfiguration<T>> JsonElement encodeJson(AbstractConfigurationEntry<T, C> entry) {
         DataResult<JsonElement> result = entry.getConfiguration().getValueCodec().encodeStart(JsonOps.INSTANCE, entry.getValue());
-        if (result.isError()) {
+        if (MultiVersionUtil.resultIsError(result)) {
             ConfigApi.LOGGER.error("Could not encode value for config '{}'.", entry.getConfiguration().info().getId());
             return null;
         }
 
+        //? if >=1.20.6 {
         return result.getOrThrow(message -> new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'"));
+        //?} else {
+        /*return result.getOrThrow(false, message -> {throw new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'");});
+        *///?}
     }
 }

@@ -11,9 +11,21 @@ import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
+//? if <1.20.6 {
+/*import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
+import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
+*///?}
+
 public final class ClientConfigApiRegistry {
     public static void register() {
+        //? if >=1.20.6 {
         ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, ClientConfigApiRegistry::receiveSyncPacket);
+        //?} else {
+        /*ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
+        *///?}
 
         ClientConfigCommandRegistry.registerClientConfigCommand();
 
@@ -60,11 +72,31 @@ public final class ClientConfigApiRegistry {
         ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier(name), selector);
     }
 
-    public static void receiveSyncPacket(ConfigSyncS2CPayload payload, ClientPlayNetworking.Context context) {
+    //? if >=1.20.6 {
+    public static void receiveSyncPacket(
+            ConfigSyncS2CPayload payload,
+            ClientPlayNetworking.Context context
+    ) {
+        receiveSyncPacket(payload.storedValues());
+    }
+    //?} else {
+    /*public static void receiveSyncPacket(
+            MinecraftClient client,
+            ClientPlayNetworkHandler handler,
+            PacketByteBuf buf,
+            PacketSender responseSender
+    ) {
+        receiveSyncPacket(buf.readNbt());
+    }
+    *///?}
+
+    public static void receiveSyncPacket(
+            NbtCompound nbt
+    ) {
         ConfigApi.LOGGER.info("Received config sync packet");
 
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtCompound compound = MultiVersionUtil.getCompound(payload.storedValues(), configFile.getModId());
+            NbtCompound compound = MultiVersionUtil.getCompound(nbt, configFile.getModId());
             if (compound == null || compound.isEmpty()) continue;
 
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
@@ -80,11 +112,11 @@ public final class ClientConfigApiRegistry {
 
     private static  <T> boolean setReceivedEffectiveValue(AbstractConfiguration<T> config, NbtElement nbtElement) {
         DataResult<Pair<T, NbtElement>> result = config.getValueCodec().decode(NbtOps.INSTANCE, nbtElement);
-        if (result.isError()) {
+        if (MultiVersionUtil.resultIsError(result)) {
             return false;
         }
 
-        ConfigManager.setEffectiveValue(config, result.getOrThrow().getFirst());
+        ConfigManager.setEffectiveValue(config, MultiVersionUtil.resultGetOrThrow(result).getFirst());
         return true;
     }
 }

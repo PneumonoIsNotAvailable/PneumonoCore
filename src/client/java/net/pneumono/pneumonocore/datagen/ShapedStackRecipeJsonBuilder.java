@@ -17,6 +17,7 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.util.MultiVersionUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -88,7 +89,7 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     }
 
     public ShapedStackRecipeJsonBuilder pattern(String patternStr) {
-        if (!this.pattern.isEmpty() && patternStr.length() != this.pattern.getFirst().length()) {
+        if (!this.pattern.isEmpty() && patternStr.length() != MultiVersionUtil.getFirst(this.pattern).length()) {
             throw new IllegalArgumentException("Pattern must be the same width on every line!");
         } else {
             this.pattern.add(patternStr);
