@@ -41,8 +41,6 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     protected void refreshWidgetPositions() {
         if (this.configsListWidget != null) {
-            this.configsListWidget.setDimensions(this.width, this.getContentHeight());
-            this.configsListWidget.setPosition(0, this.getHeaderHeight());
             //? if >=1.20.6 {
             this.configsListWidget.refreshScroll();
             //?} else {

@@ -3,7 +3,6 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
@@ -34,6 +33,12 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
         Text text = Text.translatable("configs_screen.pneumonocore.entry_type_error");
         int textX = x + getWidgetStartX() + (getTotalWidgetWidth() / 2);
         int textY = (y + entryHeight / 2) - 2;
-        context.drawCenteredTextWithShadow(textRenderer, text, textX, textY, Colors.LIGHT_RED);
+        context.drawCenteredTextWithShadow(
+                textRenderer,
+                text,
+                textX, textY,
+                // Colors.LIGHT_RED
+                -2142128
+        );
     }
 }

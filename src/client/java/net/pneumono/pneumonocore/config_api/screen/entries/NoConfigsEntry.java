@@ -3,7 +3,6 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 
 import java.util.Objects;
@@ -20,7 +19,8 @@ public class NoConfigsEntry extends NonInteractableEntry {
                 textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"),
                 x + (getRowEndXOffset() / 2),
                 (y + entryHeight / 2) - 2,
-                Colors.LIGHT_RED
+                // Colors.LIGHT_RED
+                -2142128
         );
     }
 }

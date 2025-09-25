@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RawShapedRecipe;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryEntryLookup;
@@ -35,8 +34,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.recipe.Recipe;
 //?}
 
+//? if >=1.20.4 {
+import net.minecraft.recipe.RawShapedRecipe;
+//?}
+
 // Mostly boilerplate from ShapedRecipeJsonBuilder
 // Allows using ItemStacks as results
+// Do not use <1.20.4
 @SuppressWarnings("unused")
 public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final RegistryEntryLookup<Item> registryLookup;
@@ -122,6 +126,7 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
             RecipeExporter exporter,
             /*? if >=1.21.3 {*/RegistryKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
     ) {
+        //? if >=1.20.4 {
         RawShapedRecipe rawShapedRecipe = this.validate(recipeKey);
         Advancement.Builder builder = exporter.getAdvancementBuilder()
                 .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
@@ -137,8 +142,10 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 this.showNotification
         );
         exporter.accept(recipeKey, shapedRecipe, builder.build(getValue(recipeKey).withPrefixedPath("recipes/" + this.category.getName() + "/")));
+        //?}
     }
 
+    //? if >=1.20.4 {
     private RawShapedRecipe validate(
             /*? if >=1.21.3 {*/RegistryKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
     ) {
@@ -148,6 +155,7 @@ public class ShapedStackRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
             return RawShapedRecipe.create(this.inputs, this.pattern);
         }
     }
+    //?}
 
     private Identifier getValue(
             /*? if >=1.21.3 {*/RegistryKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
