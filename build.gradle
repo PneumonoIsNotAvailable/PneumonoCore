@@ -34,6 +34,10 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
+
+	runConfigs.all {
+		ideConfigGenerated true
+	}
 }
 
 dependencies {
@@ -50,17 +54,19 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+	inputs.property "version", stonecutter.current.version
+	inputs.property "supported", project.property("supported_versions")
 
 	filesMatching("fabric.mod.json") {
 		expand(
-				"version": inputs.properties.version,
+				"version": stonecutter.current.version,
+				"supported": project.property("supported_versions")
 		)
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = stonecutter.eval(stonecutter.current.version, ">=1.20.5") ? 21 : 17
 }
 
 java {
@@ -69,8 +75,10 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	def java = stonecutter.eval(stonecutter.current.version, ">=1.20.5")
+			? JavaVersion.VERSION_21 : JavaVersion.VERSION_17
+	targetCompatibility = java
+	sourceCompatibility = java
 }
 
 jar {
