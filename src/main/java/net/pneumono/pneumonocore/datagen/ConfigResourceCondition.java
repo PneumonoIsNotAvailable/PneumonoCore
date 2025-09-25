@@ -5,13 +5,18 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
-import net.minecraft.registry.RegistryOps;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import org.jetbrains.annotations.Nullable;
+
+//? if >=1.21.3 {
+import net.minecraft.registry.RegistryOps;
+//?} else {
+/*import net.minecraft.registry.RegistryWrapper;
+*///?}
 
 @SuppressWarnings("unused")
 public record ConfigResourceCondition(Identifier configuration, Operator operator, String value) implements ResourceCondition {
@@ -31,7 +36,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     }
 
     @Override
-    public boolean test(@Nullable RegistryOps.RegistryInfoGetter registryInfo) {
+    public boolean test(@Nullable /*? if >=1.21.3 {*/RegistryOps.RegistryInfoGetter/*?} else {*//*RegistryWrapper.WrapperLookup*//*?}*/ registryInfo) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;

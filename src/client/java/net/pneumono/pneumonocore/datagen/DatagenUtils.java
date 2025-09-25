@@ -26,8 +26,15 @@ public final class DatagenUtils {
         return InventoryChangedCriterion.Conditions.items(items);
     }
 
+    /**
+     * Use {@code null} for registry lookup if <1.21.3
+     */
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> itemTagCriterion(RegistryEntryLookup<Item> lookup, TagKey<Item> tag) {
+        //? if >=1.21.3 {
         return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(lookup, tag));
+        //?} else {
+        /*return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag));
+        *///?}
     }
 
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> countCriterion(NumberRange.IntRange range) {

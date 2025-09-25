@@ -85,8 +85,10 @@ public class PneumonoCoreTranslationBuilder {
     public void add(SoundEvent sound, String value) {
         //? if >=1.21.5 {
         this.builder.add(sound, value);
-        //?} else {
+        //?} else if >=1.21.3 {
         /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
+        *///?} else {
+        /*this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
         *///?}
     }
 
