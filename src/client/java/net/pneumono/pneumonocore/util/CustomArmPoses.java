@@ -1,11 +1,15 @@
 package net.pneumono.pneumonocore.util;
 
-import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
-import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+
+//? if >=1.21.4 {
+import net.minecraft.client.item.ItemModelManager;
+import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
+//?} else {
+/*import net.minecraft.client.render.entity.state.BipedEntityRenderState;
+*///?}
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +27,30 @@ public final class CustomArmPoses {
     }
 
     public record Pose(Identifier id, PosePredicate predicate, PoseAction leftArm, PoseAction rightArm, boolean twoHanded) {
-        public boolean shouldPose(LivingEntity entity, ArmedEntityRenderState state, boolean rightArm, ItemModelManager itemModelManager) {
-            return this.predicate.shouldPose(entity, state, rightArm, itemModelManager);
+        public boolean shouldPose(
+                LivingEntity entity,
+                /*? if >=1.21.4 {*/ArmedEntityRenderState/*?} else {*//*BipedEntityRenderState*//*?}*/ state,
+                boolean rightArm
+                /*? if >=1.21.4 {*/, ItemModelManager itemModelManager/*?}*/
+        ) {
+            return this.predicate.shouldPose(entity, state, rightArm /*? if >=1.21.4 {*/, itemModelManager/*?}*/);
         }
     }
 
     @FunctionalInterface
     public interface PosePredicate {
-        boolean shouldPose(LivingEntity entity, ArmedEntityRenderState state, boolean rightArm, ItemModelManager itemModelManager);
+        boolean shouldPose(
+                LivingEntity entity,
+                /*? if >=1.21.4 {*/ArmedEntityRenderState/*?} else {*//*BipedEntityRenderState*//*?}*/ state,
+                boolean rightArm
+                /*? if >=1.21.4 {*/, ItemModelManager itemModelManager/*?}*/);
     }
 
     @FunctionalInterface
     public interface PoseAction {
-        void pose(BipedEntityModel<?> model, BipedEntityRenderState state);
+        void pose(
+                BipedEntityModel<?> model,
+                /*? if >=1.21.4 {*/ArmedEntityRenderState/*?} else {*//*BipedEntityRenderState*//*?}*/ state
+        );
     }
 }
