@@ -46,7 +46,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
                         20, 20,
                         0, 0,
                         20,
-                        PneumonoCore.identifier("textures/gui/sprites/icon/reset.png"),
+                        PneumonoCore.identifier("textures/gui/sprites/icon/reset_button.png"),
                         20,
                         40,
                         button -> this.reset()

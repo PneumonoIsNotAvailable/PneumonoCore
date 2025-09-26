@@ -40,6 +40,6 @@ public class ConfigApiRegistry {
             ConfigApi.reloadValuesFromFiles(LoadType.RELOAD);
             ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
         });
-        //PneumonoCoreTestConfigs.registerTestConfigs();
+        PneumonoCoreTestConfigs.registerTestConfigs();
     }
 }
