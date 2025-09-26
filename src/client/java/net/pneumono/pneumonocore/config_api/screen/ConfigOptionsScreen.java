@@ -64,7 +64,7 @@ public abstract class ConfigOptionsScreen extends Screen {
 
             this.configsListWidget.updateEntryList();
             this.configsListWidget.updateEntryValues();
-        }).dimensions((this.width / 2) - 155, this.height - 29, 150, 20).build());
+        }).dimensions((this.width / 2) - 154, this.height - 28, 150, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.getEntries()) {
@@ -75,7 +75,7 @@ public abstract class ConfigOptionsScreen extends Screen {
 
             this.writeSavedValues();
             Objects.requireNonNull(this.client).setScreen(this.parent);
-        }).dimensions((this.width / 2) + 5, this.height - 29, 150, 20).build());
+        }).dimensions((this.width / 2) + 4, this.height - 28, 150, 20).build());
     }
 
     @Override
