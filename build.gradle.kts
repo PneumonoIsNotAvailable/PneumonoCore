@@ -57,8 +57,12 @@ tasks {
 		inputs.property("supported", project.property("supported_versions"))
 
 		filesMatching("fabric.mod.json") {
-			expand("version" to stonecutter.current.version)
-			expand("supported" to project.property("supported_versions"))
+			expand(
+				mutableMapOf(
+					"version" to stonecutter.current.version,
+					"supported" to project.property("supported_versions")
+				)
+			)
 		}
 	}
 
