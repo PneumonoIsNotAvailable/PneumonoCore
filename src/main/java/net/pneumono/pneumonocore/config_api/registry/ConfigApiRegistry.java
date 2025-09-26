@@ -7,6 +7,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 
 //? if >=1.20.6 {
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;

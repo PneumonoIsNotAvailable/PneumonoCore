@@ -117,7 +117,7 @@ public class PneumonoCoreTranslationBuilder {
     }
     *///?}
 
-    //? if >=1.21.1 {
+    //? if >=1.20.6 {
     public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
         this.builder.add(entry, value);
     }

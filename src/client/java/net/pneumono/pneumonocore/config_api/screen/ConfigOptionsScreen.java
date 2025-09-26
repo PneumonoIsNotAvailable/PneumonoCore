@@ -41,7 +41,7 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     protected void refreshWidgetPositions() {
         if (this.configsListWidget != null) {
-            //? if >=1.20.6 {
+            //? if >=1.21.1 {
             this.configsListWidget.refreshScroll();
             //?} else {
             /*this.configsListWidget.setScrollAmount(0);
