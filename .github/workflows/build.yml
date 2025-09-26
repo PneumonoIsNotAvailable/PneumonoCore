@@ -3,17 +3,16 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
+# I DON'T KNOW HOW ANY OF THIS WORKS HELP
+
 name: build
 on: [pull_request, push]
 
 jobs:
-  build:
+  build_java_17:
     strategy:
       matrix:
-        # Use these Java versions
-        java: [
-          21,    # Current Java LTS
-        ]
+        java: [17]
     runs-on: ubuntu-22.04
     steps:
       - name: checkout repository
@@ -28,9 +27,41 @@ jobs:
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build
+        run: |
+          ./gradlew :1.20.1:build
+          ./gradlew :1.20.2:build
+          ./gradlew :1.20.4:build
+          ./gradlew :1.20.6:build
       - name: capture build artifacts
-        if: ${{ matrix.java == '21' }} # Only upload artifacts built from latest java
+        uses: actions/upload-artifact@v4
+        with:
+          name: Artifacts
+          path: build/libs/
+  build_java_21:
+    strategy:
+      matrix:
+        java: [21]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v2
+      - name: setup jdk ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'microsoft'
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: build
+        run: |
+          ./gradlew :1.21.1:build
+          ./gradlew :1.21.3:build
+          ./gradlew :1.21.4:build
+          ./gradlew :1.21.5:build
+          ./gradlew :1.21.8:build
+      - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
