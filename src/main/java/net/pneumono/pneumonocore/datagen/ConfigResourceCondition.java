@@ -4,10 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
+import net.pneumono.pneumonocore.util.CodecUtil;
 import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21.3 {
@@ -73,18 +73,13 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         return false;
     }
 
-    public enum Operator implements StringIdentifiable {
+    public enum Operator {
         EQUAL,
         LESS,
         GREATER,
         LESS_OR_EQUAL,
         GREATER_OR_EQUAL;
 
-        public static final /*? if >=1.20.2 {*/EnumCodec<Operator>/*?} else {*//*Codec<Operator>*//*?}*/ CODEC = StringIdentifiable.createCodec(Operator::values);
-
-        @Override
-        public String asString() {
-            return this.name();
-        }
+        public static final Codec<Operator> CODEC = CodecUtil.createEnumCodec(Operator.values());
     }
 }
