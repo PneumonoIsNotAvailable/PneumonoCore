@@ -11,6 +11,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
+import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,10 +119,10 @@ public class ConfigFile {
 
     private static <T> boolean setConfigValue(AbstractConfiguration<T> config, JsonElement jsonElement, LoadType loadType) {
         DataResult<Pair<T, JsonElement>> result = config.getValueCodec().decode(JsonOps.INSTANCE, jsonElement);
-        if (result.isError()) {
+        if (MultiVersionUtil.resultIsError(result)) {
             return false;
         }
-        ConfigManager.setValue(config, result.getOrThrow().getFirst(), loadType, null);
+        ConfigManager.setValue(config, MultiVersionUtil.resultGetOrThrow(result).getFirst(), loadType, null);
         return true;
     }
 
@@ -140,13 +141,17 @@ public class ConfigFile {
 
     private static <T> JsonElement encodeJson(AbstractConfiguration<T> config) {
         DataResult<JsonElement> result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, ConfigManager.getSavedValue(config));
-        if (result.isError()) {
+        if (MultiVersionUtil.resultIsError(result)) {
             ConfigApi.LOGGER.error("Could not encode value for config '{}'. The default value will be encoded instead.", config.info().getId());
 
             result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, config.info().getDefaultValue());
         }
 
+        //? if >=1.20.6 {
         return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'"));
+        //?} else {
+        /*return result.getOrThrow(false, message -> {throw new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'");});
+        *///?}
     }
 
     public void writeObjectToFile(JsonObject jsonObject) {

@@ -11,6 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+//? if <1.20.6 {
+/*import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.network.PacketByteBuf;
+*///?}
+
 /**
  * Utility class for everything config-related.
  *
@@ -77,7 +83,13 @@ public final class ConfigApi {
      */
     public static void sendConfigSyncPacket(Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
+            //? if >=1.20.6 {
             ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
+            //?} else {
+            /*PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeNbt(ConfigSyncS2CPayload.toNbt(CONFIG_FILES.values()));
+            ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, buf);
+            *///?}
         }
         LOGGER.info("Sent config sync packet to {} player(s)", players.size());
     }

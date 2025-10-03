@@ -9,7 +9,6 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
@@ -22,6 +21,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+//? if <1.21.5 {
+/*import net.minecraft.util.Util;
+*///?}
+
+//? if >=1.20.6 {
+import net.minecraft.registry.entry.RegistryEntry;
+//?}
 
 @SuppressWarnings("unused")
 public class PneumonoCoreTranslationBuilder {
@@ -75,11 +82,21 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(TagKey<?> key, String value) {
+        //? if >=1.20.6 {
         this.builder.add(key, value);
+        //?} else {
+        /*this.builder.add(Util.createTranslationKey("tag", key.id()), value);
+        *///?}
     }
 
     public void add(SoundEvent sound, String value) {
+        //? if >=1.21.5 {
         this.builder.add(sound, value);
+        //?} else if >=1.21.3 {
+        /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
+        *///?} else {
+        /*this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
+        *///?}
     }
 
     public void add(Path existingLangFile) throws IOException {
@@ -90,13 +107,25 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(key, value);
     }
 
+    //? if >=1.21.1 {
     public void addEnchantment(RegistryKey<Enchantment> key, String value) {
         this.builder.addEnchantment(key, value);
     }
+    //?} else {
+    /*public void addEnchantment(Enchantment enchantment, String value) {
+        this.builder.add(enchantment, value);
+    }
+    *///?}
 
+    //? if >=1.20.6 {
     public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
         this.builder.add(entry, value);
     }
+    //?} else {
+    /*public void addEntityAttribute(EntityAttribute attribute, String value) {
+        this.builder.add(attribute, value);
+    }
+    *///?}
 
     public void add(Identifier key, String value) {
         this.builder.add(key, value);

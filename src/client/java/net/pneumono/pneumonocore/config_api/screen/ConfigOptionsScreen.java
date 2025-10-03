@@ -1,12 +1,12 @@
 package net.pneumono.pneumonocore.config_api.screen;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
 import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
@@ -17,7 +17,6 @@ import java.util.Objects;
 public abstract class ConfigOptionsScreen extends Screen {
     public final Screen parent;
     public final String modId;
-    public final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
 
     public ConfigsListWidget configsListWidget;
 
@@ -35,33 +34,28 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     @Override
     protected void init() {
-        this.initHeader();
         this.initBody();
         this.initFooter();
-        this.layout.forEachChild(this::addDrawableChild);
         this.refreshWidgetPositions();
     }
 
     protected void refreshWidgetPositions() {
-        this.layout.refreshPositions();
         if (this.configsListWidget != null) {
-            this.configsListWidget.position(this.width, this.layout);
+            //? if >=1.21.1 {
+            this.configsListWidget.refreshScroll();
+            //?} else {
+            /*this.configsListWidget.setScrollAmount(0);
+            *///?}
         }
     }
 
-    protected void initHeader() {
-        this.layout.addHeader(this.title, this.textRenderer);
-    }
-
     protected void initBody() {
-        this.configsListWidget = this.layout.addBody(new ConfigsListWidget(this));
+        this.configsListWidget = this.addDrawableChild(new ConfigsListWidget(this));
         this.configsListWidget.init();
     }
 
     protected void initFooter() {
-        DirectionalLayoutWidget directionalLayoutWidget = this.layout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
-
-        directionalLayoutWidget.add(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), button -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.children()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry) {
                     configurationEntry.reset();
@@ -70,9 +64,9 @@ public abstract class ConfigOptionsScreen extends Screen {
 
             this.configsListWidget.updateEntryList();
             this.configsListWidget.updateEntryValues();
-        }).build());
+        }).dimensions((this.width / 2) - 154, this.height - 28, 150, 20).build());
 
-        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> {
             for (AbstractConfigListWidgetEntry entry : configsListWidget.getEntries()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry && configurationEntry.shouldSaveValue()) {
                     setSavedValue(configurationEntry);
@@ -81,7 +75,28 @@ public abstract class ConfigOptionsScreen extends Screen {
 
             this.writeSavedValues();
             Objects.requireNonNull(this.client).setScreen(this.parent);
-        }).build());
+        }).dimensions((this.width / 2) + 4, this.height - 28, 150, 20).build());
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        //? if <1.20.2 {
+        /*this.renderBackground(context);
+        *///?}
+        super.render(context, mouseX, mouseY, delta);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 10, Colors.WHITE);
+    }
+
+    public int getContentHeight() {
+        return this.height - this.getHeaderHeight() - this.getFooterHeight();
+    }
+
+    public int getHeaderHeight() {
+        return 36;
+    }
+
+    public int getFooterHeight() {
+        return 36;
     }
 
     public MinecraftClient getClient() {

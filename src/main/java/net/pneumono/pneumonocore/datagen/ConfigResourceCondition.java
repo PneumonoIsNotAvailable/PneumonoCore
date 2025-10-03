@@ -3,18 +3,29 @@ package net.pneumono.pneumonocore.datagen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
-import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
-import net.minecraft.registry.RegistryOps;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.StringIdentifiable;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
+import net.pneumono.pneumonocore.util.CodecUtil;
 import org.jetbrains.annotations.Nullable;
 
+//? if >=1.21.3 {
+import net.minecraft.registry.RegistryOps;
+//?} else {
+/*import net.minecraft.registry.RegistryWrapper;
+*///?}
+
+//? if >=1.20.6 {
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
+//?}
+
+/**
+ * Cannot be used <1.20.6, for obvious reasons
+ */
 @SuppressWarnings("unused")
-public record ConfigResourceCondition(Identifier configuration, Operator operator, String value) implements ResourceCondition {
+public record ConfigResourceCondition(Identifier configuration, Operator operator, String value) /*? if >=1.20.6 {*/implements ResourceCondition/*?}*/ {
     public static final MapCodec<ConfigResourceCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Identifier.CODEC.fieldOf("configuration").forGetter(ConfigResourceCondition::configuration),
             Operator.CODEC.fieldOf("operation").forGetter(ConfigResourceCondition::operator),
@@ -25,13 +36,17 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         this(configuration.info().getId(), operator, value);
     }
 
+    //? if >=1.20.6 {
     @Override
     public ResourceConditionType<?> getType() {
         return ConfigApiRegistry.RESOURCE_CONDITION_CONFIGURATIONS;
     }
+    //?}
 
+    //? if >=1.20.6 {
     @Override
-    public boolean test(@Nullable RegistryOps.RegistryInfoGetter registryInfo) {
+    //?}
+    public boolean test(@Nullable /*? if >=1.21.3 {*/RegistryOps.RegistryInfoGetter/*?} else {*//*RegistryWrapper.WrapperLookup*//*?}*/ registryInfo) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;
@@ -58,18 +73,13 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         return false;
     }
 
-    public enum Operator implements StringIdentifiable {
+    public enum Operator {
         EQUAL,
         LESS,
         GREATER,
         LESS_OR_EQUAL,
         GREATER_OR_EQUAL;
 
-        public static final EnumCodec<Operator> CODEC = StringIdentifiable.createCodec(Operator::values);
-
-        @Override
-        public String asString() {
-            return this.name();
-        }
+        public static final Codec<Operator> CODEC = CodecUtil.createEnumCodec(Operator.values());
     }
 }
