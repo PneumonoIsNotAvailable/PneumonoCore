@@ -8,9 +8,8 @@ val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
 java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
-base.archivesName.set(project.property("archives_base_name") as String)
-version = project.property("mod_version") as String
-group = project.property("maven_group") as String
+base.archivesName.set(project.property("mod_id") as String)
+version = "${project.property("mod_version")}+${stonecutter.current.project}"
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
@@ -40,7 +39,7 @@ loom {
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+	minecraft("com.mojang:minecraft:${stonecutter.current.version}")
 	mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
 	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
