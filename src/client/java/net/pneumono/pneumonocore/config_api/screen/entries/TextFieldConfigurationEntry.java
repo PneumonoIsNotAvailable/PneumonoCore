@@ -31,9 +31,15 @@ public abstract class TextFieldConfigurationEntry<T, C extends AbstractConfigura
                 Text.translatable(ConfigApi.toTranslationKey(this.configuration))
         ));
         this.textWidget.setText(stringFromValue(textGetValue()));
-        this.textWidget.setRenderTextProvider((string, firstCharIndex) -> OrderedText.styledForwardsVisitedString(
-                string, isTextValid(this.textWidget.getText()) ? Style.EMPTY : Style.EMPTY.withFormatting(Formatting.RED)
-        ));
+        //? if >=1.21.9 {
+        this.textWidget.addFormatter(
+        //?} else {
+        /*this.textWidget.setRenderTextProvider(
+        *///?}
+                (string, firstCharIndex) -> OrderedText.styledForwardsVisitedString(
+                        string, isTextValid(this.textWidget.getText()) ? Style.EMPTY : Style.EMPTY.withFormatting(Formatting.RED)
+                )
+        );
         this.textWidget.setChangedListener(string -> {
             V value = this.valueFromString(string);
             if (value == null) {
@@ -70,8 +76,15 @@ public abstract class TextFieldConfigurationEntry<T, C extends AbstractConfigura
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    //? if >=1.21.9 {
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        super.render(context, mouseX, mouseY, hovered, tickDelta);
+        int x = getX();
+        int y = getY();
+    //?} else {
+    /*public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+    *///?}
 
         this.textWidget.setX(x + getWidgetStartX());
         this.textWidget.setY(y);

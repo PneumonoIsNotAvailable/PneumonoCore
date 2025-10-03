@@ -13,7 +13,15 @@ public class NoConfigsEntry extends NonInteractableEntry {
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    //? if >=1.21.9 {
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        int x = getX();
+        int y = getY();
+        int entryHeight = getContentHeight();
+    //?} else {
+    /*public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    *///?}
+
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         context.drawCenteredTextWithShadow(
                 textRenderer, Text.translatable("configs_screen.pneumonocore.no_configs"),

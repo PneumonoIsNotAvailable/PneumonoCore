@@ -101,7 +101,14 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickProgress) {
+    //? if >=1.21.9 {
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickProgress) {
+        int x = getX();
+        int y = getY();
+        int entryHeight = getContentHeight();
+    //?} else {
+    /*public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickProgress) {
+    *///?}
         Text configName = Text.translatable(ConfigApi.toTranslationKey(this.configuration));
         TextRenderer textRenderer = Objects.requireNonNull(this.parent.getClient()).textRenderer;
         context.drawTextWithShadow(textRenderer, configName, x, (y + entryHeight / 2) - 2, Colors.WHITE);

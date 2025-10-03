@@ -3,16 +3,26 @@ package net.pneumono.pneumonocore.util;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryOps;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class MultiVersionUtil {
+    public static World getWorld(Entity entity) {
+        //? if >= 1.21.9 {
+        return entity.getEntityWorld();
+        //?} else {
+        /*return entity.getWorld();
+        *///?}
+    }
+
     public static <T> void putObjectWithCodec(DynamicRegistryManager registryManager, NbtCompound compound, String key, Codec<T> codec, T object) {
         putObjectWithCodec(RegistryOps.of(NbtOps.INSTANCE, registryManager), compound, key, codec, object);
     }

@@ -77,8 +77,15 @@ public class TimeConfigurationEntry extends TextFieldConfigurationEntry<Long, Ti
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    //? if >=1.21.9 {
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        super.render(context, mouseX, mouseY, hovered, tickDelta);
+        int x = getX();
+        int y = getY();
+    //?} else {
+    /*public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+    *///?}
 
         this.cycleWidget.setX(x + getWidgetEndX() - this.cycleWidget.getWidth());
         this.cycleWidget.setY(y);
