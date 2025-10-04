@@ -9,7 +9,7 @@ val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
 java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
-base.archivesName.set(property("mod_id") as String)
+base.archivesName = "${property("mod_id")}"
 version = "${property("mod_version")}+${stonecutter.current.project}"
 
 repositories {
@@ -88,10 +88,10 @@ publishMods {
 	file = tasks.remapJar.get().archiveFile
 	additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
 	displayName = "PneumonoCore ${project.version}"
-	version = project.version as String
+	version = "${project.version}"
 	changelog = rootProject.file("CHANGELOG.md").readText()
 	type = STABLE
-	modLoaders.add("fabric")
+	modLoaders.addAll("fabric", "quilt")
 
 	dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
 
@@ -100,8 +100,8 @@ publishMods {
 		projectId = "ZLKQjA7t"
 
 		minecraftVersionRange {
-			start = property("min_supported_version") as String
-			end = property("max_supported_version") as String
+			start = "${property("min_supported_version")}"
+			end = "${property("max_supported_version")}"
 		}
 
 		requires {
