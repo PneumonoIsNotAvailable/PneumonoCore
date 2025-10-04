@@ -1,0 +1,3 @@
+- Added support for all versions from 1.20 to 1.21.9
+- Added Russian translation (FO13E)
+- Minor config screen changes
