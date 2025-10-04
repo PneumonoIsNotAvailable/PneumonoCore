@@ -41,7 +41,7 @@
 	},
 	"depends": {
 		"fabricloader": ">=0.16.14",
-		"minecraft": "${supported}",
+		"minecraft": ">=${min_supported} <=${max_supported}",
 		"fabric-api": "*"
 	}
 }

@@ -8,8 +8,8 @@ val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
 java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
-base.archivesName.set(project.property("mod_id") as String)
-version = "${project.property("mod_version")}+${stonecutter.current.project}"
+base.archivesName.set(property("mod_id") as String)
+version = "${property("mod_version")}+${stonecutter.current.project}"
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
@@ -53,13 +53,15 @@ dependencies {
 tasks {
 	processResources {
 		inputs.property("version", stonecutter.current.version)
-		inputs.property("supported", project.property("supported_versions"))
+		inputs.property("min_supported", project.property("min_supported_version"))
+		inputs.property("max_supported", project.property("max_supported_version"))
 
 		filesMatching("fabric.mod.json") {
 			expand(
 				mutableMapOf(
 					"version" to stonecutter.current.version,
-					"supported" to project.property("supported_versions")
+					"min_supported" to project.property("min_supported_version"),
+					"max_supported" to project.property("max_supported_version")
 				)
 			)
 		}
