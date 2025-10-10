@@ -10,7 +10,7 @@ java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
 base.archivesName = "${property("mod_id")}"
-version = "${property("mod_version")}+${stonecutter.current.project}"
+version = "${property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
