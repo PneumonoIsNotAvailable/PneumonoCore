@@ -23,7 +23,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     private List<AbstractConfigListWidgetEntry> entries;
 
     public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
-        //? if >=1.20.4 {
+        //? if >=1.20.3 {
         super(parentScreen.getClient(), parentScreen.width, parentScreen.getContentHeight(), parentScreen.getHeaderHeight(), 20);
         //?} else {
         /*super(parentScreen.getClient(), parentScreen.width, parentScreen.getContentHeight(), parentScreen.getHeaderHeight(), parentScreen.getContentHeight() + parentScreen.getHeaderHeight(), 20);
@@ -108,7 +108,7 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         return null;
     }
 
-    //? if <1.20.6 {
+    //? if <1.20.5 {
     /*@Override
     protected int getScrollbarPositionX() {
         return super.getScrollbarPositionX() + 52;

@@ -55,10 +55,10 @@ public final class DatagenUtils {
 
     //? if >=1.20.2 {
     /**
-     * Use {@code null} for registry lookup if <1.21.3
+     * Use {@code null} for registry lookup if <1.21.2
      */
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> itemTagCriterion(RegistryEntryLookup<Item> lookup, TagKey<Item> tag) {
-        //? if >=1.21.3 {
+        //? if >=1.21.2 {
         return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(lookup, tag));
         //?} else {
         /*return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag));
@@ -66,7 +66,7 @@ public final class DatagenUtils {
     }
     //?} else {
     /*/^*
-     * Use {@code null} for registry lookup if <1.21.3
+     * Use {@code null} for registry lookup if <1.21.2
      ^/
     public static CriterionConditions itemTagCriterion(RegistryEntryLookup<Item> lookup, TagKey<Item> tag) {
         return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag).build());
@@ -83,7 +83,7 @@ public final class DatagenUtils {
     }
     *///?}
 
-    //? if >=1.21.1 {
+    //? if >=1.21 {
     @SafeVarargs
     public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment>... enchantments) {
         return InventoryChangedCriterion.Conditions.items(
@@ -110,7 +110,7 @@ public final class DatagenUtils {
                 *///?}
         );
     }
-    //?} else if >=1.20.6 {
+    //?} else if >=1.20.5 {
     /*public static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantmentCriterion(Enchantment... enchantments) {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().subPredicate(

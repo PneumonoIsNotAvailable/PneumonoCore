@@ -11,7 +11,7 @@ import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
-//? if <1.20.6 {
+//? if <1.20.5 {
 /*import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -21,7 +21,7 @@ import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 
 public final class ClientConfigApiRegistry {
     public static void register() {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, ClientConfigApiRegistry::receiveSyncPacket);
         //?} else {
         /*ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
@@ -72,7 +72,7 @@ public final class ClientConfigApiRegistry {
         ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier(name), selector);
     }
 
-    //? if >=1.20.6 {
+    //? if >=1.20.5 {
     public static void receiveSyncPacket(
             ConfigSyncS2CPayload payload,
             ClientPlayNetworking.Context context

@@ -147,7 +147,7 @@ public class ConfigFile {
             result = config.getValueCodec().encodeStart(JsonOps.INSTANCE, config.info().getDefaultValue());
         }
 
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return result.getOrThrow(message -> new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'"));
         //?} else {
         /*return result.getOrThrow(false, message -> {throw new IllegalStateException("Could not encode default value for config '" + config.info().getId() + "'");});

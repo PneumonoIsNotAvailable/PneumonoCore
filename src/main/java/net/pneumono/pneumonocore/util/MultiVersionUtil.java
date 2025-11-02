@@ -25,10 +25,11 @@ import java.util.UUID;
 /*import com.mojang.datafixers.util.Pair;
  *///?}
 
-//? if >=1.20.6 {
+//? if >=1.20.5 {
 import net.minecraft.component.type.ProfileComponent;
 //?}
 
+@SuppressWarnings("unused")
 public class MultiVersionUtil {
     public static World getWorld(Entity entity) {
         //? if >= 1.21.9 {
@@ -49,7 +50,7 @@ public class MultiVersionUtil {
     public static <T> void putObjectWithCodec(DynamicOps<NbtElement> ops, NbtCompound compound, String key, Codec<T> codec, T object) {
         //? if >=1.21.5 {
         compound.put(key, codec, ops, object);
-        //?} else if >=1.20.6 {
+        //?} else if >=1.20.5 {
         /*compound.put(key, codec.encodeStart(ops, object).getOrThrow());
         *///?} else {
         /*compound.put(key, codec.encodeStart(ops, object).result().orElseThrow());
@@ -98,7 +99,7 @@ public class MultiVersionUtil {
     }
 
     public static boolean resultIsError(DataResult<?> result) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return result.isError();
          //?} else {
         /*return result.error().isPresent();
@@ -106,7 +107,7 @@ public class MultiVersionUtil {
     }
 
     public static <T> T resultGetOrThrow(DataResult<T> result) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return result.getOrThrow();
         //?} else {
         /*return result.result().orElseThrow();
@@ -114,7 +115,7 @@ public class MultiVersionUtil {
     }
 
     public static <T> T getFirst(List<T> list) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return list.getFirst();
         //?} else {
         /*return list.get(0);
@@ -137,7 +138,7 @@ public class MultiVersionUtil {
          *///?}
     }
 
-    //? if >=1.20.6 {
+    //? if >=1.20.5 {
     public static GameProfile getGameProfile(ProfileComponent profile) {
         //? if >=1.21.9 {
         return profile.getGameProfile();
@@ -148,7 +149,7 @@ public class MultiVersionUtil {
     //?}
 
     public static GlobalPos createGlobalPos(RegistryKey<World> dimension, BlockPos pos) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return new GlobalPos(dimension, pos);
         //?} else {
         /*return GlobalPos.create(dimension, pos);
@@ -156,7 +157,7 @@ public class MultiVersionUtil {
     }
 
     public static BlockPos getPos(GlobalPos pos) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return pos.pos();
         //?} else {
         /*return pos.getPos();
@@ -164,7 +165,7 @@ public class MultiVersionUtil {
     }
 
     public static RegistryKey<World> getDimension(GlobalPos pos) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return pos.dimension();
         //?} else {
         /*return pos.getDimension();

@@ -9,7 +9,7 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 
-//? if >=1.20.6 {
+//? if >=1.20.5 {
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.pneumono.pneumonocore.datagen.ConfigResourceCondition;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ConfigApiRegistry {
     public static final Identifier CONFIG_SYNC_ID = PneumonoCore.identifier("config_sync");
 
-    //? if >=1.20.6 {
+    //? if >=1.20.5 {
     public static final ResourceConditionType<ConfigResourceCondition> RESOURCE_CONDITION_CONFIGURATIONS = ResourceConditionType.create(
             PneumonoCore.identifier("configurations"),
             ConfigResourceCondition.CODEC
@@ -30,7 +30,7 @@ public class ConfigApiRegistry {
     //?}
 
     public static void register() {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         PayloadTypeRegistry.playS2C().register(ConfigSyncS2CPayload.ID, ConfigSyncS2CPayload.CODEC);
         ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
         //?}

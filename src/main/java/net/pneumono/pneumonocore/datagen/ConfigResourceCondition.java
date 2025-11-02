@@ -10,22 +10,22 @@ import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import net.pneumono.pneumonocore.util.CodecUtil;
 import org.jetbrains.annotations.Nullable;
 
-//? if >=1.21.3 {
+//? if >=1.21.2 {
 import net.minecraft.registry.RegistryOps;
 //?} else {
 /*import net.minecraft.registry.RegistryWrapper;
 *///?}
 
-//? if >=1.20.6 {
+//? if >=1.20.5 {
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 //?}
 
 /**
- * Cannot be used <1.20.6, for obvious reasons
+ * Cannot be used <1.20.5, for obvious reasons
  */
 @SuppressWarnings("unused")
-public record ConfigResourceCondition(Identifier configuration, Operator operator, String value) /*? if >=1.20.6 {*/implements ResourceCondition/*?}*/ {
+public record ConfigResourceCondition(Identifier configuration, Operator operator, String value) /*? if >=1.20.5 {*/implements ResourceCondition/*?}*/ {
     public static final MapCodec<ConfigResourceCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Identifier.CODEC.fieldOf("configuration").forGetter(ConfigResourceCondition::configuration),
             Operator.CODEC.fieldOf("operation").forGetter(ConfigResourceCondition::operator),
@@ -36,17 +36,17 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
         this(configuration.info().getId(), operator, value);
     }
 
-    //? if >=1.20.6 {
+    //? if >=1.20.5 {
     @Override
     public ResourceConditionType<?> getType() {
         return ConfigApiRegistry.RESOURCE_CONDITION_CONFIGURATIONS;
     }
     //?}
 
-    //? if >=1.20.6 {
+    //? if >=1.20.5 {
     @Override
     //?}
-    public boolean test(@Nullable /*? if >=1.21.3 {*/RegistryOps.RegistryInfoGetter/*?} else {*//*RegistryWrapper.WrapperLookup*//*?}*/ registryInfo) {
+    public boolean test(@Nullable /*? if >=1.21.2 {*/RegistryOps.RegistryInfoGetter/*?} else {*//*RegistryWrapper.WrapperLookup*//*?}*/ registryInfo) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Provider for datagen of enchantments. Should not be used <1.21.1, for obvious reasons
+ * Provider for datagen of enchantments. Should not be used <1.21, for obvious reasons
  *
  * <p>Subclasses must extend {@link #getEnchantmentBuilders}.
  *
@@ -23,7 +23,7 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
         super(output, registriesFuture);
     }
 
-    //? if >=1.21.1 {
+    //? if >=1.21 {
     public static Map<RegistryKey<Enchantment>, Enchantment.Builder> getEnchantmentBuilders(RegistryEntryLookup<Item> itemLookup) {
         throw new IllegalStateException("getEnchantmentBuilders must be overridden");
     }
@@ -35,13 +35,13 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
-        //? if >=1.21.3 {
+        //? if >=1.21.2 {
         RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
         //?} else {
         /*RegistryWrapper.Impl<Item> itemLookup = registries.getWrapperOrThrow(RegistryKeys.ITEM);
         *///?}
 
-        //? if >=1.21.1 {
+        //? if >=1.21 {
         for (Map.Entry<RegistryKey<Enchantment>, Enchantment.Builder> entry : getEnchantmentBuilders(itemLookup).entrySet()) {
             entries.add(entry.getKey(), entry.getValue().build(entry.getKey().getValue()));
         }
@@ -49,7 +49,7 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
     }
 
     public static void bootstrap(Registerable<Enchantment> registry) {
-        //? if >=1.21.1 {
+        //? if >=1.21 {
         RegistryEntryLookup<Item> itemLookup = registry.getRegistryLookup(RegistryKeys.ITEM);
 
         for (Map.Entry<RegistryKey<Enchantment>, Enchantment.Builder> entry : getEnchantmentBuilders(itemLookup).entrySet()) {

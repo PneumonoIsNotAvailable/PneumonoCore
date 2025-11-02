@@ -5,7 +5,7 @@ import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 import java.util.Collection;
 
-//? if >=1.20.6 {
+//? if >=1.20.5 {
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -14,10 +14,10 @@ import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 //?}
 
 /**
- * Only used as an actual payload >=1.20.6
+ * Only used as an actual payload >=1.20.5
  */
-public record ConfigSyncS2CPayload(NbtCompound storedValues) /*? if >=1.20.6 {*/implements CustomPayload/*?}*/ {
-    //? if >=1.20.6 {
+public record ConfigSyncS2CPayload(NbtCompound storedValues) /*? if >=1.20.5 {*/implements CustomPayload/*?}*/ {
+    //? if >=1.20.5 {
     public static final Id<ConfigSyncS2CPayload> ID = new Id<>(ConfigApiRegistry.CONFIG_SYNC_ID);
     public static final PacketCodec<RegistryByteBuf, ConfigSyncS2CPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.NBT_COMPOUND,

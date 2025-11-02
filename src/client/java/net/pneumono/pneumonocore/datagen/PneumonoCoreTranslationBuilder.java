@@ -26,7 +26,7 @@ import java.util.function.Function;
 /*import net.minecraft.util.Util;
 *///?}
 
-//? if >=1.20.6 {
+//? if >=1.20.5 {
 import net.minecraft.registry.entry.RegistryEntry;
 //?}
 
@@ -82,7 +82,7 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(TagKey<?> key, String value) {
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         this.builder.add(key, value);
         //?} else {
         /*this.builder.add(Util.createTranslationKey("tag", key.id()), value);
@@ -92,7 +92,7 @@ public class PneumonoCoreTranslationBuilder {
     public void add(SoundEvent sound, String value) {
         //? if >=1.21.5 {
         this.builder.add(sound, value);
-        //?} else if >=1.21.3 {
+        //?} else if >=1.21.2 {
         /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
         *///?} else {
         /*this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
@@ -107,7 +107,7 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(key, value);
     }
 
-    //? if >=1.21.1 {
+    //? if >=1.21 {
     public void addEnchantment(RegistryKey<Enchantment> key, String value) {
         this.builder.addEnchantment(key, value);
     }
@@ -117,7 +117,7 @@ public class PneumonoCoreTranslationBuilder {
     }
     *///?}
 
-    //? if >=1.20.6 {
+    //? if >=1.20.5 {
     public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
         this.builder.add(entry, value);
     }

@@ -60,7 +60,7 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
             return null;
         }
 
-        //? if >=1.20.6 {
+        //? if >=1.20.5 {
         return result.getOrThrow(message -> new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'"));
         //?} else {
         /*return result.getOrThrow(false, message -> {throw new IllegalStateException("Could not encode value for config '" + entry.getConfiguration().info().getId() + "'");});
