@@ -82,7 +82,7 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(TagKey<?> key, String value) {
-        //? if >=1.20.5 {
+        //? if >=1.21 {
         this.builder.add(key, value);
         //?} else {
         /*this.builder.add(Util.createTranslationKey("tag", key.id()), value);
