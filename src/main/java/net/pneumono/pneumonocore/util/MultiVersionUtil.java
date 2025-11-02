@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
-import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -21,6 +20,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+//? if <1.21.5 {
+/*import com.mojang.datafixers.util.Pair;
+ *///?}
+
+//? if >=1.20.6 {
+import net.minecraft.component.type.ProfileComponent;
+//?}
 
 public class MultiVersionUtil {
     public static World getWorld(Entity entity) {
