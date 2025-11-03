@@ -7,8 +7,8 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 
@@ -29,22 +29,22 @@ public final class ClientConfigCommandRegistry {
                         .then(argument("config", StringArgumentType.string())
                             .suggests(new ConfigSuggestionProvider())
                             .executes(context -> {
-                                context.getSource().sendFeedback(Text.literal(getConfigValueString(
+                                context.getSource().sendFeedback(Component.literal(getConfigValueString(
                                         StringArgumentType.getString(context, "modid"),
                                         StringArgumentType.getString(context, "config")
-                                )).formatted(Formatting.AQUA));
+                                )).withStyle(ChatFormatting.AQUA));
 
                                 return 1;
                             })
                         )
                         .executes(context -> {
-                            context.getSource().sendFeedback(Text.literal("Configs:"));
+                            context.getSource().sendFeedback(Component.literal("Configs:"));
                             List<String> configs = getAllConfigValueStrings(StringArgumentType.getString(context, "modid"));
                             if (configs.isEmpty()) {
-                                context.getSource().sendFeedback(Text.literal("   None!"));
+                                context.getSource().sendFeedback(Component.literal("   None!"));
                             } else {
                                 for (String config : configs) {
-                                    context.getSource().sendFeedback(Text.literal("   " + config));
+                                    context.getSource().sendFeedback(Component.literal("   " + config));
                                 }
                             }
 

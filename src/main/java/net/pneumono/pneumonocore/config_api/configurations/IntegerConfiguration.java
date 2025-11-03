@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -25,7 +25,7 @@ public class IntegerConfiguration extends AbstractConfiguration<Integer> {
     }
 
     @Override
-    protected Identifier getConfigTypeId() {
-        return PneumonoCore.identifier("integer");
+    protected ResourceLocation getConfigTypeId() {
+        return PneumonoCore.location("integer");
     }
 }

@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.util.CodecUtil;
@@ -33,7 +33,7 @@ public class EnumConfiguration<T extends Enum<T>> extends AbstractConfiguration<
     }
 
     @Override
-    protected Identifier getConfigTypeId() {
-        return PneumonoCore.identifier("enum");
+    protected ResourceLocation getConfigTypeId() {
+        return PneumonoCore.location("enum");
     }
 }

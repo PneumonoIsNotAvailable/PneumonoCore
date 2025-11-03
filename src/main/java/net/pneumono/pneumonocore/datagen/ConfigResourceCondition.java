@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.datagen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
@@ -11,9 +11,9 @@ import net.pneumono.pneumonocore.util.CodecUtil;
 import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21.2 {
-import net.minecraft.registry.RegistryOps;
+import net.minecraft.resources.RegistryOps;
 //?} else {
-/*import net.minecraft.registry.RegistryWrapper;
+/*import net.minecraft.core.HolderLookup;
 *///?}
 
 //? if >=1.20.5 {
@@ -25,9 +25,9 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
  * Cannot be used <1.20.5, for obvious reasons
  */
 @SuppressWarnings("unused")
-public record ConfigResourceCondition(Identifier configuration, Operator operator, String value) /*? if >=1.20.5 {*/implements ResourceCondition/*?}*/ {
+public record ConfigResourceCondition(ResourceLocation configuration, Operator operator, String value) /*? if >=1.20.5 {*/implements ResourceCondition/*?}*/ {
     public static final MapCodec<ConfigResourceCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Identifier.CODEC.fieldOf("configuration").forGetter(ConfigResourceCondition::configuration),
+            ResourceLocation.CODEC.fieldOf("configuration").forGetter(ConfigResourceCondition::configuration),
             Operator.CODEC.fieldOf("operation").forGetter(ConfigResourceCondition::operator),
             Codec.STRING.fieldOf("value").forGetter(ConfigResourceCondition::value)
     ).apply(instance, ConfigResourceCondition::new));
@@ -46,7 +46,7 @@ public record ConfigResourceCondition(Identifier configuration, Operator operato
     //? if >=1.20.5 {
     @Override
     //?}
-    public boolean test(@Nullable /*? if >=1.21.2 {*/RegistryOps.RegistryInfoGetter/*?} else {*//*RegistryWrapper.WrapperLookup*//*?}*/ registryInfo) {
+    public boolean test(@Nullable /*? if >=1.21.2 {*/RegistryOps.RegistryInfoLookup/*?} else {*//*HolderLookup.Provider*//*?}*/ registryInfo) {
         AbstractConfiguration<?> config = ConfigApi.getConfig(configuration);
         if (config == null) {
             return false;

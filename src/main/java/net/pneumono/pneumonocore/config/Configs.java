@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config;
 
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
@@ -21,7 +21,7 @@ public class Configs {
 
     @Deprecated
     public static void registerCategories(String modID, ConfigCategory... categories) {
-        for (ConfigCategory category : categories) for (Identifier id : category.configurations()) {
+        for (ConfigCategory category : categories) for (ResourceLocation id : category.configurations()) {
             net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration = ConfigApi.getConfig(id);
             if (configuration != null) {
                 ConfigManager.setCategory(configuration, category.name());
@@ -53,7 +53,7 @@ public class Configs {
      * @deprecated Use {@link ConfigApi#sendConfigSyncPacket} instead.
      */
     @Deprecated
-    public static void sendS2CConfigSyncPacket(List<ServerPlayerEntity> players) {
+    public static void sendS2CConfigSyncPacket(List<ServerPlayer> players) {
         ConfigApi.sendConfigSyncPacket(players);
     }
 
@@ -64,7 +64,7 @@ public class Configs {
     }
 
     @Deprecated
-    public static AbstractConfiguration<?, ?> getConfig(Identifier id) {
+    public static AbstractConfiguration<?, ?> getConfig(ResourceLocation id) {
         return new WrappedConfiguration<>(ConfigApi.getConfig(id));
     }
 
@@ -99,7 +99,7 @@ public class Configs {
                         entry.getKey(),
                         entry.getValue().stream()
                                 .map(config -> config.info().getId())
-                                .toArray(Identifier[]::new)
+                                .toArray(ResourceLocation[]::new)
                 ))
                 .toArray(ConfigCategory[]::new);
     }

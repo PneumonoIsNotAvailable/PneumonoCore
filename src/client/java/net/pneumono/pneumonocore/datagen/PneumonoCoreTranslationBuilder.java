@@ -1,18 +1,18 @@
 package net.pneumono.pneumonocore.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.stat.StatType;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.stats.StatType;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.block.Block;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
@@ -23,11 +23,11 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 //? if <1.21.5 {
-/*import net.minecraft.util.Util;
+/*import net.minecraft.Util;
 *///?}
 
 //? if >=1.20.5 {
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
 //?}
 
 @SuppressWarnings("unused")
@@ -54,7 +54,7 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(Item item, String value, String suffix) {
-        this.builder.add(item.getTranslationKey() + "." + suffix, value);
+        this.builder.add(item.getDescriptionId() + "." + suffix, value);
     }
 
     public void add(Block block, String value) {
@@ -62,7 +62,7 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(Block block, String value, String suffix) {
-        this.builder.add(block.getTranslationKey() + "." + suffix, value);
+        this.builder.add(block.getDescriptionId() + "." + suffix, value);
     }
 
     public void add(EntityType<?> type, String value) {
@@ -70,14 +70,14 @@ public class PneumonoCoreTranslationBuilder {
     }
 
     public void add(EntityType<?> type, String value, String suffix) {
-        this.builder.add(type.getTranslationKey() + "." + suffix, value);
+        this.builder.add(type.getDescriptionId() + "." + suffix, value);
     }
 
     public void add(StatType<?> type, String value) {
         this.builder.add(type, value);
     }
 
-    public void add(StatusEffect effect, String value) {
+    public void add(MobEffect effect, String value) {
         this.builder.add(effect, value);
     }
 
@@ -85,7 +85,7 @@ public class PneumonoCoreTranslationBuilder {
         //? if >=1.21 {
         this.builder.add(key, value);
         //?} else {
-        /*this.builder.add(Util.createTranslationKey("tag", key.id()), value);
+        /*this.builder.add(Util.makeDescriptionId("tag", key.location()), value);
         *///?}
     }
 
@@ -93,9 +93,9 @@ public class PneumonoCoreTranslationBuilder {
         //? if >=1.21.5 {
         this.builder.add(sound, value);
         //?} else if >=1.21.2 {
-        /*this.builder.add(Util.createTranslationKey("subtitles", sound.id()), value);
+        /*this.builder.add(Util.makeDescriptionId("subtitles", sound.location()), value);
         *///?} else {
-        /*this.builder.add(Util.createTranslationKey("subtitles", sound.getId()), value);
+        /*this.builder.add(Util.makeDescriptionId("subtitles", sound.getLocation()), value);
         *///?}
     }
 
@@ -103,12 +103,12 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(existingLangFile);
     }
 
-    public void addItemGroup(RegistryKey<ItemGroup> key, String value) {
+    public void addItemGroup(ResourceKey<CreativeModeTab> key, String value) {
         this.builder.add(key, value);
     }
 
     //? if >=1.21 {
-    public void addEnchantment(RegistryKey<Enchantment> key, String value) {
+    public void addEnchantment(ResourceKey<Enchantment> key, String value) {
         this.builder.addEnchantment(key, value);
     }
     //?} else {
@@ -117,35 +117,44 @@ public class PneumonoCoreTranslationBuilder {
     }
     *///?}
 
+    @Deprecated
     //? if >=1.20.5 {
-    public void addEntityAttribute(RegistryEntry<EntityAttribute> entry, String value) {
+    public void addEntityAttribute(Holder<Attribute> entry, String value) {
+        this.addAttribute(entry, value);
+    }
+
+    public void addAttribute(Holder<Attribute> entry, String value) {
         this.builder.add(entry, value);
     }
     //?} else {
-    /*public void addEntityAttribute(EntityAttribute attribute, String value) {
+    /*public void addEntityAttribute(Attribute attribute, String value) {
+        this.addAttribute(attribute, value);
+    }
+
+    public void addAttribute(Attribute attribute, String value) {
         this.builder.add(attribute, value);
     }
     *///?}
 
-    public void add(Identifier key, String value) {
+    public void add(ResourceLocation key, String value) {
         this.builder.add(key, value);
     }
 
-    public void add(Identifier key, String value, String prefix) {
-        this.builder.add(key.toTranslationKey(prefix), value);
+    public void add(ResourceLocation key, String value, String prefix) {
+        this.builder.add(key.toLanguageKey(prefix), value);
     }
 
-    public void add(Identifier key, String value, String prefix, String suffix) {
-        this.builder.add(key.toTranslationKey(prefix, suffix), value);
+    public void add(ResourceLocation key, String value, String prefix, String suffix) {
+        this.builder.add(key.toLanguageKey(prefix, suffix), value);
     }
 
-    public void addStat(Identifier stat, String value) {
-        this.builder.add(stat.toTranslationKey("stat"), value);
+    public void addStat(ResourceLocation stat, String value) {
+        this.builder.add(stat.toLanguageKey("stat"), value);
     }
 
-    public void addAdvancement(Identifier id, String name, String description) {
-        this.builder.add(id.toTranslationKey("advancements", "name"), name);
-        this.builder.add(id.toTranslationKey("advancements", "description"), description);
+    public void addAdvancement(ResourceLocation id, String name, String description) {
+        this.builder.add(id.toLanguageKey("advancements", "name"), name);
+        this.builder.add(id.toLanguageKey("advancements", "description"), description);
     }
 
     public void addConfigScreenTitle(String title) {

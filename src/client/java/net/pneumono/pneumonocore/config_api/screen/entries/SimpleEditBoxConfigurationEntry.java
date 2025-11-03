@@ -2,10 +2,10 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 
-public abstract class SimpleTextFieldConfigurationEntry<T, C extends AbstractConfiguration<T>> extends TextFieldConfigurationEntry<T, C, T> {
-    public SimpleTextFieldConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, C configuration) {
+public abstract class SimpleEditBoxConfigurationEntry<T, C extends AbstractConfiguration<T>> extends EditBoxConfigurationEntry<T, C, T> {
+    public SimpleEditBoxConfigurationEntry(ConfigOptionsScreen parent, ConfigsList widget, C configuration) {
         super(parent, widget, configuration);
     }
 

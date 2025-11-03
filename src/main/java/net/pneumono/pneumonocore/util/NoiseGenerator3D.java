@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.util;
 
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.math.random.RandomSplitter;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.PositionalRandomFactory;
 
 @SuppressWarnings("unused")
 public class NoiseGenerator3D extends NoiseGenerator {
@@ -9,12 +9,12 @@ public class NoiseGenerator3D extends NoiseGenerator {
         super(permutation);
     }
 
-    public NoiseGenerator3D(Random random) {
+    public NoiseGenerator3D(RandomSource random) {
         super(random);
     }
 
-    public NoiseGenerator3D(RandomSplitter splitter, String name) {
-        super(splitter, name);
+    public NoiseGenerator3D(PositionalRandomFactory randomFactory, String name) {
+        super(randomFactory, name);
     }
 
     public NoiseGenerator3D(long seed) {

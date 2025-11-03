@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config_api.configurations;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -48,7 +48,7 @@ public class BooleanConfiguration extends AbstractConfiguration<Boolean> {
     }
 
     @Override
-    protected Identifier getConfigTypeId() {
-        return PneumonoCore.identifier("boolean");
+    protected ResourceLocation getConfigTypeId() {
+        return PneumonoCore.location("boolean");
     }
 }

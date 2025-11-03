@@ -1,30 +1,30 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.Component;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import net.pneumono.pneumonocore.config_api.configurations.TimeConfiguration;
 import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
 import net.pneumono.pneumonocore.util.PneumonoCoreUtil;
 
-public class TimeConfigurationEntry extends TextFieldConfigurationEntry<Long, TimeConfiguration, Long> {
-    private final ButtonWidget cycleWidget;
+public class TimeConfigurationEntry extends EditBoxConfigurationEntry<Long, TimeConfiguration, Long> {
+    private final Button cycleButton;
     private TimeUnit units;
     private long amount;
 
-    public TimeConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, TimeConfiguration configuration) {
+    public TimeConfigurationEntry(ConfigOptionsScreen parent, ConfigsList widget, TimeConfiguration configuration) {
         super(parent, widget, configuration, -25);
 
         this.amount = getAmount(this.value);
         this.units = TimeUnit.fromValue(this.value);
 
-        this.cycleWidget = addChild(ButtonWidget.builder(Text.literal(""), (button) -> {
+        this.cycleButton = addChild(Button.builder(Component.literal(""), (button) -> {
             this.units = PneumonoCoreUtil.cycleEnum(this.units);
             setValue(this.amount * this.units.getDivision());
-        }).dimensions(0, 0, 20, 20).build());
+        }).bounds(0, 0, 20, 20).build());
     }
 
     @Override
@@ -57,16 +57,16 @@ public class TimeConfigurationEntry extends TextFieldConfigurationEntry<Long, Ti
     }
 
     @Override
-    public void updateWidgets() {
-        super.updateWidgets();
+    public void updateButtons() {
+        super.updateButtons();
 
         try {
-            this.amount = Long.parseLong(this.textWidget.getText());
+            this.amount = Long.parseLong(this.editBox.getValue());
         } catch (NumberFormatException ignored) {}
 
         String key = "configs_screen.pneumonocore." + this.units.name().toLowerCase();
-        this.cycleWidget.setMessage(Text.translatable(key));
-        this.cycleWidget.setTooltip(Tooltip.of(Text.translatable(key + ".full")));
+        this.cycleButton.setMessage(Component.translatable(key));
+        this.cycleButton.setTooltip(Tooltip.create(Component.translatable(key + ".full")));
     }
 
     @Override
@@ -78,17 +78,17 @@ public class TimeConfigurationEntry extends TextFieldConfigurationEntry<Long, Ti
 
     @Override
     //? if >=1.21.9 {
-    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.render(context, mouseX, mouseY, hovered, tickDelta);
+    public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        super.renderContent(graphics, mouseX, mouseY, hovered, tickDelta);
         int x = getX();
         int y = getY();
     //?} else {
-    /*public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+    /*public void render(GuiGraphics graphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        super.render(graphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
     *///?}
 
-        this.cycleWidget.setX(x + getWidgetEndX() - this.cycleWidget.getWidth());
-        this.cycleWidget.setY(y);
-        this.cycleWidget.render(context, mouseX, mouseY, tickDelta);
+        this.cycleButton.setX(x + getWidgetEndX() - this.cycleButton.getWidth());
+        this.cycleButton.setY(y);
+        this.cycleButton.render(graphics, mouseX, mouseY, tickDelta);
     }
 }

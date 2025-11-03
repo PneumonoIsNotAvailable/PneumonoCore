@@ -84,7 +84,7 @@ public final class PneumonoCoreTestConfigs {
     ));
 
     public static <T extends AbstractConfiguration<?>> T register(String name, T config) {
-        return ConfigApi.register(PneumonoCore.identifier(name), config);
+        return ConfigApi.register(PneumonoCore.location(name), config);
     }
 
     public static void registerTestConfigs() {

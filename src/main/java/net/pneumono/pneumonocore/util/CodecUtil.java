@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
-import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.util.ExtraCodecs;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -15,7 +15,7 @@ public final class CodecUtil {
     /**
      * Creates a codec for an enum.
      *
-     * <p>{@link net.minecraft.util.StringIdentifiable#createCodec} should be used whenever possible,
+     * <p>{@link net.minecraft.util.StringRepresentable#fromEnum} should be used whenever possible,
      * but if the enum does not implement StringIdentifiable, then this can be used in instead.
      */
     public static <T extends Enum<T>> Codec<T> createEnumCodec(T[] enums) {
@@ -44,14 +44,14 @@ public final class CodecUtil {
 
         public EnumCodec(E[] values, Function<String, E> idToConstant) {
             //? if >=1.20.5 {
-            this.codec = Codecs.orCompressed(
+            this.codec = ExtraCodecs.orCompressed(
                     Codec.stringResolver(Enum::name, idToConstant),
-                    Codecs.rawIdChecked(Enum::ordinal, ordinal -> ordinal >= 0 && ordinal < values.length ? values[ordinal] : null, -1)
+                    ExtraCodecs.idResolverCodec(Enum::ordinal, ordinal -> ordinal >= 0 && ordinal < values.length ? values[ordinal] : null, -1)
             );
             //?} else {
-            /*this.codec = Codecs.orCompressed(
-                    Codecs.idChecked(Enum::name, idToConstant),
-                    Codecs.rawIdChecked(Enum::ordinal, ordinal -> ordinal >= 0 && ordinal < values.length ? values[ordinal] : null, -1)
+            /*this.codec = ExtraCodecs.orCompressed(
+                    ExtraCodecs.stringResolverCodec(Enum::name, idToConstant),
+                    ExtraCodecs.idResolverCodec(Enum::ordinal, ordinal -> ordinal >= 0 && ordinal < values.length ? values[ordinal] : null, -1)
             );
             *///?}
         }

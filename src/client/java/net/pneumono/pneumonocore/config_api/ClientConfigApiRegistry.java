@@ -3,9 +3,9 @@ package net.pneumono.pneumonocore.config_api;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
@@ -13,16 +13,16 @@ import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
 //? if <1.20.5 {
 /*import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.FriendlyByteBuf;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 *///?}
 
 public final class ClientConfigApiRegistry {
     public static void register() {
         //? if >=1.20.5 {
-        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.ID, ClientConfigApiRegistry::receiveSyncPacket);
+        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.TYPE, ClientConfigApiRegistry::receiveSyncPacket);
         //?} else {
         /*ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
         *///?}
@@ -69,38 +69,35 @@ public final class ClientConfigApiRegistry {
     }
 
     private static void registerConfigEntryType(String name, ClientConfigApi.EntryFactory selector) {
-        ClientConfigApi.registerConfigEntryType(PneumonoCore.identifier(name), selector);
+        ClientConfigApi.registerConfigEntryType(PneumonoCore.location(name), selector);
     }
 
-    //? if >=1.20.5 {
     public static void receiveSyncPacket(
+    //? if >=1.20.5 {
             ConfigSyncS2CPayload payload,
             ClientPlayNetworking.Context context
     ) {
         receiveSyncPacket(payload.storedValues());
     }
     //?} else {
-    /*public static void receiveSyncPacket(
-            MinecraftClient client,
-            ClientPlayNetworkHandler handler,
-            PacketByteBuf buf,
+    /*      Minecraft client,
+            ClientPacketListener handler,
+            FriendlyByteBuf buf,
             PacketSender responseSender
     ) {
         receiveSyncPacket(buf.readNbt());
     }
     *///?}
 
-    public static void receiveSyncPacket(
-            NbtCompound nbt
-    ) {
+    public static void receiveSyncPacket(CompoundTag nbt) {
         ConfigApi.LOGGER.info("Received config sync packet");
 
         for (ConfigFile configFile : ConfigApi.getConfigFiles()) {
-            NbtCompound compound = MultiVersionUtil.getCompound(nbt, configFile.getModId());
+            CompoundTag compound = MultiVersionUtil.getCompound(nbt, configFile.getModId());
             if (compound == null || compound.isEmpty()) continue;
 
             for (AbstractConfiguration<?> configuration : configFile.getConfigurations()) {
-                NbtElement element = compound.get(configuration.info().getName());
+                Tag element = compound.get(configuration.info().getName());
                 if (element == null) continue;
 
                 if (!setReceivedEffectiveValue(configuration, element)) {
@@ -110,8 +107,8 @@ public final class ClientConfigApiRegistry {
         }
     }
 
-    private static  <T> boolean setReceivedEffectiveValue(AbstractConfiguration<T> config, NbtElement nbtElement) {
-        DataResult<Pair<T, NbtElement>> result = config.getValueCodec().decode(NbtOps.INSTANCE, nbtElement);
+    private static  <T> boolean setReceivedEffectiveValue(AbstractConfiguration<T> config, Tag tag) {
+        DataResult<Pair<T, Tag>> result = config.getValueCodec().decode(NbtOps.INSTANCE, tag);
         if (MultiVersionUtil.resultIsError(result)) {
             return false;
         }
