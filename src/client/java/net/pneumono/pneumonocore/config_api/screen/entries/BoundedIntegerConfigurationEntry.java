@@ -1,43 +1,43 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.screen.widgets.IntegerConfigSliderWidget;
-import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.components.IntegerConfigSliderButton;
+import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import net.pneumono.pneumonocore.config_api.configurations.BoundedIntegerConfiguration;
 
 public class BoundedIntegerConfigurationEntry extends AbstractConfigurationEntry<Integer, BoundedIntegerConfiguration> {
-    private final IntegerConfigSliderWidget sliderWidget;
+    private final IntegerConfigSliderButton sliderButton;
 
-    public BoundedIntegerConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, BoundedIntegerConfiguration configuration) {
+    public BoundedIntegerConfigurationEntry(ConfigOptionsScreen parent, ConfigsList widget, BoundedIntegerConfiguration configuration) {
         super(parent, widget, configuration);
         int minValue = configuration.getMinValue();
         int maxValue = configuration.getMaxValue();
 
-        this.sliderWidget = addChild(new IntegerConfigSliderWidget(
+        this.sliderButton = addChild(new IntegerConfigSliderButton(
                 (slider, configValue) -> setValue(configValue),
                 this.value, minValue, maxValue, 0, 0, getTotalWidgetWidth(), 20
         ));
     }
 
     @Override
-    public void updateWidgets() {
-        this.sliderWidget.setValue(this.value);
+    public void updateButtons() {
+        this.sliderButton.setValue(this.value);
     }
 
     @Override
     //? if >=1.21.9 {
-    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.render(context, mouseX, mouseY, hovered, tickDelta);
+    public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        super.renderContent(graphics, mouseX, mouseY, hovered, tickDelta);
         int x = getX();
         int y = getY();
     //?} else {
-    /*public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+    /*public void render(GuiGraphics graphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        super.render(graphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
     *///?}
 
-        this.sliderWidget.setX(x + getWidgetStartX());
-        this.sliderWidget.setY(y);
-        this.sliderWidget.render(context, mouseX, mouseY, tickDelta);
+        this.sliderButton.setX(x + getWidgetStartX());
+        this.sliderButton.setY(y);
+        this.sliderButton.render(graphics, mouseX, mouseY, tickDelta);
     }
 }

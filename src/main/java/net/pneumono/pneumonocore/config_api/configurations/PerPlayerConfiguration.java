@@ -2,9 +2,9 @@ package net.pneumono.pneumonocore.config_api.configurations;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Uuids;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -30,7 +30,7 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
         this.codec = RecordCodecBuilder.create(builder -> builder.group(
                 configuration.getValueCodec().fieldOf("default_value").forGetter(Values::getDefaultValue),
                 Codec.unboundedMap(
-                        Uuids.INT_STREAM_CODEC, configuration.getValueCodec()
+                        UUIDUtil.CODEC, configuration.getValueCodec()
                 ).fieldOf("values").forGetter(Values::getValues)
         ).apply(builder, Values::new));
     }
@@ -41,11 +41,11 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
     }
 
     @Override
-    public Identifier getConfigTypeId() {
-        return PneumonoCore.identifier("per_player");
+    public ResourceLocation getConfigTypeId() {
+        return PneumonoCore.location("per_player");
     }
 
-    public Identifier getSubConfigTypeId() {
+    public ResourceLocation getSubConfigTypeId() {
         return configuration.info().getConfigTypeId();
     }
 
@@ -53,8 +53,8 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
         return getValue().get(uuid);
     }
 
-    public T getValue(PlayerEntity player) {
-        return getValue().get(player.getUuid());
+    public T getValue(Player player) {
+        return getValue().get(player.getUUID());
     }
 
     public T getPerPlayerDefaultValue() {

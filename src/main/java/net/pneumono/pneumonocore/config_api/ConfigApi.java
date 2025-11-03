@@ -1,8 +1,8 @@
 package net.pneumono.pneumonocore.config_api;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
@@ -14,7 +14,7 @@ import java.util.*;
 //? if <1.20.5 {
 /*import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 *///?}
 
 /**
@@ -34,9 +34,9 @@ public final class ConfigApi {
      *
      * <p>After all configurations are registered, {@link #finishRegistry} must be called.
      */
-    public static <T extends AbstractConfiguration<?>> T register(Identifier id, T configuration) {
+    public static <T extends AbstractConfiguration<?>> T register(ResourceLocation id, T configuration) {
         if (id == null || Objects.equals(id.getNamespace(), "") || Objects.equals(id.getPath(), "")) {
-            LOGGER.error("Config '{}' used an invalid identifier, and so was not registered.", id);
+            LOGGER.error("Config '{}' used an invalid ID, and so was not registered.", id);
             return configuration;
         }
 
@@ -81,12 +81,12 @@ public final class ConfigApi {
     /**
      * Sends config sync packets to the specified players.
      */
-    public static void sendConfigSyncPacket(Collection<ServerPlayerEntity> players) {
-        for (ServerPlayerEntity player : players) {
+    public static void sendConfigSyncPacket(Collection<ServerPlayer> players) {
+        for (ServerPlayer player : players) {
             //? if >=1.20.5 {
             ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
             //?} else {
-            /*PacketByteBuf buf = PacketByteBufs.create();
+            /*FriendlyByteBuf buf = PacketByteBufs.create();
             buf.writeNbt(ConfigSyncS2CPayload.toNbt(CONFIG_FILES.values()));
             ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, buf);
             *///?}
@@ -102,7 +102,7 @@ public final class ConfigApi {
         return CONFIG_FILES.get(modId);
     }
 
-    public static AbstractConfiguration<?> getConfig(Identifier id) {
+    public static AbstractConfiguration<?> getConfig(ResourceLocation id) {
         ConfigFile modConfigs = getConfigFile(id.getNamespace());
         if (modConfigs != null) {
             return modConfigs.getConfiguration(id.getPath());
@@ -111,10 +111,10 @@ public final class ConfigApi {
     }
 
     public static String toTranslationKey(AbstractConfiguration<?> configuration, String suffix) {
-        return configuration.info().getId().toTranslationKey("configs", suffix);
+        return configuration.info().getId().toLanguageKey("configs", suffix);
     }
 
     public static String toTranslationKey(AbstractConfiguration<?> configuration) {
-        return configuration.info().getId().toTranslationKey("configs");
+        return configuration.info().getId().toLanguageKey("configs");
     }
 }

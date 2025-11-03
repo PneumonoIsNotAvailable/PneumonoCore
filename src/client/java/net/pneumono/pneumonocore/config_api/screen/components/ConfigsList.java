@@ -1,7 +1,7 @@
-package net.pneumono.pneumonocore.config_api.screen.widgets;
+package net.pneumono.pneumonocore.config_api.screen.components;
 
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
@@ -14,19 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidgetEntry> {
+public class ConfigsList extends ContainerObjectSelectionList<AbstractConfigListEntry> {
     private static final String MISC = "misc";
 
     protected final ConfigOptionsScreen parentScreen;
     public final ConfigFile configFile;
     private final Map<String, List<AbstractConfiguration<?>>> categorizedConfigs;
-    private List<AbstractConfigListWidgetEntry> entries;
+    private List<AbstractConfigListEntry> entries;
 
-    public ConfigsListWidget(ConfigOptionsScreen parentScreen) {
+    public ConfigsList(ConfigOptionsScreen parentScreen) {
         //? if >=1.20.3 {
-        super(parentScreen.getClient(), parentScreen.width, parentScreen.getContentHeight(), parentScreen.getHeaderHeight(), 20);
+        super(parentScreen.getMinecraft(), parentScreen.width, parentScreen.getContentHeight(), parentScreen.getHeaderHeight(), 20);
         //?} else {
-        /*super(parentScreen.getClient(), parentScreen.width, parentScreen.getContentHeight(), parentScreen.getHeaderHeight(), parentScreen.getContentHeight() + parentScreen.getHeaderHeight(), 20);
+        /*super(parentScreen.getMinecraft(), parentScreen.width, parentScreen.getContentHeight(), parentScreen.getHeaderHeight(), parentScreen.getContentHeight() + parentScreen.getHeaderHeight(), 20);
         *///?}
 
         this.parentScreen = parentScreen;
@@ -46,10 +46,11 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
         this.entries = initEntryList();
         this.updateEntryList();
         this.updateEntryValues();
+        this.setScrollAmount(0);
     }
 
-    public List<AbstractConfigListWidgetEntry> initEntryList() {
-        List<AbstractConfigListWidgetEntry> newEntries = new ArrayList<>();
+    public List<AbstractConfigListEntry> initEntryList() {
+        List<AbstractConfigListEntry> newEntries = new ArrayList<>();
 
         if (this.categorizedConfigs.isEmpty()) {
             newEntries.add(new NoConfigsEntry(this.parentScreen));
@@ -87,19 +88,19 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     }
 
     public void updateEntryList() {
-        this.replaceEntries(this.entries.stream().filter(AbstractConfigListWidgetEntry::shouldDisplay).toList());
+        this.replaceEntries(this.entries.stream().filter(AbstractConfigListEntry::shouldDisplay).toList());
     }
 
     public void updateEntryValues() {
-        this.entries.forEach(AbstractConfigListWidgetEntry::updateWidgets);
+        this.entries.forEach(AbstractConfigListEntry::updateButtons);
     }
 
-    public List<AbstractConfigListWidgetEntry> getEntries() {
+    public List<AbstractConfigListEntry> getEntries() {
         return entries;
     }
 
-    public AbstractConfigurationEntry<?, ?> getEntry(Identifier id) {
-        for (AbstractConfigListWidgetEntry entry : this.entries) {
+    public AbstractConfigurationEntry<?, ?> getEntry(ResourceLocation id) {
+        for (AbstractConfigListEntry entry : this.entries) {
             if (!(entry instanceof AbstractConfigurationEntry<?,?> configEntry)) continue;
             if (configEntry.getConfiguration().info().getId().equals(id)) {
                 return configEntry;
@@ -109,10 +110,17 @@ public class ConfigsListWidget extends ElementListWidget<AbstractConfigListWidge
     }
 
     //? if <1.20.5 {
-    /*@Override
+    /*//? if >=1.20.5 {
+    @Override
     protected int getScrollbarPositionX() {
         return super.getScrollbarPositionX() + 52;
     }
+    //?} else {
+    /^@Override
+    protected int getScrollbarPosition() {
+        return super.getScrollbarPosition() + 52;
+    }
+    ^///?}
     *///?}
 
     @Override

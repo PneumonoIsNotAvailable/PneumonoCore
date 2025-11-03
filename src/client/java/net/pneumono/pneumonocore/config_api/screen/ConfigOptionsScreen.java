@@ -1,28 +1,28 @@
 package net.pneumono.pneumonocore.config_api.screen;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
-import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.CommonColors;
+import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
-import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
+import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 
 import java.util.Objects;
 
 public abstract class ConfigOptionsScreen extends Screen {
-    public final Screen parent;
+    public final Screen lastScreen;
     public final String modId;
 
-    public ConfigsListWidget configsListWidget;
+    public ConfigsList configsList;
 
-    public ConfigOptionsScreen(Screen parent, String modId) {
-        super(Text.translatable("configs." + modId + ".screen_title"));
-        this.parent = parent;
+    public ConfigOptionsScreen(Screen lastScreen, String modId) {
+        super(Component.translatable("configs." + modId + ".screen_title"));
+        this.lastScreen = lastScreen;
         this.modId = modId;
     }
 
@@ -36,55 +36,45 @@ public abstract class ConfigOptionsScreen extends Screen {
     protected void init() {
         this.initBody();
         this.initFooter();
-        this.refreshWidgetPositions();
-    }
-
-    protected void refreshWidgetPositions() {
-        if (this.configsListWidget != null) {
-            //? if >=1.21 {
-            this.configsListWidget.refreshScroll();
-            //?} else {
-            /*this.configsListWidget.setScrollAmount(0);
-            *///?}
-        }
+        this.configsList.setScrollAmount(0);
     }
 
     protected void initBody() {
-        this.configsListWidget = this.addDrawableChild(new ConfigsListWidget(this));
-        this.configsListWidget.init();
+        this.configsList = this.addRenderableWidget(new ConfigsList(this));
+        this.configsList.init();
     }
 
     protected void initFooter() {
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("configs_screen.pneumonocore.reset_all"), button -> {
-            for (AbstractConfigListWidgetEntry entry : configsListWidget.children()) {
+        this.addRenderableWidget(Button.builder(Component.translatable("configs_screen.pneumonocore.reset_all"), button -> {
+            for (AbstractConfigListEntry entry : configsList.children()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry) {
                     configurationEntry.reset();
                 }
             }
 
-            this.configsListWidget.updateEntryList();
-            this.configsListWidget.updateEntryValues();
-        }).dimensions((this.width / 2) - 154, this.height - 28, 150, 20).build());
+            this.configsList.updateEntryList();
+            this.configsList.updateEntryValues();
+        }).bounds((this.width / 2) - 154, this.height - 28, 150, 20).build());
 
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> {
-            for (AbstractConfigListWidgetEntry entry : configsListWidget.getEntries()) {
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
+            for (AbstractConfigListEntry entry : configsList.getEntries()) {
                 if (entry instanceof AbstractConfigurationEntry<?, ?> configurationEntry && configurationEntry.shouldSaveValue()) {
                     setSavedValue(configurationEntry);
                 }
             }
 
             this.writeSavedValues();
-            Objects.requireNonNull(this.client).setScreen(this.parent);
-        }).dimensions((this.width / 2) + 4, this.height - 28, 150, 20).build());
+            Objects.requireNonNull(this.minecraft).setScreen(this.lastScreen);
+        }).bounds((this.width / 2) + 4, this.height - 28, 150, 20).build());
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         //? if <1.20.2 {
-        /*this.renderBackground(context);
+        /*this.renderBackground(graphics);
         *///?}
-        super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 10, Colors.WHITE);
+        super.render(graphics, mouseX, mouseY, delta);
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, 10, CommonColors.WHITE);
     }
 
     public int getContentHeight() {
@@ -99,7 +89,7 @@ public abstract class ConfigOptionsScreen extends Screen {
         return 36;
     }
 
-    public MinecraftClient getClient() {
-        return this.client;
+    public Minecraft getMinecraft() {
+        return this.minecraft;
     }
 }

@@ -1,6 +1,6 @@
 package net.pneumono.pneumonocore.config;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration AbstractConfiguration} instead.
@@ -34,8 +34,8 @@ public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonoco
         return this.name;
     }
 
-    public Identifier getID() {
-        return Identifier.of(getModID(), getName());
+    public ResourceLocation getID() {
+        return ResourceLocation.tryBuild(getModID(), getName());
     }
 
     public String getTranslationKey() {

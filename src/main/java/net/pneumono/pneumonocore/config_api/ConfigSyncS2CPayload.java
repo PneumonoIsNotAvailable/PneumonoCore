@@ -1,33 +1,34 @@
 package net.pneumono.pneumonocore.config_api;
 
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 import java.util.Collection;
 
 //? if >=1.20.5 {
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
+import org.jetbrains.annotations.NotNull;
 //?}
 
 /**
  * Only used as an actual payload >=1.20.5
  */
-public record ConfigSyncS2CPayload(NbtCompound storedValues) /*? if >=1.20.5 {*/implements CustomPayload/*?}*/ {
+public record ConfigSyncS2CPayload(CompoundTag storedValues) /*? if >=1.20.5 {*/implements CustomPacketPayload/*?}*/ {
     //? if >=1.20.5 {
-    public static final Id<ConfigSyncS2CPayload> ID = new Id<>(ConfigApiRegistry.CONFIG_SYNC_ID);
-    public static final PacketCodec<RegistryByteBuf, ConfigSyncS2CPayload> CODEC = PacketCodec.tuple(
-            PacketCodecs.NBT_COMPOUND,
+    public static final Type<ConfigSyncS2CPayload> TYPE = new Type<>(ConfigApiRegistry.CONFIG_SYNC_ID);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ConfigSyncS2CPayload> CODEC = StreamCodec.composite(
+            ByteBufCodecs.COMPOUND_TAG,
             ConfigSyncS2CPayload::storedValues,
             ConfigSyncS2CPayload::new
     );
 
     @Override
-    public Id<? extends CustomPayload> getId() {
-        return ID;
+    public @NotNull Type<? extends ConfigSyncS2CPayload> type() {
+        return TYPE;
     }
 
     public ConfigSyncS2CPayload(Collection<ConfigFile> configFiles) {
@@ -35,11 +36,11 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) /*? if >=1.20.5 {*/
     }
     //?}
 
-    public static NbtCompound toNbt(Collection<ConfigFile> configFiles) {
-        NbtCompound compound = new NbtCompound();
+    public static CompoundTag toNbt(Collection<ConfigFile> configFiles) {
+        CompoundTag compound = new CompoundTag();
         for (ConfigFile configFile : configFiles) {
 
-            NbtCompound fileNbt = new NbtCompound();
+            CompoundTag fileNbt = new CompoundTag();
             for (AbstractConfiguration<?> config : configFile.getConfigurations()) {
                 putConfigValue(fileNbt, config);
             }
@@ -48,7 +49,7 @@ public record ConfigSyncS2CPayload(NbtCompound storedValues) /*? if >=1.20.5 {*/
         return compound;
     }
 
-    private static <T> void putConfigValue(NbtCompound compound, AbstractConfiguration<T> config) {
+    private static <T> void putConfigValue(CompoundTag compound, AbstractConfiguration<T> config) {
         MultiVersionUtil.putObjectWithCodec(compound, config.info().getName(), config.getValueCodec(), config.getValue());
     }
 }

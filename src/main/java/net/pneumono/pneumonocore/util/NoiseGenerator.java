@@ -1,8 +1,8 @@
 package net.pneumono.pneumonocore.util;
 
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.math.random.RandomSeed;
-import net.minecraft.util.math.random.RandomSplitter;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.PositionalRandomFactory;
+import net.minecraft.world.level.levelgen.RandomSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,23 +14,23 @@ public abstract class NoiseGenerator {
         this.permutation = permutation;
     }
 
-    public NoiseGenerator(Random random) {
+    public NoiseGenerator(RandomSource random) {
         this(createPermutation(random));
     }
 
-    public NoiseGenerator(RandomSplitter splitter, String name) {
-        this(splitter.split(name));
+    public NoiseGenerator(PositionalRandomFactory randomFactory, String name) {
+        this(randomFactory.fromHashOf(name));
     }
 
     public NoiseGenerator(long seed) {
-        this(Random.create(seed));
+        this(RandomSource.create(seed));
     }
 
     public NoiseGenerator() {
-        this(RandomSeed.getSeed());
+        this(RandomSupport.generateUniqueSeed());
     }
 
-    public static int[] createPermutation(Random random) {
+    public static int[] createPermutation(RandomSource random) {
         List<Integer> integers = new ArrayList<>();
         for (int i = 0; i < 256; ++i) {
             integers.add(i);

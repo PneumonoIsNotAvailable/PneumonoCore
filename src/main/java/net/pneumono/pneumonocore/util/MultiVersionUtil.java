@@ -4,17 +4,17 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryOps;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -26,30 +26,27 @@ import java.util.UUID;
  *///?}
 
 //? if >=1.20.5 {
-import net.minecraft.component.type.ProfileComponent;
+import net.minecraft.world.item.component.ResolvableProfile;
 //?}
 
 @SuppressWarnings("unused")
 public class MultiVersionUtil {
-    public static World getWorld(Entity entity) {
-        //? if >= 1.21.9 {
-        return entity.getEntityWorld();
-        //?} else {
-        /*return entity.getWorld();
-        *///?}
+    @Deprecated
+    public static Level getWorld(Entity entity) {
+        return entity.level();
     }
 
-    public static <T> void putObjectWithCodec(DynamicRegistryManager registryManager, NbtCompound compound, String key, Codec<T> codec, T object) {
-        putObjectWithCodec(RegistryOps.of(NbtOps.INSTANCE, registryManager), compound, key, codec, object);
+    public static <T> void putObjectWithCodec(RegistryAccess registryAccess, CompoundTag compound, String key, Codec<T> codec, T object) {
+        putObjectWithCodec(RegistryOps.create(NbtOps.INSTANCE, registryAccess), compound, key, codec, object);
     }
 
-    public static <T> void putObjectWithCodec(NbtCompound compound, String key, Codec<T> codec, T object) {
+    public static <T> void putObjectWithCodec(CompoundTag compound, String key, Codec<T> codec, T object) {
         putObjectWithCodec(NbtOps.INSTANCE, compound, key, codec, object);
     }
 
-    public static <T> void putObjectWithCodec(DynamicOps<NbtElement> ops, NbtCompound compound, String key, Codec<T> codec, T object) {
+    public static <T> void putObjectWithCodec(DynamicOps<Tag> ops, CompoundTag compound, String key, Codec<T> codec, T object) {
         //? if >=1.21.5 {
-        compound.put(key, codec, ops, object);
+        compound.store(key, codec, ops, object);
         //?} else if >=1.20.5 {
         /*compound.put(key, codec.encodeStart(ops, object).getOrThrow());
         *///?} else {
@@ -57,32 +54,36 @@ public class MultiVersionUtil {
         *///?}
     }
 
-    public static <T> Optional<T> getObjectWithCodec(DynamicRegistryManager registryManager, NbtCompound nbt, String key, Codec<T> codec) {
-        return getObjectWithCodec(RegistryOps.of(NbtOps.INSTANCE, registryManager), nbt, key, codec);
+    public static <T> Optional<T> getObjectWithCodec(RegistryAccess registryAccess, CompoundTag nbt, String key, Codec<T> codec) {
+        return getObjectWithCodec(RegistryOps.create(NbtOps.INSTANCE, registryAccess), nbt, key, codec);
     }
 
-    public static <T> Optional<T> getObjectWithCodec(NbtCompound nbt, String key, Codec<T> codec) {
+    public static <T> Optional<T> getObjectWithCodec(CompoundTag nbt, String key, Codec<T> codec) {
         return getObjectWithCodec(NbtOps.INSTANCE, nbt, key, codec);
     }
 
     @SuppressWarnings("unused")
-    public static <T> Optional<T> getObjectWithCodec(DynamicOps<NbtElement> ops, NbtCompound nbt, String key, Codec<T> codec) {
+    public static <T> Optional<T> getObjectWithCodec(DynamicOps<Tag> ops, CompoundTag nbt, String key, Codec<T> codec) {
         //? if >=1.21.5 {
-        return nbt.get(key, codec);
+        return nbt.read(key, codec);
         //?} else {
         /*return codec.decode(ops, nbt.get(key)).result().map(Pair::getFirst);
          *///?}
     }
 
-    public static @Nullable NbtCompound getCompound(NbtCompound compound, String key) {
+    public static @Nullable CompoundTag getCompound(CompoundTag compound, String key) {
         //? if >=1.21.5 {
         return compound.getCompound(key).orElse(null);
         //?} else {
-        /*return compound.getCompound(key);
+        /*if (compound.contains(key)) {
+            return compound.getCompound(key);
+        } else {
+            return null;
+        }
         *///?}
     }
 
-    public static NbtCompound getCompoundOrEmpty(NbtCompound nbt, String key) {
+    public static CompoundTag getCompoundOrEmpty(CompoundTag nbt, String key) {
         //? if >=1.21.5 {
         return nbt.getCompoundOrEmpty(key);
         //?} else {
@@ -90,11 +91,11 @@ public class MultiVersionUtil {
          *///?}
     }
 
-    public static NbtList getCompoundListOrEmpty(NbtCompound nbt, String key) {
+    public static ListTag getCompoundListOrEmpty(CompoundTag nbt, String key) {
         //? if >=1.21.5 {
         return nbt.getListOrEmpty(key);
         //?} else {
-        /*return nbt.getList(key, NbtElement.COMPOUND_TYPE);
+        /*return nbt.getList(key, Tag.TAG_COMPOUND);
          *///?}
     }
 
@@ -139,36 +140,30 @@ public class MultiVersionUtil {
     }
 
     //? if >=1.20.5 {
-    public static GameProfile getGameProfile(ProfileComponent profile) {
+    public static GameProfile getGameProfile(ResolvableProfile profile) {
         //? if >=1.21.9 {
-        return profile.getGameProfile();
+        return profile.partialProfile();
         //?} else {
         /*return profile.gameProfile();
          *///?}
     }
     //?}
 
-    public static GlobalPos createGlobalPos(RegistryKey<World> dimension, BlockPos pos) {
+    public static GlobalPos createGlobalPos(ResourceKey<Level> dimension, BlockPos pos) {
         //? if >=1.20.5 {
         return new GlobalPos(dimension, pos);
         //?} else {
-        /*return GlobalPos.create(dimension, pos);
+        /*return GlobalPos.of(dimension, pos);
          *///?}
     }
 
+    @Deprecated
     public static BlockPos getPos(GlobalPos pos) {
-        //? if >=1.20.5 {
         return pos.pos();
-        //?} else {
-        /*return pos.getPos();
-         *///?}
     }
 
-    public static RegistryKey<World> getDimension(GlobalPos pos) {
-        //? if >=1.20.5 {
+    @Deprecated
+    public static ResourceKey<Level> getDimension(GlobalPos pos) {
         return pos.dimension();
-        //?} else {
-        /*return pos.getDimension();
-         *///?}
     }
 }

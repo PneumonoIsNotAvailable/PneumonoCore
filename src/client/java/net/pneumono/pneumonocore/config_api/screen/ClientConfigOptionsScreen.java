@@ -4,12 +4,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
-import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListWidgetEntry;
+import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
@@ -37,11 +37,11 @@ public class ClientConfigOptionsScreen extends ConfigOptionsScreen {
 
     @Override
     public void writeSavedValues() {
-        ConfigFile configFile = this.configsListWidget.configFile;
+        ConfigFile configFile = this.configsList.configFile;
         if (configFile == null) return;
 
         JsonObject jsonObject = new JsonObject();
-        for (AbstractConfigListWidgetEntry entry : this.configsListWidget.getEntries()) {
+        for (AbstractConfigListEntry entry : this.configsList.getEntries()) {
             if (entry instanceof AbstractConfigurationEntry<?,?> configEntry) {
                 JsonElement jsonElement = encodeJson(configEntry);
                 if (jsonElement != null) {

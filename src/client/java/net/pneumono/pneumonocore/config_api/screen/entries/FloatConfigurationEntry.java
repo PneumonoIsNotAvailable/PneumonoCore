@@ -2,11 +2,11 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import net.pneumono.pneumonocore.config_api.configurations.FloatConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
-import net.pneumono.pneumonocore.config_api.screen.widgets.ConfigsListWidget;
+import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import org.jetbrains.annotations.Nullable;
 
-public class FloatConfigurationEntry extends SimpleTextFieldConfigurationEntry<Float, FloatConfiguration> {
-    public FloatConfigurationEntry(ConfigOptionsScreen parent, ConfigsListWidget widget, FloatConfiguration configuration) {
+public class FloatConfigurationEntry extends SimpleEditBoxConfigurationEntry<Float, FloatConfiguration> {
+    public FloatConfigurationEntry(ConfigOptionsScreen parent, ConfigsList widget, FloatConfiguration configuration) {
         super(parent, widget, configuration);
     }
 
