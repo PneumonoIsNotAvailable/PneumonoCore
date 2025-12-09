@@ -27,6 +27,8 @@ public final class ClientConfigApiRegistry {
         /*ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
         *///?}
 
+        //ClientConfigCommandRegistry.registerClientConfigCommand(PneumonoCoreTestConfigs.MOD_ID, "clienttestconfigs");
+
         // Scuffed as hell but couldn't find a better way of doing that so whatever
         registerConfigEntryType("boolean", (parent, widget, configuration) ->
                 configuration instanceof BooleanConfiguration booleanConfiguration ?

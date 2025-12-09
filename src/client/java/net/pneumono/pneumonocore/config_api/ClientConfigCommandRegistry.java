@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
-import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.registry.ConfigSuggestionProvider;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
@@ -41,8 +40,7 @@ public final class ClientConfigCommandRegistry {
         if (modConfigs != null) {
             AbstractConfiguration<?> config = modConfigs.getConfiguration(name);
             if (config != null) {
-                String valueString = config.info().isClientSided() ? config.getValue().toString() : ConfigManager.getSavedValue(config).toString();
-                return config.info().getModId() + ":" + config.info().getName() + " is set to " + valueString;
+                return config.info().getModId() + ":" + config.info().getName() + " is set to " + config.getValue().toString();
             }
         }
         return modId + ":" + name + " does not exist!";

@@ -34,6 +34,10 @@ public class ConfigApiRegistry {
         ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
         //?}
         ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) -> ConfigApi.sendConfigSyncPacket(List.of(handler.getPlayer())));
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            ConfigApi.reloadValuesFromFiles(LoadType.RESTART);
+            ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
+        });
         ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> {
             ConfigApi.reloadValuesFromFiles(LoadType.RELOAD);
             ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
