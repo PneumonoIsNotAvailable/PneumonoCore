@@ -9,6 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.screen.entries.*;
+import net.pneumono.pneumonocore.test.PneumonoCoreTestConfigs;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 
 //? if <1.20.5 {
