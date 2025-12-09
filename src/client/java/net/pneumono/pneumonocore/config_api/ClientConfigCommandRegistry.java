@@ -1,71 +1,39 @@
 package net.pneumono.pneumonocore.config_api;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
-import com.mojang.brigadier.suggestion.Suggestions;
-import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import net.pneumono.pneumonocore.config_api.registry.ConfigSuggestionProvider;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
+@SuppressWarnings("unused")
 public final class ClientConfigCommandRegistry {
-    public static void registerClientConfigCommand() {
+    public static void registerClientConfigCommand(String modId, String commandName) {
+        ConfigSuggestionProvider<FabricClientCommandSource> configSuggestionProvider =
+                new ConfigSuggestionProvider<>(modId);
+
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-            dispatcher.register(literal("clientconfig")
-                .then(literal("get")
-                    .then(argument("modid", StringArgumentType.string())
-                        .suggests(new ModIdSuggestionProvider())
-                        .then(argument("config", StringArgumentType.string())
-                            .suggests(new ConfigSuggestionProvider())
-                            .executes(context -> {
-                                context.getSource().sendFeedback(Component.literal(getConfigValueString(
-                                        StringArgumentType.getString(context, "modid"),
-                                        StringArgumentType.getString(context, "config")
-                                )).withStyle(ChatFormatting.AQUA));
+                dispatcher.register(literal(commandName)
+                        .then(literal("get")
+                                .then(argument("config", StringArgumentType.string())
+                                        .suggests(configSuggestionProvider)
+                                        .executes(context -> {
+                                            context.getSource().sendFeedback(Component.literal(getConfigValueString(
+                                                    modId, StringArgumentType.getString(context, "config")
+                                            )).withStyle(ChatFormatting.AQUA));
 
-                                return 1;
-                            })
+                                            return 1;
+                                        })
+                                )
                         )
-                        .executes(context -> {
-                            context.getSource().sendFeedback(Component.literal("Configs:"));
-                            List<String> configs = getAllConfigValueStrings(StringArgumentType.getString(context, "modid"));
-                            if (configs.isEmpty()) {
-                                context.getSource().sendFeedback(Component.literal("   None!"));
-                            } else {
-                                for (String config : configs) {
-                                    context.getSource().sendFeedback(Component.literal("   " + config));
-                                }
-                            }
-
-                            return 1;
-                        })
-                    )
                 )
-            )
         );
-    }
-
-    public static List<String> getAllConfigValueStrings(String modId) {
-        List<String> returnConfigs = new ArrayList<>();
-        ConfigFile modConfigs = ConfigApi.getConfigFile(modId);
-        if (modConfigs != null) {
-            for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
-                String valueString = config.info().isClientSided() ? config.getValue().toString() : ConfigManager.getSavedValue(config).toString();
-                returnConfigs.add(config.info().getModId() + ":" + config.info().getName() + " is set to " + valueString);
-            }
-        }
-        return returnConfigs;
     }
 
     public static String getConfigValueString(String modId, String name) {
@@ -78,34 +46,5 @@ public final class ClientConfigCommandRegistry {
             }
         }
         return modId + ":" + name + " does not exist!";
-    }
-
-    public static class ModIdSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
-        @Override
-        public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
-            for (ConfigFile modConfigs : ConfigApi.getConfigFiles()) {
-                if (modConfigs.getModId().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                    builder.suggest(modConfigs.getModId());
-                }
-            }
-
-            return builder.buildFuture();
-        }
-    }
-
-    public static class ConfigSuggestionProvider implements SuggestionProvider<FabricClientCommandSource> {
-        @Override
-        public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
-            ConfigFile modConfigs = ConfigApi.getConfigFile(StringArgumentType.getString(context, "modid"));
-            if (modConfigs != null) {
-                for (AbstractConfiguration<?> config : modConfigs.getConfigurations()) {
-                    if (config.info().getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                        builder.suggest(config.info().getName());
-                    }
-                }
-            }
-
-            return builder.buildFuture();
-        }
     }
 }

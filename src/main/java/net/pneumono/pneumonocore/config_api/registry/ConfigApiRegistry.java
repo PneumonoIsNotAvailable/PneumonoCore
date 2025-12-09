@@ -33,7 +33,6 @@ public class ConfigApiRegistry {
         PayloadTypeRegistry.playS2C().register(ConfigSyncS2CPayload.TYPE, ConfigSyncS2CPayload.CODEC);
         ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
         //?}
-        ServerConfigCommandRegistry.registerServerConfigCommand();
         ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) -> ConfigApi.sendConfigSyncPacket(List.of(handler.getPlayer())));
         ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> {
             ConfigApi.reloadValuesFromFiles(LoadType.RELOAD);
