@@ -5,7 +5,6 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.*;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import net.pneumono.pneumonocore.config_api.enums.TimeUnit;
-import net.pneumono.pneumonocore.config_api.registry.ServerConfigCommandRegistry;
 
 /**
  * This only exists for testing, don't touch anything here as it won't be registered!
@@ -90,7 +89,6 @@ public final class PneumonoCoreTestConfigs {
 
     public static void registerTestConfigs() {
         ConfigApi.finishRegistry(MOD_ID);
-        ServerConfigCommandRegistry.registerServerConfigCommand(MOD_ID, "servertestconfigs");
     }
 
     public enum TestEnum {

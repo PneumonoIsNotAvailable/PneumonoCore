@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.config_api;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -28,7 +29,9 @@ public final class ClientConfigApiRegistry {
         /*ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
         *///?}
 
-        //ClientConfigCommandRegistry.registerClientConfigCommand(PneumonoCoreTestConfigs.MOD_ID, "clienttestconfigs");
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            ClientConfigCommandRegistry.registerClientConfigCommand(PneumonoCoreTestConfigs.MOD_ID, "clienttestconfigs");
+        }
 
         // Scuffed as hell but couldn't find a better way of doing that so whatever
         registerConfigEntryType("boolean", (parent, widget, configuration) ->

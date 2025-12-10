@@ -3,6 +3,7 @@ package net.pneumono.pneumonocore.config_api.registry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
@@ -43,6 +44,10 @@ public class ConfigApiRegistry {
             ConfigApi.reloadValuesFromFiles(LoadType.RELOAD);
             ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
         });
-        //PneumonoCoreTestConfigs.registerTestConfigs();
+
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            PneumonoCoreTestConfigs.registerTestConfigs();
+            ServerConfigCommandRegistry.registerServerConfigCommand(PneumonoCoreTestConfigs.MOD_ID, "servertestconfigs");
+        }
     }
 }
