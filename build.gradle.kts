@@ -1,5 +1,5 @@
 plugins {
-	id("fabric-loom") version "1.11-SNAPSHOT"
+	id("fabric-loom") version "1.14-SNAPSHOT"
 	id("maven-publish")
 	id("me.modmuss50.mod-publish-plugin") version "1.0.0"
 }
@@ -80,6 +80,13 @@ tasks {
 		from("LICENSE") {
 			rename { "${it}_${base.archivesName.get()}"}
 		}
+	}
+}
+
+stonecutter {
+	replacements.string {
+		direction = eval(current.version, ">=1.21.11")
+		replace("ResourceLocation", "Identifier")
 	}
 }
 

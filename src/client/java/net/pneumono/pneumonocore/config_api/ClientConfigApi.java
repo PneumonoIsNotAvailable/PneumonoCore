@@ -1,6 +1,6 @@
 package net.pneumono.pneumonocore.config_api;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.ErroneousConfigurationEntry;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ClientConfigApi {
-    private static final Map<ResourceLocation, EntryFactory> CONFIG_ENTRY_TYPES = new HashMap<>();
+    private static final Map<Identifier, EntryFactory> CONFIG_ENTRY_TYPES = new HashMap<>();
 
     /**
      * Registers a builder for a class extending {@link AbstractConfigurationEntry}.
@@ -25,11 +25,11 @@ public final class ClientConfigApi {
      *
      * <p>See {@link ClientConfigApiRegistry} for examples.
      */
-    public static void registerConfigEntryType(ResourceLocation id, EntryFactory builder) {
+    public static void registerConfigEntryType(Identifier id, EntryFactory builder) {
         CONFIG_ENTRY_TYPES.put(id, builder);
     }
 
-    public static EntryFactory getConfigEntryType(ResourceLocation id) {
+    public static EntryFactory getConfigEntryType(Identifier id) {
         return CONFIG_ENTRY_TYPES.getOrDefault(id, (EntryFactory) ErroneousConfigurationEntry::new);
     }
 

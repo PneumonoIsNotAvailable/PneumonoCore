@@ -2,7 +2,7 @@ package net.pneumono.pneumonocore.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatType;
 import net.minecraft.tags.TagKey;
@@ -136,23 +136,23 @@ public class PneumonoCoreTranslationBuilder {
     }
     *///?}
 
-    public void add(ResourceLocation key, String value) {
+    public void add(Identifier key, String value) {
         this.builder.add(key, value);
     }
 
-    public void add(ResourceLocation key, String value, String prefix) {
+    public void add(Identifier key, String value, String prefix) {
         this.builder.add(key.toLanguageKey(prefix), value);
     }
 
-    public void add(ResourceLocation key, String value, String prefix, String suffix) {
+    public void add(Identifier key, String value, String prefix, String suffix) {
         this.builder.add(key.toLanguageKey(prefix, suffix), value);
     }
 
-    public void addStat(ResourceLocation stat, String value) {
+    public void addStat(Identifier stat, String value) {
         this.builder.add(stat.toLanguageKey("stat"), value);
     }
 
-    public void addAdvancement(ResourceLocation id, String name, String description) {
+    public void addAdvancement(Identifier id, String name, String description) {
         this.builder.add(id.toLanguageKey("advancements", "name"), name);
         this.builder.add(id.toLanguageKey("advancements", "description"), description);
     }

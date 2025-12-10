@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -25,7 +25,7 @@ public class FloatConfiguration extends AbstractConfiguration<Float> {
     }
 
     @Override
-    protected ResourceLocation getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.location("float");
     }
 }

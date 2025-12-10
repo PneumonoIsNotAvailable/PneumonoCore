@@ -42,12 +42,12 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
     *///?}
 
     @Override
-    protected void configure(HolderLookup.Provider lookupProvider, Entries entries) {
+    protected void configure(HolderLookup.Provider lookupProvider, @NotNull Entries entries) {
         HolderLookup.RegistryLookup<Item> itemLookup = lookupProvider.lookupOrThrow(Registries.ITEM);
 
         //? if >=1.21 {
         for (Map.Entry<ResourceKey<Enchantment>, Enchantment.Builder> entry : getEnchantmentBuilders(itemLookup).entrySet()) {
-            entries.add(entry.getKey(), entry.getValue().build(entry.getKey().location()));
+            entries.add(entry.getKey(), entry.getValue().build(entry.getKey()/*? if >=1.21.11 {*/.identifier()/*?} else {*//*.location()*//*?}*/));
         }
         //?}
     }
@@ -57,7 +57,7 @@ public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegis
         HolderGetter<Item> itemLookup = bootstrapContext.lookup(Registries.ITEM);
 
         for (Map.Entry<ResourceKey<Enchantment>, Enchantment.Builder> entry : getEnchantmentBuilders(itemLookup).entrySet()) {
-            bootstrapContext.register(entry.getKey(), entry.getValue().build(entry.getKey().location()));
+            bootstrapContext.register(entry.getKey(), entry.getValue().build(entry.getKey()/*? if >=1.21.11 {*/.identifier()/*?} else {*//*.location()*//*?}*/));
         }
     }
     //?}

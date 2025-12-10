@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +52,7 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractConfiguration<T> {
     private boolean registered = false;
-    private ResourceLocation id;
+    private Identifier id;
     private final ConfigSettings settings;
     private final T defaultValue;
     private final ConfigValue<T> savedValue;
@@ -79,7 +79,7 @@ public abstract class AbstractConfiguration<T> {
     /**
      * @return This configuration's type ID, used client-side for the config screen.
      */
-    protected abstract ResourceLocation getConfigTypeId();
+    protected abstract Identifier getConfigTypeId();
 
     /**
      * Returns the value of this configuration.
@@ -108,7 +108,7 @@ public abstract class AbstractConfiguration<T> {
         return new Info();
     }
 
-    protected void register(ResourceLocation id) {
+    protected void register(Identifier id) {
         this.id = id;
         this.registered = true;
     }
@@ -118,7 +118,7 @@ public abstract class AbstractConfiguration<T> {
             return defaultValue;
         }
 
-        public ResourceLocation getId() {
+        public Identifier getId() {
             if (!registered) throw new IllegalStateException("Cannot get id of unregistered configuration.");
             return id;
         }
@@ -181,7 +181,7 @@ public abstract class AbstractConfiguration<T> {
             return enabled;
         }
 
-        public ResourceLocation getConfigTypeId() {
+        public Identifier getConfigTypeId() {
             return AbstractConfiguration.this.getConfigTypeId();
         }
     }

@@ -2,15 +2,20 @@ package net.pneumono.pneumonocore.datagen;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 import java.util.Arrays;
+
+//? if >=1.21.11 {
+import net.minecraft.advancements.criterion.*;
+//?} else {
+/*import net.minecraft.advancements.critereon.*;
+*///?}
 
 //? if >=1.21.5 {
 import net.minecraft.core.component.predicates.DataComponentPredicates;
@@ -26,7 +31,7 @@ public final class DatagenUtils {
     /**
      * Returns an advancement with the specified ID, for use as a parent for other advancements.
      */
-    public static /*? if >=1.20.2 {*/AdvancementHolder/*?} else {*//*Advancement*//*?}*/ createDummyAdvancement(ResourceLocation id) {
+    public static /*? if >=1.20.2 {*/AdvancementHolder/*?} else {*//*Advancement*//*?}*/ createDummyAdvancement(Identifier id) {
         return Advancement.Builder.advancement().build(id);
     }
 

@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config_api.configurations;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
@@ -41,11 +41,11 @@ public class PerPlayerConfiguration<T> extends AbstractConfiguration<PerPlayerCo
     }
 
     @Override
-    public ResourceLocation getConfigTypeId() {
+    public Identifier getConfigTypeId() {
         return PneumonoCore.location("per_player");
     }
 
-    public ResourceLocation getSubConfigTypeId() {
+    public Identifier getSubConfigTypeId() {
         return configuration.info().getConfigTypeId();
     }
 

@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public final class PneumonoCore implements ModInitializer {
 		ConfigApiRegistry.register();
 	}
 
-	public static ResourceLocation location(String path) {
-		return ResourceLocation.tryBuild(MOD_ID, path);
+	public static Identifier location(String path) {
+		return Identifier.tryBuild(MOD_ID, path);
 	}
 }

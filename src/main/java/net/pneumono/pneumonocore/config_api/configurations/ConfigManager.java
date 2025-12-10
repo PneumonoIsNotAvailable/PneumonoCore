@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
@@ -36,7 +36,7 @@ public class ConfigManager {
         return configuration.getSavedValue().get();
     }
 
-    public static void register(AbstractConfiguration<?> configuration, ResourceLocation id) {
+    public static void register(AbstractConfiguration<?> configuration, Identifier id) {
         configuration.register(id);
     }
 

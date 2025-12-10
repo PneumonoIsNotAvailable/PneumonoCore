@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api.screen.components;
 
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.config_api.ClientConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
@@ -99,7 +99,7 @@ public class ConfigsList extends ContainerObjectSelectionList<AbstractConfigList
         return entries;
     }
 
-    public AbstractConfigurationEntry<?, ?> getEntry(ResourceLocation id) {
+    public AbstractConfigurationEntry<?, ?> getEntry(Identifier id) {
         for (AbstractConfigListEntry entry : this.entries) {
             if (!(entry instanceof AbstractConfigurationEntry<?,?> configEntry)) continue;
             if (configEntry.getConfiguration().info().getId().equals(id)) {

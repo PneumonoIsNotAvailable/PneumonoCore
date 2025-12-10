@@ -1,7 +1,7 @@
 package net.pneumono.pneumonocore.config_api;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
@@ -34,7 +34,7 @@ public final class ConfigApi {
      *
      * <p>After all configurations are registered, {@link #finishRegistry} must be called.
      */
-    public static <T extends AbstractConfiguration<?>> T register(ResourceLocation id, T configuration) {
+    public static <T extends AbstractConfiguration<?>> T register(Identifier id, T configuration) {
         if (id == null || Objects.equals(id.getNamespace(), "") || Objects.equals(id.getPath(), "")) {
             LOGGER.error("Config '{}' used an invalid ID, and so was not registered.", id);
             return configuration;
@@ -102,7 +102,7 @@ public final class ConfigApi {
         return CONFIG_FILES.get(modId);
     }
 
-    public static AbstractConfiguration<?> getConfig(ResourceLocation id) {
+    public static AbstractConfiguration<?> getConfig(Identifier id) {
         ConfigFile modConfigs = getConfigFile(id.getNamespace());
         if (modConfigs != null) {
             return modConfigs.getConfiguration(id.getPath());

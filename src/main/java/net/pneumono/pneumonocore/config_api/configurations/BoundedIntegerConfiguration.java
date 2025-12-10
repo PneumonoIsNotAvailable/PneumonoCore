@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config_api.configurations;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 
@@ -67,7 +67,7 @@ public class BoundedIntegerConfiguration extends AbstractConfiguration<Integer> 
     }
 
     @Override
-    protected ResourceLocation getConfigTypeId() {
+    protected Identifier getConfigTypeId() {
         return PneumonoCore.location("bounded_integer");
     }
 }

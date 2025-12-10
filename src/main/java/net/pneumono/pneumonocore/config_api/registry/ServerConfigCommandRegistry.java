@@ -12,6 +12,10 @@ import net.pneumono.pneumonocore.config_api.ConfigFile;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
+//? if >=1.21.11 {
+import net.minecraft.commands.Commands;
+//?}
+
 @SuppressWarnings("unused")
 public class ServerConfigCommandRegistry {
     public static void registerServerConfigCommand(String modId, String commandName) {
@@ -20,7 +24,7 @@ public class ServerConfigCommandRegistry {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 dispatcher.register(literal(commandName)
-                        .requires(source -> source.hasPermission(4))
+                        .requires(/*? if >=1.21.11 {*/Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)/*?} else {*//*source -> source.hasPermission()*//*?}*/)
                         .then(literal("get")
                                 .then(argument("config", StringArgumentType.string())
                                         .suggests(configSuggestionProvider)

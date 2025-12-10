@@ -1,6 +1,6 @@
 package net.pneumono.pneumonocore.config;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.ConfigFile;
@@ -21,7 +21,7 @@ public class Configs {
 
     @Deprecated
     public static void registerCategories(String modID, ConfigCategory... categories) {
-        for (ConfigCategory category : categories) for (ResourceLocation id : category.configurations()) {
+        for (ConfigCategory category : categories) for (Identifier id : category.configurations()) {
             net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<?> configuration = ConfigApi.getConfig(id);
             if (configuration != null) {
                 ConfigManager.setCategory(configuration, category.name());
@@ -64,7 +64,7 @@ public class Configs {
     }
 
     @Deprecated
-    public static AbstractConfiguration<?, ?> getConfig(ResourceLocation id) {
+    public static AbstractConfiguration<?, ?> getConfig(Identifier id) {
         return new WrappedConfiguration<>(ConfigApi.getConfig(id));
     }
 
@@ -99,7 +99,7 @@ public class Configs {
                         entry.getKey(),
                         entry.getValue().stream()
                                 .map(config -> config.info().getId())
-                                .toArray(ResourceLocation[]::new)
+                                .toArray(Identifier[]::new)
                 ))
                 .toArray(ConfigCategory[]::new);
     }

@@ -9,10 +9,9 @@ import java.util.Objects;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +21,12 @@ import net.minecraft.world.level.ItemLike;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+//? if >=1.21.11 {
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
+//?} else {
+/*import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+*///?}
 
 //? if >=1.21.4 {
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -133,7 +138,7 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
     //?}
     public void save(
             /*? if >=1.20.2 {*/RecipeOutput exporter,/*?}*/
-            /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*ResourceLocation*//*?}*/ recipeKey
+            /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
     ) {
         //? if >=1.20.3 {
         ShapedRecipePattern rawShapedRecipe = this.validate(recipeKey);
@@ -156,7 +161,7 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
 
     //? if >=1.20.3 {
     private ShapedRecipePattern validate(
-            /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*ResourceLocation*//*?}*/ recipeKey
+            /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
     ) {
         if (this.criteria.isEmpty()) {
             throw new IllegalStateException("No way of obtaining recipe " + getValue(recipeKey));
@@ -166,12 +171,14 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
     }
     //?}
 
-    private ResourceLocation getValue(
-            /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*ResourceLocation*//*?}*/ recipeKey
+    private Identifier getValue(
+            /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
     ) {
-        //? if >=1.21.2 {
-        return recipeKey.location();
-        //?} else {
+        //? if >=1.21.11 {
+        return recipeKey.identifier();
+        //?} else if >=1.21.2 {
+        /*return recipeKey.location();
+        *///?} else {
         /*return recipeKey;
         *///?}
     }
