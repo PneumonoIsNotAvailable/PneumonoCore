@@ -24,7 +24,7 @@ public class ServerConfigCommandRegistry {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 dispatcher.register(literal(commandName)
-                        .requires(/*? if >=1.21.11 {*/Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)/*?} else {*//*source -> source.hasPermission()*//*?}*/)
+                        .requires(/*? if >=1.21.11 {*/Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)/*?} else {*//*source -> source.hasPermission(4)*//*?}*/)
                         .then(literal("get")
                                 .then(argument("config", StringArgumentType.string())
                                         .suggests(configSuggestionProvider)
