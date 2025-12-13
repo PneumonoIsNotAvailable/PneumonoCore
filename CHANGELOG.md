@@ -1,3 +1,5 @@
-- Added support for all versions from 1.20 to 1.21.9
-- Added Russian translation (FO13E)
-- Minor config screen changes
+- Added support for 1.21.11
+- Added StonecuttingRecipeGenerator
+- Config command changes
+- Minor config fixes
+- Fixed FMJ using Minecraft version instead of mod version
