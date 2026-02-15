@@ -7,7 +7,8 @@
   "configs_screen.pneumonocore.client_configs": "Client",
 
   "configs_screen.pneumonocore.no_configs": "This 'as no respect fer yer preferences!",
-  "configs_screen.pneumonocore.information": "Information",
+  "configs_screen.pneumonocore.reset": "Wipe",
+  "configs_screen.pneumonocore.invalid": "Forbidden key!",
   "configs_screen.pneumonocore.server": "Server Variation",
   "configs_screen.pneumonocore.client": "Client Variation",
   "configs_screen.pneumonocore.load_instant": "Needs nothin'",

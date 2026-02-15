@@ -7,7 +7,8 @@
   "configs_screen.pneumonocore.client_configs": "Cliant",
 
   "configs_screen.pneumonocore.no_configs": "No settinz here!!!",
-  "configs_screen.pneumonocore.information": "knowinz",
+  "configs_screen.pneumonocore.reset": "go bak",
+  "configs_screen.pneumonocore.invalid": "not alowd!!",
   "configs_screen.pneumonocore.server": "Servr settin",
   "configs_screen.pneumonocore.client": "Cliant settin",
   "configs_screen.pneumonocore.load_instant": "Updat NOW",
