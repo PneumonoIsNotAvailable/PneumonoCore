@@ -3,7 +3,7 @@
 	"id": "pneumonocore",
 	"version": "${version}",
 	"name": "PneumonoCore",
-	"description": "Library mod for Pneumono_'s mods.",
+	"description": "Library mod for Pneumono's mods.",
 	"authors": [
 		"Pneumono_"
 	],
@@ -20,6 +20,8 @@
 	"custom": {
 		"modmenu": {
 			"links": {
+				"modmenu.discord": "https://discord.gg/ap6wD2XUzs",
+				"modmenu.donate": "https://ko-fi.com/pneumono",
 				"modmenu.modrinth": "https://modrinth.com/project/ZLKQjA7t"
 			},
 			"badges": [
