@@ -3,10 +3,13 @@ package net.pneumono.pneumonocore.config_api.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.CommonColors;
+import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListEntry;
@@ -14,11 +17,20 @@ import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfiguration
 
 import java.util.Objects;
 
+//? if >=1.20.2 {
+import net.minecraft.client.gui.components.SpriteIconButton;
+//?} else {
+/*import net.minecraft.client.gui.components.ImageButton;
+ *///?}
+
 public abstract class ConfigOptionsScreen extends Screen {
+    public static final String KOFI_LINK = "https://ko-fi.com/pneumono";
+
     public final Screen lastScreen;
     public final String modId;
 
     public ConfigsList configsList;
+    public /*? if >=1.20.2 {*/SpriteIconButton/*?} else {*/ /*ImageButton*//*?}*/ kofiButton;
 
     public ConfigOptionsScreen(Screen lastScreen, String modId) {
         super(Component.translatable("configs." + modId + ".screen_title"));
@@ -66,6 +78,29 @@ public abstract class ConfigOptionsScreen extends Screen {
             this.writeSavedValues();
             Objects.requireNonNull(this.minecraft).setScreen(this.lastScreen);
         }).bounds((this.width / 2) + 4, this.height - 28, 150, 20).build());
+
+        this.kofiButton = this.addRenderableWidget(
+                //? if >=1.20.2 {
+                SpriteIconButton.builder(
+                        Component.translatable("configs_screen.pneumonocore.kofi"),
+                        button -> ConfirmLinkScreen.confirmLinkNow(this, KOFI_LINK, false),
+                        true
+                ).sprite(PneumonoCore.location("icon/kofi"), 15, 15).width(20).build()
+                //?} else {
+                /*new ImageButton(
+                        0, 0,
+                        20, 20,
+                        0, 0,
+                        20,
+                        PneumonoCore.location("textures/gui/sprites/icon/kofi_button.png"),
+                        20,
+                        40,
+                        button -> ConfirmLinkScreen.confirmLinkNow(KOFI_LINK, this, false)
+                )
+                *///?}
+        );
+        this.kofiButton.setPosition((this.width / 2) + 162, this.height - 28);
+        this.kofiButton.setTooltip(Tooltip.create(Component.translatable("configs_screen.pneumonocore.kofi")));
     }
 
     @Override
