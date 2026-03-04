@@ -17,6 +17,9 @@ import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfiguration
 
 import java.util.Objects;
 
+//? if <1.21
+//import net.minecraft.Util;
+
 //? if >=1.20.2 {
 import net.minecraft.client.gui.components.SpriteIconButton;
 //?} else {
@@ -79,14 +82,22 @@ public abstract class ConfigOptionsScreen extends Screen {
             Objects.requireNonNull(this.minecraft).setScreen(this.lastScreen);
         }).bounds((this.width / 2) + 4, this.height - 28, 150, 20).build());
 
+        //? if >=1.21 {
         Runnable openConfirmLinkScreen = () -> ConfirmLinkScreen.confirmLinkNow(
-                //? if >=1.20.5 {
-                this, KOFI_LINK,
-                //?} else {
-                /*KOFI_LINK, this,
-                *///?}
-                false
+                this, KOFI_LINK, false
         );
+        //?} else {
+        /*Runnable openConfirmLinkScreen = () -> {
+            Minecraft minecraft = Minecraft.getInstance();
+            minecraft.setScreen(new ConfirmLinkScreen((bl) -> {
+                if (bl) {
+                    Util.getPlatform().openUri(KOFI_LINK);
+                }
+
+                minecraft.setScreen(this);
+            }, KOFI_LINK, false));
+        };
+        *///?}
 
         this.kofiButton = this.addRenderableWidget(
                 //? if >=1.20.2 {

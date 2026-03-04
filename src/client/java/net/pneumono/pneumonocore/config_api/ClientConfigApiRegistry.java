@@ -84,7 +84,7 @@ public final class ClientConfigApiRegistry {
         receiveSyncPacket(payload.storedValues());
     }
     //?} else {
-    /*      Minecraft client,
+          /*Minecraft client,
             ClientPacketListener handler,
             FriendlyByteBuf buf,
             PacketSender responseSender
