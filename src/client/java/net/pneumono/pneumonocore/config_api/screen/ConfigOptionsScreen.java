@@ -79,11 +79,20 @@ public abstract class ConfigOptionsScreen extends Screen {
             Objects.requireNonNull(this.minecraft).setScreen(this.lastScreen);
         }).bounds((this.width / 2) + 4, this.height - 28, 150, 20).build());
 
+        Runnable openConfirmLinkScreen = () -> ConfirmLinkScreen.confirmLinkNow(
+                //? if >=1.20.5 {
+                this, KOFI_LINK,
+                //?} else {
+                /*KOFI_LINK, this,
+                *///?}
+                false
+        );
+
         this.kofiButton = this.addRenderableWidget(
                 //? if >=1.20.2 {
                 SpriteIconButton.builder(
                         Component.translatable("configs_screen.pneumonocore.kofi"),
-                        button -> ConfirmLinkScreen.confirmLinkNow(this, KOFI_LINK, false),
+                        button -> openConfirmLinkScreen.run(),
                         true
                 ).sprite(PneumonoCore.location("icon/kofi"), 15, 15).width(20).build()
                 //?} else {
@@ -95,7 +104,7 @@ public abstract class ConfigOptionsScreen extends Screen {
                         PneumonoCore.location("textures/gui/sprites/icon/kofi_button.png"),
                         20,
                         40,
-                        button -> ConfirmLinkScreen.confirmLinkNow(KOFI_LINK, this, false)
+                        button -> openConfirmLinkScreen.run()
                 )
                 *///?}
         );
