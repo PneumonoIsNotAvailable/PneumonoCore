@@ -2,7 +2,7 @@
   "configs.pneumonocore.screen_title": "PneumonoCore Configs",
   "configs.category.pneumonocore.misc": "Miscellaneous",
 
-  "configs_screen.pneumonocore.reset_all": "Reset Configs",
+  "configs_screen.pneumonocore.reset_all": "Reset All Configs",
   "configs_screen.pneumonocore.server_configs": "Server",
   "configs_screen.pneumonocore.client_configs": "Client",
 
