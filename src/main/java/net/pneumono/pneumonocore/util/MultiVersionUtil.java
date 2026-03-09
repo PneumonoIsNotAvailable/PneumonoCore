@@ -31,7 +31,7 @@ import net.minecraft.world.item.component.ResolvableProfile;
 
 @SuppressWarnings("unused")
 public class MultiVersionUtil {
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public static Level getWorld(Entity entity) {
         return entity.level();
     }
@@ -157,12 +157,12 @@ public class MultiVersionUtil {
          *///?}
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public static BlockPos getPos(GlobalPos pos) {
         return pos.pos();
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public static ResourceKey<Level> getDimension(GlobalPos pos) {
         return pos.dimension();
     }
