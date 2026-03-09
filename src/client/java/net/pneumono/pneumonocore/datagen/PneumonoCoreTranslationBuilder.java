@@ -40,7 +40,7 @@ public class PneumonoCoreTranslationBuilder {
         this.modId = modId;
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public PneumonoCoreTranslationBuilder(FabricLanguageProvider.TranslationBuilder builder) {
         this(builder, null);
     }
@@ -117,7 +117,7 @@ public class PneumonoCoreTranslationBuilder {
     }
     *///?}
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     //? if >=1.20.5 {
     public void addEntityAttribute(Holder<Attribute> entry, String value) {
         this.addAttribute(entry, value);
@@ -161,7 +161,7 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add("configs." + this.modId + ".screen_title", title);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void addConfigScreenTitle(String modId, String title) {
         this.builder.add("configs." + modId + ".screen_title", title);
     }
@@ -171,7 +171,7 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(ConfigApi.toTranslationKey(config, "tooltip"), tooltip);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void addConfig(net.pneumono.pneumonocore.config.AbstractConfiguration<?, ?> config, String name, String tooltip) {
         this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
@@ -187,7 +187,7 @@ public class PneumonoCoreTranslationBuilder {
         }
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public <T extends Enum<T>> void addEnumConfig(net.pneumono.pneumonocore.config.EnumConfiguration<T> config, String name, String tooltip, String... values) {
         this.addConfig(config.getWrappedConfiguration(), name, tooltip);
     }
@@ -196,7 +196,7 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add("configs.category." + this.modId + "." + category, name);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void addConfigCategory(String modId, String category, String name) {
         this.builder.add("configs.category." + modId + "." + category, name);
     }
@@ -205,7 +205,7 @@ public class PneumonoCoreTranslationBuilder {
         this.addModMenuTexts(name, summary, summary);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void addModMenuTranslations(String modId, String name, String summary) {
         this.addModMenuTranslations(modId, name, summary, summary);
     }
@@ -216,7 +216,7 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add("modmenu.descriptionTranslation." + this.modId, description);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void addModMenuTranslations(String modId, String name, String summary, String description) {
         this.builder.add("modmenu.nameTranslation." + modId, name);
         this.builder.add("modmenu.summaryTranslation." + modId, summary);
