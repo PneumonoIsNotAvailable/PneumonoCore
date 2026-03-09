@@ -6,7 +6,7 @@ import net.pneumono.pneumonocore.PneumonoCore;
 /**
  * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.ConfigSettings#category(String) ConfigSettings.category} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 @SuppressWarnings("unused")
 public record ConfigCategory(String modID, String name, Identifier... configurations) {
     public ConfigCategory(String modID, String name, AbstractConfiguration<?, ?>... configurations) {

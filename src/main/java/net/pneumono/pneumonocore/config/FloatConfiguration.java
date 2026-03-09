@@ -5,7 +5,7 @@ import net.pneumono.pneumonocore.config_api.configurations.BoundedFloatConfigura
 /**
  * @deprecated Use {@link BoundedFloatConfiguration} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class FloatConfiguration extends AbstractConfiguration<Float, BoundedFloatConfiguration> {
     public FloatConfiguration(String modId, String name, ConfigEnv environment, float defaultValue) {
         super(modId, name, new BoundedFloatConfiguration(defaultValue, environment.toSettings()));

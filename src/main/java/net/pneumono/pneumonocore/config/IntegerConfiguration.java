@@ -5,7 +5,7 @@ import net.pneumono.pneumonocore.config_api.configurations.BoundedIntegerConfigu
 /**
  * @deprecated Use {@link BoundedIntegerConfiguration} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 @SuppressWarnings("unused")
 public class IntegerConfiguration extends AbstractConfiguration<Integer, BoundedIntegerConfiguration> {
     public IntegerConfiguration(String modId, String name, ConfigEnv environment, int minValue, int maxValue, Integer defaultValue) {

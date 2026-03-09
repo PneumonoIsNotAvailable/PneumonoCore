@@ -5,7 +5,7 @@ import net.pneumono.pneumonocore.config_api.configurations.ConfigSettings;
 /**
  * @deprecated Use {@link ConfigSettings#clientSide ConfigSettings.clientSide} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public enum ConfigEnv {
     SERVER,
     CLIENT;

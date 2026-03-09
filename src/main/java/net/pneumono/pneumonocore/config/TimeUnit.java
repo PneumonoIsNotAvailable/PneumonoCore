@@ -3,7 +3,7 @@ package net.pneumono.pneumonocore.config;
 /**
  * @deprecated Use {@link net.pneumono.pneumonocore.config_api.enums.TimeUnit TimeUnit} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 @SuppressWarnings("unused")
 public enum TimeUnit {
     TICKS(1),

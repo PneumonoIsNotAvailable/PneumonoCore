@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * @deprecated Use {@link ConfigApi} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 @SuppressWarnings("unused")
 public class Configs {
     public static final Logger LOGGER = LoggerFactory.getLogger("PneumonoCoreConfig");

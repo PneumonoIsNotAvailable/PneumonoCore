@@ -5,7 +5,7 @@ import net.minecraft.resources.Identifier;
 /**
  * @deprecated Use {@link net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration AbstractConfiguration} instead.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 @SuppressWarnings("unused")
 public abstract class AbstractConfiguration<T, C extends net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration<T>> {
     private final C configuration;
