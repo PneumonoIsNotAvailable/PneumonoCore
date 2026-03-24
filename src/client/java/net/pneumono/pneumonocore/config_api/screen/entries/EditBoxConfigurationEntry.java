@@ -1,7 +1,6 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
@@ -14,6 +13,12 @@ import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 
 public abstract class EditBoxConfigurationEntry<T, C extends AbstractConfiguration<T>, V> extends AbstractConfigurationEntry<T, C> {
     protected final EditBox editBox;
@@ -76,19 +81,12 @@ public abstract class EditBoxConfigurationEntry<T, C extends AbstractConfigurati
     }
 
     @Override
-    //? if >=1.21.9 {
-    public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.renderContent(graphics, mouseX, mouseY, hovered, tickDelta);
-        int x = getX();
-        int y = getY();
-    //?} else {
-    /*public void render(GuiGraphics graphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.render(graphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
-    *///?}
+    public void displayContent(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int x, int y, int mouseX, int mouseY, int entryHeight, boolean hovered, float tickDelta) {
+        super.displayContent(graphics, x, y, mouseX, mouseY, entryHeight, hovered, tickDelta);
 
         this.editBox.setX(x + getWidgetStartX());
         this.editBox.setY(y);
-        this.editBox.render(graphics, mouseX, mouseY, tickDelta);
+        this.editBox./*? if >=26.1 {*/extractRenderState/*?} else {*//*render*//*?}*/(graphics, mouseX, mouseY, tickDelta);
     }
 
     @Override

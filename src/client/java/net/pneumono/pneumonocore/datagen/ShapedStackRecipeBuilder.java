@@ -14,13 +14,17 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.pneumono.pneumonocore.util.MultiVersionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+//? if >=26.1 {
+import net.minecraft.world.item.ItemStackTemplate;
+//?} else {
+/*import net.minecraft.world.item.ItemStack;
+*///?}
 
 //? if >=1.21.11 {
 import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
@@ -56,7 +60,7 @@ import net.minecraft.advancements.AdvancementRequirements;
 public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilder/*?}*/ {
     private final HolderGetter<Item> registryLookup;
     private final RecipeCategory category;
-    private final ItemStack output;
+    private final /*? if >=26.1 {*/ItemStackTemplate/*?} else {*//*ItemStack*//*?}*/ output;
     private final List<String> pattern = Lists.newArrayList();
     private final Map<Character, Ingredient> inputs = Maps.newLinkedHashMap();
     //? if >=1.20.2 {
@@ -66,13 +70,13 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
     private String group;
     private boolean showNotification = true;
 
-    private ShapedStackRecipeBuilder(HolderGetter<Item> registryLookup, RecipeCategory category, ItemStack output) {
+    private ShapedStackRecipeBuilder(HolderGetter<Item> registryLookup, RecipeCategory category, /*? if >=26.1 {*/ItemStackTemplate/*?} else {*//*ItemStack*//*?}*/ output) {
         this.registryLookup = registryLookup;
         this.category = category;
         this.output = output;
     }
 
-    public static ShapedStackRecipeBuilder create(HolderGetter<Item> registryLookup, RecipeCategory category, ItemStack output) {
+    public static ShapedStackRecipeBuilder create(HolderGetter<Item> registryLookup, RecipeCategory category, /*? if >=26.1 {*/ItemStackTemplate/*?} else {*//*ItemStack*//*?}*/ output) {
         return new ShapedStackRecipeBuilder(registryLookup, category, output);
     }
 
@@ -121,21 +125,28 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
         return this;
     }
 
+    //? if >=26.1 {
+    @Override
+    public ResourceKey<Recipe<?>> defaultId() {
+        return RecipeBuilder.getDefaultRecipeId(this.output);
+    }
+    //?}
+
     public ShapedStackRecipeBuilder showNotification(boolean showNotification) {
         this.showNotification = showNotification;
         return this;
     }
 
-    //? if >=1.20.2 {
+    //? if <26.1 {
+    /*//? if >=1.20.2
     @Override
-    //?}
     public @NotNull Item getResult() {
         return this.output.getItem();
     }
+    *///?}
 
-    //? if >=1.20.2 {
+    //? if >=1.20.2
     @Override
-    //?}
     public void save(
             /*? if >=1.20.2 {*/RecipeOutput exporter,/*?}*/
             /*? if >=1.21.2 {*/ResourceKey<Recipe<?>>/*?} else {*//*Identifier*//*?}*/ recipeKey
@@ -148,13 +159,22 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
                 .requirements(AdvancementRequirements.Strategy.OR);
         this.criteria.forEach(builder::addCriterion);
 
+        //? if >=26.1 {
         ShapedRecipe shapedRecipe = new ShapedRecipe(
+                new Recipe.CommonInfo(this.showNotification),
+                new CraftingRecipe.CraftingBookInfo(RecipeBuilder./*? if >=26.1 {*/determineCraftingBookCategory/*?} else {*//*determineBookCategory*//*?}*/(this.category), this.group),
+                rawShapedRecipe,
+                this.output
+        );
+        //?} else {
+        /*ShapedRecipe shapedRecipe = new ShapedRecipe(
                 Objects.requireNonNullElse(this.group, ""),
                 RecipeBuilder.determineBookCategory(this.category),
                 rawShapedRecipe,
                 this.output,
                 this.showNotification
         );
+        *///?}
         exporter.accept(recipeKey, shapedRecipe, builder.build(getValue(recipeKey).withPrefix("recipes/" + this.category.getFolderName() + "/")));
         //?}
     }

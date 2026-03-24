@@ -32,7 +32,8 @@ public class ConfigApiRegistry {
 
     public static void register() {
         //? if >=1.20.5 {
-        PayloadTypeRegistry.playS2C().register(ConfigSyncS2CPayload.TYPE, ConfigSyncS2CPayload.CODEC);
+        PayloadTypeRegistry./*? if >=26.1 {*/clientboundPlay()/*?} else {*//*playS2C()*//*?}*/
+                .register(ConfigSyncS2CPayload.TYPE, ConfigSyncS2CPayload.CODEC);
         ResourceConditions.register(RESOURCE_CONDITION_CONFIGURATIONS);
         //?}
         ServerPlayConnectionEvents.JOIN.register((handler, packetSender, server) -> ConfigApi.sendConfigSyncPacket(List.of(handler.getPlayer())));

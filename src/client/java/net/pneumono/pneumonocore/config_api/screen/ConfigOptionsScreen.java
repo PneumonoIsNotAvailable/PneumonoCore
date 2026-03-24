@@ -1,7 +1,6 @@
 package net.pneumono.pneumonocore.config_api.screen;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -16,6 +15,12 @@ import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListEnt
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 
 import java.util.Objects;
+
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 
 //? if <1.21
 //import net.minecraft.Util;
@@ -124,12 +129,12 @@ public abstract class ConfigOptionsScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+    public void /*? if >=26.1 {*/extractRenderState/*?} else {*//*render*//*?}*/(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int mouseX, int mouseY, float delta) {
         //? if <1.20.2 {
         /*this.renderBackground(graphics);
         *///?}
-        super.render(graphics, mouseX, mouseY, delta);
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, 10, CommonColors.WHITE);
+        super./*? if >=26.1 {*/extractRenderState/*?} else {*//*render*//*?}*/(graphics, mouseX, mouseY, delta);
+        graphics./*? if >=26.1 {*/centeredText/*?} else {*//*drawCenteredString*//*?}*/(this.font, this.title, this.width / 2, 10, CommonColors.WHITE);
     }
 
     public int getContentHeight() {

@@ -1,6 +1,5 @@
 package net.pneumono.pneumonocore.config_api.screen.entries;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.pneumono.pneumonocore.config_api.ConfigApi;
@@ -8,6 +7,12 @@ import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
 import net.pneumono.pneumonocore.config_api.configurations.EnumConfiguration;
 import net.pneumono.pneumonocore.util.PneumonoCoreUtil;
+
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 
 public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigurationEntry<T, EnumConfiguration<T>> {
     private final Button cycleButton;
@@ -25,18 +30,12 @@ public class EnumConfigurationEntry<T extends Enum<T>> extends AbstractConfigura
         this.cycleButton.setMessage(Component.translatable(ConfigApi.toTranslationKey(this.configuration, this.value.name().toLowerCase())));
     }
 
-    //? if >=1.21.9 {
-    public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.renderContent(graphics, mouseX, mouseY, hovered, tickDelta);
-        int x = getX();
-        int y = getY();
-    //?} else {
-    /*public void render(GuiGraphics graphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        super.render(graphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
-    *///?}
+    @Override
+    public void displayContent(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int x, int y, int mouseX, int mouseY, int entryHeight, boolean hovered, float tickDelta) {
+        super.displayContent(graphics, x, y, mouseX, mouseY, entryHeight, hovered, tickDelta);
 
         this.cycleButton.setX(x + getWidgetStartX());
         this.cycleButton.setY(y);
-        this.cycleButton.render(graphics, mouseX, mouseY, tickDelta);
+        this.cycleButton./*? if >=26.1 {*/extractRenderState/*?} else {*//*render*//*?}*/(graphics, mouseX, mouseY, tickDelta);
     }
 }

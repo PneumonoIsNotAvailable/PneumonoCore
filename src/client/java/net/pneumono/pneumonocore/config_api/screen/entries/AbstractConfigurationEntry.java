@@ -2,7 +2,6 @@ package net.pneumono.pneumonocore.config_api.screen.entries;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.CommonColors;
@@ -11,6 +10,12 @@ import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.screen.ConfigOptionsScreen;
 import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
+
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+*///?}
 
 //? if >=1.20.2 {
 import net.minecraft.client.gui.components.SpriteIconButton;
@@ -101,17 +106,10 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
     }
 
     @Override
-    //? if >=1.21.9 {
-    public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float tickProgress) {
-        int x = getX();
-        int y = getY();
-        int entryHeight = getContentHeight();
-    //?} else {
-    /*public void render(GuiGraphics graphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickProgress) {
-    *///?}
+    public void displayContent(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int x, int y, int mouseX, int mouseY, int entryHeight, boolean hovered, float tickDelta) {
         Component configName = Component.translatable(ConfigApi.toTranslationKey(this.configuration));
         Font font = Objects.requireNonNull(this.parent.getMinecraft()).font;
-        graphics.drawString(font, configName, x, (y + entryHeight / 2) - 2, CommonColors.WHITE);
+        graphics./*? if >=26.1 {*/text/*?} else {*//*drawString*//*?}*/(font, configName, x, (y + entryHeight / 2) - 2, CommonColors.WHITE);
 
         if (mouseX >= x && mouseX <= x + 135 && mouseY >= y && mouseY <= y + entryHeight) {
             //? if >=1.21.6 {
@@ -143,7 +141,7 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
 
         this.resetWidget.setX(x + getRowEndXOffset() - this.resetWidget.getWidth());
         this.resetWidget.setY(y);
-        this.resetWidget.render(graphics, mouseX, mouseY, tickProgress);
+        this.resetWidget./*? if >=26.1 {*/extractRenderState/*?} else {*//*render*//*?}*/(graphics, mouseX, mouseY, tickDelta);
     }
 
     /**

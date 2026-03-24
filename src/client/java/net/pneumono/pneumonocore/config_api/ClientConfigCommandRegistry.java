@@ -8,8 +8,13 @@ import net.minecraft.network.chat.Component;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.registry.ConfigSuggestionProvider;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+//? if >=26.1 {
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+//?} else {
+/*import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+*///?}
 
 @SuppressWarnings("unused")
 public final class ClientConfigCommandRegistry {

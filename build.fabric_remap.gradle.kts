@@ -1,11 +1,14 @@
 plugins {
-	id("fabric-loom") version "1.14-SNAPSHOT"
+	id("fabric-loom") version "1.15-SNAPSHOT"
 	id("maven-publish")
 	id("me.modmuss50.mod-publish-plugin") version "1.0.0"
 }
 
-val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
-				JavaVersion.VERSION_21 else JavaVersion.VERSION_17
+val javaVersion =
+	if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
+		JavaVersion.VERSION_21
+	else
+		JavaVersion.VERSION_17
 java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
@@ -93,6 +96,7 @@ stonecutter {
 publishMods {
 	file = tasks.remapJar.get().archiveFile
 	additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
+
 	displayName = "PneumonoCore ${project.version}"
 	version = "${project.version}"
 	changelog = rootProject.file("CHANGELOG.md").readText()
@@ -116,18 +120,6 @@ publishMods {
 		requires {
 			// Fabric API
 			id = "P7dR8mSH"
-		}
-	}
-
-	if (stonecutter.current.project == "1.21.11") {
-		discord {
-			webhookUrl = discordToken
-
-			username = "PneumonoCore Updates"
-
-			avatarUrl = "https://github.com/PneumonoIsNotAvailable/PneumonoCore/blob/master/src/main/resources/assets/pneumonocore/icon.png?raw=true"
-
-			content = changelog.map { "# PneumonoCore version ${project.property("mod_version")}\n<@&1472490332783378472>\n" + it }
 		}
 	}
 }

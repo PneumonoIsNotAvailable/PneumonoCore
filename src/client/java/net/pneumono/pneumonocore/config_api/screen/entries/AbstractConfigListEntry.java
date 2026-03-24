@@ -11,6 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphics;
+ *///?}
+
 /**
  * An entry in a config screen.
  *
@@ -52,4 +58,23 @@ public abstract class AbstractConfigListEntry extends ContainerObjectSelectionLi
      * @return Whether this entry should be visible in the entry list.
      */
     public abstract boolean shouldDisplay();
+
+    @Override
+    //? if >=26.1 {
+    public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        int x = getX();
+        int y = getY();
+        int entryHeight = getContentHeight();
+    //?} else if >=1.21.9 {
+    /*public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        int x = getX();
+        int y = getY();
+        int entryHeight = getContentHeight();
+    *///?} else {
+    /*public void render(GuiGraphics graphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    *///?}
+        displayContent(graphics, x, y, mouseX, mouseY, entryHeight, hovered, tickDelta);
+    }
+
+    public abstract void displayContent(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int x, int y, int mouseX, int mouseY, int entryHeight, boolean hovered, float tickDelta);
 }

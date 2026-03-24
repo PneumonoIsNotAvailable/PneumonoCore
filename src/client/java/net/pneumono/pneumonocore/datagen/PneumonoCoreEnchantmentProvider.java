@@ -1,7 +1,6 @@
 package net.pneumono.pneumonocore.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
@@ -13,6 +12,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+
+//? if >=26.1 {
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+//?} else {
+/*import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+*///?}
 
 //? if >=1.21 {
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -27,7 +32,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
  */
 @SuppressWarnings("unused")
 public abstract class PneumonoCoreEnchantmentProvider extends FabricDynamicRegistryProvider {
-    public PneumonoCoreEnchantmentProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public PneumonoCoreEnchantmentProvider(/*? if >=26.1 {*/FabricPackOutput/*?} else {*//*FabricDataOutput*//*?}*/ output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
