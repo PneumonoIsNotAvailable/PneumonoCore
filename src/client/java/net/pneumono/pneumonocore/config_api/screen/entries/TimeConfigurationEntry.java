@@ -85,7 +85,7 @@ public class TimeConfigurationEntry extends EditBoxConfigurationEntry<Long, Time
     public void displayContent(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int x, int y, int mouseX, int mouseY, int entryHeight, boolean hovered, float tickDelta) {
         super.displayContent(graphics, x, y, mouseX, mouseY, entryHeight, hovered, tickDelta);
 
-        this.cycleButton.setX(x + getWidgetStartX());
+        this.cycleButton.setX(x + getWidgetEndX() - this.cycleButton.getWidth());
         this.cycleButton.setY(y);
         this.cycleButton./*? if >=26.1 {*/extractRenderState/*?} else {*//*render*//*?}*/(graphics, mouseX, mouseY, tickDelta);
     }
