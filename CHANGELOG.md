@@ -1,8 +1,2 @@
-- Added support for 26.1
-- Added more links to Mod Menu description
-- Added Ko-Fi link to config screen
-- Added Ukrainian translation
-- Added Brazilian Portuguese translation
-- Added config screens for dependencies automatically when applicable
-- Changed "Reset Configs" to "Reset All Configs" for clarity
-- Mark various deprecated methods for removal
+- Added support for 26.1.X
+- Fixed time configurations not displaying properly in config screens
