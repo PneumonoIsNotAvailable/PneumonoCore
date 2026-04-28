@@ -103,7 +103,12 @@ public class PneumonoCoreTranslationBuilder {
         this.builder.add(existingLangFile);
     }
 
+    @Deprecated(forRemoval = true)
     public void addItemGroup(ResourceKey<CreativeModeTab> key, String value) {
+        addCreativeModeTab(key, value);
+    }
+
+    public void addCreativeModeTab(ResourceKey<CreativeModeTab> key, String value) {
         this.builder.add(key, value);
     }
 
