@@ -1,2 +1,1 @@
-- Added support for 26.1.X
-- Fixed time configurations not displaying properly in config screens
+- Added support for 26.2.X
