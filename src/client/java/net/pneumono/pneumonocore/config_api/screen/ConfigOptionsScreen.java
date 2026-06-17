@@ -84,7 +84,7 @@ public abstract class ConfigOptionsScreen extends Screen {
             }
 
             this.writeSavedValues();
-            Objects.requireNonNull(this.minecraft).setScreen(this.lastScreen);
+            Objects.requireNonNull(this.minecraft)/*? if >=26.2 {*/.gui/*?}*/.setScreen(this.lastScreen);
         }).bounds((this.width / 2) + 4, this.height - 28, 150, 20).build());
 
         //? if >=1.21 {

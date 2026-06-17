@@ -1,7 +1,6 @@
 package net.pneumono.pneumonocore.datagen;
 
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.resources.ResourceKey;
@@ -11,10 +10,15 @@ import net.minecraft.world.item.Item;
 
 import java.util.Arrays;
 
-//? if >=1.21.11 {
+//? if >=26.2 {
+import net.minecraft.advancements.predicates.*;
+import net.minecraft.advancements.triggers.*;
+//?} else if >=1.21.11 {
+/*import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.criterion.*;
-//?} else {
-/*import net.minecraft.advancements.critereon.*;
+*///?} else {
+/*import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.critereon.*;
 *///?}
 
 //? if >=1.21.5 {

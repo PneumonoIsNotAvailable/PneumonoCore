@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.Identifier;
@@ -20,15 +19,24 @@ import net.pneumono.pneumonocore.util.MultiVersionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+//? if >=26.2 {
+import net.minecraft.advancements.triggers.Criterion;
+import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
+//?} else {
+/*import net.minecraft.advancements.Criterion;
+*///?}
+
 //? if >=26.1 {
 import net.minecraft.world.item.ItemStackTemplate;
 //?} else {
 /*import net.minecraft.world.item.ItemStack;
 *///?}
 
-//? if >=1.21.11 {
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-//?} else {
+//? if >=26.1 {
+
+//?} else if >=1.21.11 {
+/*import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
+*///?} else {
 /*import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 *///?}
 
