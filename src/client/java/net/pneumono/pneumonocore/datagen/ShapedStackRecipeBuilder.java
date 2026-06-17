@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 
 //? if >=26.2 {
 import net.minecraft.advancements.triggers.Criterion;
-import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
 //?} else {
 /*import net.minecraft.advancements.Criterion;
 *///?}
@@ -32,8 +31,8 @@ import net.minecraft.world.item.ItemStackTemplate;
 /*import net.minecraft.world.item.ItemStack;
 *///?}
 
-//? if >=26.1 {
-
+//? if >=26.2 {
+import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
 //?} else if >=1.21.11 {
 /*import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 *///?} else {
