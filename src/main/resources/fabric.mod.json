@@ -43,6 +43,12 @@
 			"net.pneumono.pneumonocore.PneumonoCoreModMenu"
 		]
 	},
+	"mixins": [
+		{
+			"config": "pneumonocore.client.mixins.json",
+			"environment": "client"
+		}
+	],
 	"depends": {
 		"fabricloader": ">=0.16.14",
 		"minecraft": "${supported_versions}",
