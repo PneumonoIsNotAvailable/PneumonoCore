@@ -15,10 +15,19 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class CategoryTitleEntry extends NonInteractableEntry {
     protected final String translationKey;
+    private final boolean displaysForServer;
+    private final boolean displaysForClient;
 
-    public CategoryTitleEntry(ConfigOptionsScreen parent, String translationKey) {
+    public CategoryTitleEntry(ConfigOptionsScreen parent, String translationKey, boolean displaysForServer, boolean displaysForClient) {
         super(parent);
         this.translationKey = translationKey;
+        this.displaysForServer = displaysForServer;
+        this.displaysForClient = displaysForClient;
+    }
+
+    @Override
+    public boolean shouldDisplay() {
+        return this.parent.isViewingServer() ? this.displaysForServer : this.displaysForClient;
     }
 
     @Override

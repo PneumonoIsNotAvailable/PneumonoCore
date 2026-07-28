@@ -32,6 +32,8 @@ public class ErroneousConfigurationEntry<T, C extends AbstractConfiguration<T>> 
 
     @Override
     public void displayContent(/*? if >=26.1 {*/GuiGraphicsExtractor/*?} else {*//*GuiGraphics*//*?}*/ graphics, int x, int y, int mouseX, int mouseY, int entryHeight, boolean hovered, float tickDelta) {
+        super.displayContent(graphics, x, y, mouseX, mouseY, entryHeight, hovered, tickDelta);
+
         Font font = Objects.requireNonNull(this.parent.getMinecraft()).font;
         Component text = Component.translatable("configs_screen.pneumonocore.entry_type_error");
         int textX = x + getWidgetStartX() + (getTotalWidgetWidth() / 2);

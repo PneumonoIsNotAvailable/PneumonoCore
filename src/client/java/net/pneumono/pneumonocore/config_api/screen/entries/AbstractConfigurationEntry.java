@@ -86,6 +86,17 @@ public abstract class AbstractConfigurationEntry<T, C extends AbstractConfigurat
 
     @Override
     public boolean shouldDisplay() {
+        boolean viewingServer = this.parent.isViewingServer();
+        if (this.configuration.info().isClientSided()) {
+            if (viewingServer) {
+                return false;
+            }
+        } else {
+            if (!viewingServer) {
+                return false;
+            }
+        }
+
         AbstractConfiguration<?> configParent = this.configuration.info().getParent();
         if (configParent == null) return true;
         AbstractConfigurationEntry<?, ?> configParentEntry = this.widget.getEntry(configParent.info().getId());

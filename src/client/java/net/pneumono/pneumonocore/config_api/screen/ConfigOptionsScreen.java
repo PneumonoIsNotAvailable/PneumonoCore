@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.util.CommonColors;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
@@ -36,6 +37,8 @@ public abstract class ConfigOptionsScreen extends Screen {
 
     public final Screen lastScreen;
     public final String modId;
+    private final boolean canShowServerConfig;
+    private boolean viewingServer = false;
 
     public ConfigsList configsList;
     public /*? if >=1.20.2 {*/SpriteIconButton/*?} else {*/ /*ImageButton*//*?}*/ kofiButton;
@@ -44,6 +47,11 @@ public abstract class ConfigOptionsScreen extends Screen {
         super(Component.translatable("configs." + modId + ".screen_title"));
         this.lastScreen = lastScreen;
         this.modId = modId;
+        this.canShowServerConfig = canShowServerConfig(this.minecraft);
+    }
+
+    private static boolean canShowServerConfig(Minecraft minecraft) {
+        return minecraft.getConnection() == null || minecraft.hasSingleplayerServer() || (minecraft.player != null && minecraft.player.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER));
     }
 
     public abstract <T> T getConfigValue(AbstractConfiguration<T> configuration);
@@ -62,6 +70,32 @@ public abstract class ConfigOptionsScreen extends Screen {
     protected void initBody() {
         this.configsList = this.addRenderableWidget(new ConfigsList(this));
         this.configsList.init();
+
+        if (this.configsList.hasServerConfigs() && this.configsList.hasClientConfigs()) {
+            Button serverButton = this.addRenderableWidget(Button.builder(Component.translatable("configs_screen.pneumonocore.server_button"), button -> {
+                this.viewingServer = true;
+                this.configsList.updateEntryList();
+            }).bounds((this.width / 2) + 4, 25, 150, 20).build());
+
+            if (!this.canShowServerConfig()) {
+                serverButton.setTooltip(Tooltip.create(Component.translatable("configs_screen.pneumonocore.server_button.tooltip")));
+                serverButton.active = false;
+            }
+
+            Button clientButton = this.addRenderableWidget(Button.builder(Component.translatable("configs_screen.pneumonocore.client_button"), button -> {
+                this.viewingServer = false;
+                this.configsList.updateEntryList();
+            }).bounds((this.width / 2) - 154, 25, 150, 20).build());
+
+            if (!this.canShowClientConfig()) {
+                clientButton.active = false;
+            }
+        }
+
+        if (!this.configsList.hasClientConfigs()) {
+            this.viewingServer = true;
+            this.configsList.updateEntryList();
+        }
     }
 
     protected void initFooter() {
@@ -137,12 +171,24 @@ public abstract class ConfigOptionsScreen extends Screen {
         graphics./*? if >=26.1 {*/centeredText/*?} else {*//*drawCenteredString*//*?}*/(this.font, this.title, this.width / 2, 10, CommonColors.WHITE);
     }
 
+    public boolean canShowServerConfig() {
+        return this.canShowServerConfig;
+    }
+
+    public boolean canShowClientConfig() {
+        return true;
+    }
+
+    public boolean isViewingServer() {
+        return viewingServer;
+    }
+
     public int getContentHeight() {
         return this.height - this.getHeaderHeight() - this.getFooterHeight();
     }
 
     public int getHeaderHeight() {
-        return 36;
+        return 50;
     }
 
     public int getFooterHeight() {

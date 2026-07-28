@@ -21,6 +21,8 @@ public class ConfigsList extends ContainerObjectSelectionList<AbstractConfigList
     public final ConfigFile configFile;
     private final Map<String, List<AbstractConfiguration<?>>> categorizedConfigs;
     private List<AbstractConfigListEntry> entries;
+    private boolean hasServerConfigs = false;
+    private boolean hasClientConfigs = false;
 
     public ConfigsList(ConfigOptionsScreen parentScreen) {
         //? if >=1.20.3 {
@@ -58,6 +60,29 @@ public class ConfigsList extends ContainerObjectSelectionList<AbstractConfigList
         }
 
         for (Map.Entry<String, List<AbstractConfiguration<?>>> categorizedConfig : this.categorizedConfigs.entrySet()) {
+            List<AbstractConfigListEntry> soonToBeAdded = new ArrayList<>();
+
+            boolean categoryDisplaysForServer = false;
+            boolean categoryDisplaysForClient = false;
+
+            for (AbstractConfiguration<?> configuration : categorizedConfig.getValue()) {
+                if (configuration.info().isClientSided()) {
+                    categoryDisplaysForClient = true;
+                    this.hasClientConfigs = true;
+                } else {
+                    categoryDisplaysForServer = true;
+                    this.hasServerConfigs = true;
+                }
+
+                AbstractConfigurationEntry<?, ?> entry = ClientConfigApi
+                        .getConfigEntryType(configuration.info().getConfigTypeId())
+                        .build(this.parentScreen, this, configuration);
+                if (entry == null) {
+                    entry = new ErroneousConfigurationEntry<>(this.parentScreen, this, configuration);
+                }
+                soonToBeAdded.add(entry);
+            }
+
             if (this.categorizedConfigs.size() > 1) {
 
                 String translationKey;
@@ -68,20 +93,13 @@ public class ConfigsList extends ContainerObjectSelectionList<AbstractConfigList
                 }
                 newEntries.add(new CategoryTitleEntry(
                         this.parentScreen,
-                        translationKey
+                        translationKey,
+                        categoryDisplaysForServer,
+                        categoryDisplaysForClient
                 ));
             }
 
-            for (AbstractConfiguration<?> configuration : categorizedConfig.getValue()) {
-
-                AbstractConfigurationEntry<?, ?> entry = ClientConfigApi
-                        .getConfigEntryType(configuration.info().getConfigTypeId())
-                        .build(this.parentScreen, this, configuration);
-                if (entry == null) {
-                    entry = new ErroneousConfigurationEntry<>(this.parentScreen, this, configuration);
-                }
-                newEntries.add(entry);
-            }
+            newEntries.addAll(soonToBeAdded);
         }
 
         return newEntries;
@@ -110,21 +128,22 @@ public class ConfigsList extends ContainerObjectSelectionList<AbstractConfigList
     }
 
     //? if <1.20.5 {
-    /*//? if >=1.20.5 {
-    @Override
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 52;
-    }
-    //?} else {
-    /^@Override
+    /*@Override
     protected int getScrollbarPosition() {
         return super.getScrollbarPosition() + 52;
     }
-    ^///?}
     *///?}
 
     @Override
     public int getRowWidth() {
         return super.getRowWidth() + 120;
+    }
+
+    public boolean hasServerConfigs() {
+        return this.hasServerConfigs;
+    }
+
+    public boolean hasClientConfigs() {
+        return this.hasClientConfigs;
     }
 }
