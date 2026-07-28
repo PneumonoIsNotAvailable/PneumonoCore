@@ -105,7 +105,7 @@ public abstract class TextureProvider implements DataProvider {
 
             try {
                 //noinspection DataFlowIssue
-                if (!NativeImageInvoker.class.cast(image).writeToChannel(writableByteChannel)) {
+                if (!NativeImageInvoker.class.cast(image).pneumonocore$writeToChannel(writableByteChannel)) {
                     throw new IOException("Could not write image to byte array: " + STBImage.stbi_failure_reason());
                 }
 
