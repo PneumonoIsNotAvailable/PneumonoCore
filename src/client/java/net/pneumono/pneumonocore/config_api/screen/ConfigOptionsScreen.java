@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.util.CommonColors;
 import net.pneumono.pneumonocore.PneumonoCore;
 import net.pneumono.pneumonocore.config_api.screen.components.ConfigsList;
@@ -22,6 +21,9 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 //?} else {
 /*import net.minecraft.client.gui.GuiGraphics;
 *///?}
+
+//? if >=1.21.11
+import net.minecraft.server.permissions.Permissions;
 
 //? if <1.21
 //import net.minecraft.Util;
@@ -51,7 +53,7 @@ public abstract class ConfigOptionsScreen extends Screen {
     }
 
     private static boolean canShowServerConfig(Minecraft minecraft) {
-        return minecraft.getConnection() == null || minecraft.hasSingleplayerServer() || (minecraft.player != null && minecraft.player.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER));
+        return minecraft.getConnection() == null || minecraft.hasSingleplayerServer() || (minecraft.player != null && /*? if >=1.21.11 {*/minecraft.player.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)/*?} else {*//*minecraft.player.hasPermissions(4)*//*?}*/);
     }
 
     public abstract <T> T getConfigValue(AbstractConfiguration<T> configuration);
