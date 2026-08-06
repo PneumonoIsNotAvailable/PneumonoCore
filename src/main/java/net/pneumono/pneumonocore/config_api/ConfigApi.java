@@ -2,7 +2,9 @@ package net.pneumono.pneumonocore.config_api;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
@@ -10,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+
+//? if >=1.21.11 {
+import net.minecraft.server.permissions.Permissions;
+//?}
 
 //? if <1.20.5 {
 /*import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
@@ -58,8 +64,12 @@ public final class ConfigApi {
     }
 
     public static void reloadValuesFromFiles(LoadType loadType) {
+        reloadValuesFromFiles(null, loadType);
+    }
+
+    public static void reloadValuesFromFiles(MinecraftServer server, LoadType loadType) {
         for (ConfigFile configFile : CONFIG_FILES.values()) {
-            configFile.readSavedFromFile(loadType);
+            configFile.readSavedFromFile(server, loadType);
         }
     }
 
@@ -74,7 +84,7 @@ public final class ConfigApi {
     public static void reloadValuesFromFile(String modId, LoadType loadType) {
         ConfigFile configFile = CONFIG_FILES.get(modId);
         if (configFile != null) {
-            configFile.readSavedFromFile(loadType);
+            configFile.readSavedFromFile(null, loadType);
         }
     }
 
@@ -82,15 +92,18 @@ public final class ConfigApi {
      * Sends config sync packets to the specified players.
      */
     public static void sendConfigSyncPacket(Collection<ServerPlayer> players) {
+        //? if >=1.20.5 {
+        ConfigSyncPayload payload = new ConfigSyncPayload(CONFIG_FILES.values());
         for (ServerPlayer player : players) {
-            //? if >=1.20.5 {
-            ServerPlayNetworking.send(player, new ConfigSyncS2CPayload(CONFIG_FILES.values()));
-            //?} else {
-            /*FriendlyByteBuf buf = PacketByteBufs.create();
-            buf.writeNbt(ConfigSyncS2CPayload.toNbt(CONFIG_FILES.values()));
-            ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, buf);
-            *///?}
+            ServerPlayNetworking.send(player, payload);
         }
+        //?} else {
+        /*FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeNbt(ConfigSyncPayload.toNbt(CONFIG_FILES.values()));
+        for (ServerPlayer player : players) {
+            ServerPlayNetworking.send(player, ConfigApiRegistry.CONFIG_SYNC_ID, buf);
+        }
+        *///?}
         LOGGER.info("Sent config sync packet to {} player(s)", players.size());
     }
 
@@ -116,5 +129,9 @@ public final class ConfigApi {
 
     public static String toTranslationKey(AbstractConfiguration<?> configuration) {
         return configuration.info().getId().toLanguageKey("configs");
+    }
+
+    public static boolean canEditServerConfigs(Player player) {
+        return /*? if >=1.21.11 {*/player.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)/*?} else {*//*player.hasPermissions(4)*//*?}*/;
     }
 }

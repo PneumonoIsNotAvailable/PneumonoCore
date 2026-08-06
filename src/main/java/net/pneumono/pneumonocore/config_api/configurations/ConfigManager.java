@@ -1,9 +1,7 @@
 package net.pneumono.pneumonocore.config_api.configurations;
 
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
-import net.pneumono.pneumonocore.config_api.ConfigApi;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,15 +11,15 @@ import org.jetbrains.annotations.Nullable;
  * <p>It's very unlikely anything other than the Config API itself should be using this!
  */
 public class ConfigManager {
-    public static <T, C extends AbstractConfiguration<T>> void setValue(C configuration, T value, LoadType loadType, @Nullable MinecraftServer server) {
+    public static <T, C extends AbstractConfiguration<T>> boolean setValue(C configuration, T value, LoadType loadType, @Nullable MinecraftServer server) {
         LoadType requiredType = configuration.info().getLoadType();
+        setSavedValue(configuration, value);
+        boolean shouldSync = false;
         if (loadType.canLoad(requiredType)) {
-            setSavedValue(configuration, value);
             setEffectiveValue(configuration, value);
-            if (server != null) {
-                ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
-            }
+            shouldSync = true;
         }
+        return shouldSync;
     }
 
     public static <T, C extends AbstractConfiguration<T>> void setSavedValue(C configuration, T value) {

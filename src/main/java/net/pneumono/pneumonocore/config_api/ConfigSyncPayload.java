@@ -17,21 +17,21 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Only used as an actual payload >=1.20.5
  */
-public record ConfigSyncS2CPayload(CompoundTag storedValues) /*? if >=1.20.5 {*/implements CustomPacketPayload/*?}*/ {
+public record ConfigSyncPayload(CompoundTag storedValues) /*? if >=1.20.5 {*/implements CustomPacketPayload/*?}*/ {
     //? if >=1.20.5 {
-    public static final Type<ConfigSyncS2CPayload> TYPE = new Type<>(ConfigApiRegistry.CONFIG_SYNC_ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, ConfigSyncS2CPayload> CODEC = StreamCodec.composite(
+    public static final Type<ConfigSyncPayload> TYPE = new Type<>(ConfigApiRegistry.CONFIG_SYNC_ID);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ConfigSyncPayload> CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG,
-            ConfigSyncS2CPayload::storedValues,
-            ConfigSyncS2CPayload::new
+            ConfigSyncPayload::storedValues,
+            ConfigSyncPayload::new
     );
 
     @Override
-    public @NotNull Type<? extends ConfigSyncS2CPayload> type() {
+    public @NotNull Type<ConfigSyncPayload> type() {
         return TYPE;
     }
 
-    public ConfigSyncS2CPayload(Collection<ConfigFile> configFiles) {
+    public ConfigSyncPayload(Collection<ConfigFile> configFiles) {
         this(toNbt(configFiles));
     }
     //?}

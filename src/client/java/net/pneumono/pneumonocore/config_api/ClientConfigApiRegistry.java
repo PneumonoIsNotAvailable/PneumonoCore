@@ -24,7 +24,7 @@ import net.pneumono.pneumonocore.config_api.registry.ConfigApiRegistry;
 public final class ClientConfigApiRegistry {
     public static void register() {
         //? if >=1.20.5 {
-        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncS2CPayload.TYPE, ClientConfigApiRegistry::receiveSyncPacket);
+        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.TYPE, ClientConfigApiRegistry::receiveSyncPacket);
         //?} else {
         /*ClientPlayNetworking.registerGlobalReceiver(ConfigApiRegistry.CONFIG_SYNC_ID, ClientConfigApiRegistry::receiveSyncPacket);
         *///?}
@@ -78,7 +78,7 @@ public final class ClientConfigApiRegistry {
 
     public static void receiveSyncPacket(
     //? if >=1.20.5 {
-            ConfigSyncS2CPayload payload,
+            ConfigSyncPayload payload,
             ClientPlayNetworking.Context context
     ) {
         receiveSyncPacket(payload.storedValues());

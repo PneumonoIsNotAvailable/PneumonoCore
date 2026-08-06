@@ -7,7 +7,9 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.MinecraftServer;
 import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration;
 import net.pneumono.pneumonocore.config_api.configurations.ConfigManager;
 import net.pneumono.pneumonocore.config_api.enums.LoadType;
@@ -48,12 +50,16 @@ public class ConfigFile {
         return null;
     }
 
+    public void readSavedFromFile(LoadType loadType) {
+        readSavedFromFile(null, loadType);
+    }
+
     /**
      * Updates the saved values of the configurations using values from the config file.
      *
      * <p>Also updates the effective values, if the load type is high enough.
      */
-    public void readSavedFromFile(LoadType loadType) {
+    public void readSavedFromFile(MinecraftServer server, LoadType loadType) {
         File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), modId + ".json");
 
         // Create config file if it does not exist already
@@ -114,6 +120,10 @@ public class ConfigFile {
         // Update outdated/incomplete config files
         if (shouldWrite) {
             writeSavedToFile();
+        }
+
+        if (server != null) {
+            ConfigApi.sendConfigSyncPacket(PlayerLookup.all(server));
         }
     }
 
