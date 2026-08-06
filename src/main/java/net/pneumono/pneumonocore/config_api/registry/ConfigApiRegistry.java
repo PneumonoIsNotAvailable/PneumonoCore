@@ -92,7 +92,9 @@ public class ConfigApiRegistry {
             FriendlyByteBuf buf,
             PacketSender responseSender
     ) {
-        receiveSyncPacket(server, buf.readNbt());
+        if (ConfigApi.canEditServerConfigs(player)) {
+            receiveSyncPacket(server, buf.readNbt());
+        }
     }
     *///?}
 
