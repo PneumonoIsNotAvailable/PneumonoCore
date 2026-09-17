@@ -15,6 +15,7 @@ import net.pneumono.pneumonocore.config_api.configurations.AbstractConfiguration
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigListEntry;
 import net.pneumono.pneumonocore.config_api.screen.entries.AbstractConfigurationEntry;
 
+import java.net.URI;
 import java.util.Objects;
 
 //? if >=26.1 {
@@ -33,7 +34,11 @@ import net.minecraft.client.gui.components.SpriteIconButton;
  *///?}
 
 public abstract class ConfigOptionsScreen extends Screen {
-    public static final String KOFI_LINK = "https://ko-fi.com/pneumono";
+    //? if >26.3 {
+    public static final URI KOFI_LINK = URI.create("https://ko-fi.com/pneumono");
+    //?} else {
+    /*public static final String KOFI_LINK = "https://ko-fi.com/pneumono";
+    *///?}
 
     public final Screen lastScreen;
     public final String modId;
