@@ -9,6 +9,7 @@ import java.util.Objects;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -161,7 +162,13 @@ public class ShapedStackRecipeBuilder /*? if >=1.20.2 {*/implements RecipeBuilde
         //? if >=1.20.3 {
         ShapedRecipePattern rawShapedRecipe = this.validate(recipeKey);
         Advancement.Builder builder = exporter.advancement()
-                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeKey))
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(
+                        //? if >=26.3 {
+                        exporter.lookup(Registries.RECIPE).getOrThrow(recipeKey)
+                        //?} else {
+                        /*recipeKey
+                        *///?}
+                ))
                 .rewards(AdvancementRewards.Builder.recipe(recipeKey))
                 .requirements(AdvancementRequirements.Strategy.OR);
         this.criteria.forEach(builder::addCriterion);
